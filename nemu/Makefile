@@ -1,4 +1,4 @@
-NAME = nemu
+NAM = nemu
 
 ifneq ($(MAKECMDGOALS),clean) # ignore check for make clean
 ISA ?= x86
