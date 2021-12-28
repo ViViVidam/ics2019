@@ -41,7 +41,7 @@ static int cmd_help(char *args);
 static int cmd_si(char *args){
   char *arg = strtok(args, " ");
   printf("%s",arg);
-  int count = atoi(arg);
+  //int count = atoi(arg);
   //printf("%s %d",arg,count);
   //cpu_exec(count);
 };
