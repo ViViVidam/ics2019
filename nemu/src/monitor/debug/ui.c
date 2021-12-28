@@ -38,6 +38,30 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args){
+  printf("%s",args);
+};
+
+static int cmd_info(char *args){
+  
+}
+
+static int cmd_p(char* args){
+
+}
+
+static int cmd_x(char* args){
+
+}
+
+static int cmd_d(char* args){
+  printf("%s",args);
+}
+
+static int cmd_w(char* args){
+
+}
+
 static struct {
   char *name;
   char *description;
@@ -46,7 +70,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-
+  { "si", "execute next N", cmd_si},
+  { "info", "", cmd_info},
+  { "p", "get expression val", cmd_p},
+  { "x", "scan memory size with N", cmd_x},
+  { "w", "set watchpoint N", cmd_w},
+  { "d", "delete watchpoint N", cmd_d},
   /* TODO: Add more commands */
 
 };
