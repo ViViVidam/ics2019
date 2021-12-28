@@ -39,7 +39,10 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
-  printf("%s",args);
+  char *arg = strtok(NULL, " ");
+  int count = stoi(arg);
+  printf("%s %d",arg,count);
+  cpu_exec(count);
 };
 
 static int cmd_info(char *args){
