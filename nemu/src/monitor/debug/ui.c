@@ -40,9 +40,9 @@ static int cmd_help(char *args);
 
 static int cmd_si(char *args){
   char *arg = strtok(args, " ");
-  int count = atoi(arg);
-  printf("%s %d",arg,count);
-  cpu_exec(count);
+  //int count = atoi(arg);
+  //printf("%s %d",arg,count);
+  //cpu_exec(count);
 };
 
 static int cmd_info(char *args){
