@@ -41,15 +41,14 @@ static int cmd_help(char *args);
 static int cmd_si(char *args){
   char *arg = strtok(NULL, " ");
   if(arg==NULL){
-    printf("must be exact one int param to indicate how many steps");
+    printf("must be exact one int param to indicate how many steps\n");
+    return 0;
   }
   else{
     int count = atoi(arg);
     printf("%s %d",arg,count);
+    cpu_exec(count);
   }
-
-  
-  //cpu_exec(count);
 };
 
 static int cmd_info(char *args){
