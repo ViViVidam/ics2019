@@ -41,13 +41,13 @@ static int cmd_help(char *args);
 static int cmd_si(char *args){
   char *arg = strtok(NULL, " ");
   if(arg==NULL){
-    printf("must be exact one int param to indicate how many steps\n");
+    exec_once();
     return 0;
   }
   else{
     int count = atoi(arg);
     if(count==0){
-      printf("must be a integer greater than zero");
+      printf("must be an integer greater than zero\n");
       return 0;
     }
     else{
@@ -58,7 +58,20 @@ static int cmd_si(char *args){
 };
 
 static int cmd_info(char *args){
-  
+  char *arg=strtok(NULL," ");
+  if(arg==NULL){
+    printf("expect subparam r or w \n");
+  }
+  else if(strcmp(arg,"r")==0){
+    isa_reg_display();
+  }
+  else if(strcmp(arg,"w")==0){
+
+  }
+  else{
+    printf("invalid subparam %s",arg);
+  }
+
 }
 
 static int cmd_p(char* args){
