@@ -39,7 +39,7 @@ static int cmd_q(char *args) {
 static int cmd_help(char *args);
 
 static int cmd_si(char *args){
-  char *arg = strtok(NULL, " ");
+  char *arg = strtok(args, " ");
   int count = atoi(arg);
   printf("%s %d",arg,count);
   cpu_exec(count);
@@ -87,7 +87,7 @@ static struct {
 
 static int cmd_help(char *args) {
   /* extract the first argument */
-  char *arg = strtok(args, " ");
+  char *arg = strtok(NULL, " ");
   int i;
 
   if (arg == NULL) {
