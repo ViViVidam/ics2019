@@ -47,7 +47,7 @@ static int cmd_si(char *args){
   else{
     int count = atoi(arg);
     if(count==0){
-      print("must be a integer greater than zero");
+      printf("must be a integer greater than zero");
       return 0;
     }
     else{
