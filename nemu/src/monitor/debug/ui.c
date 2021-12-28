@@ -46,8 +46,14 @@ static int cmd_si(char *args){
   }
   else{
     int count = atoi(arg);
-    printf("%s %d",arg,count);
-    //cpu_exec(count);
+    if(count==0){
+      print("must be a integer greater than zero");
+      return 0;
+    }
+    else{
+    //printf("%s %d",arg,count);
+      cpu_exec(count);
+    }
   }
 };
 
