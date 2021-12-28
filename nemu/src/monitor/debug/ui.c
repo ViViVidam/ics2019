@@ -47,7 +47,7 @@ static int cmd_si(char *args){
   else{
     int count = atoi(arg);
     printf("%s %d",arg,count);
-    cpu_exec(count);
+    //cpu_exec(count);
   }
 };
 
