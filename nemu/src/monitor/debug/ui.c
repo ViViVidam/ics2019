@@ -75,7 +75,12 @@ static int cmd_info(char *args){
 }
 
 static int cmd_p(char* args){
-
+  char *arg = strtok(NULL," ");
+  if(arg==NULL){
+    printf("subparams are expected\n");
+  }
+  printf("%s",arg);
+  //expr();
 }
 
 static int cmd_x(char* args){

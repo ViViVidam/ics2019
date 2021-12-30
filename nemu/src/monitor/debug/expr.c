@@ -95,6 +95,24 @@ static bool make_token(char *e) {
             strncpy(substr_start,tokens[usedtoken].str,substr_len);
             printf("%s\n",tokens[usedtoken].str);
             tokens[usedtoken++].type = TK_NUM;
+            break;//因为size的问题有点困惑
+          case '+':
+            tokens[usedtoken++].type = '+';
+            break;
+          case '-':
+            tokens[usedtoken++].type = '-';
+            break;
+          case '*':
+            tokens[usedtoken++].type = '*';
+            break;
+          case '/':
+            tokens[usedtoken++].type = '/';
+            break;
+          case '(':
+            tokens[usedtoken++].type = '(';
+            break;
+          case ')':
+            tokens[usedtoken++].type = ')';
             break;
           default: TODO();
         }
