@@ -7,7 +7,9 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ
+  TK_NOTYPE = 256,
+  TK_EQ = 255,
+  TK_NUM = 254
 
   /* TODO: Add more token types */
 
@@ -23,8 +25,14 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-  {"\\+", '+'},         // plus
-  {"==", TK_EQ}         // equal
+  {"\\+", '+'},         // plus,在字符串层面先把/给转义了，然后/会把+转义
+  {"==", TK_EQ},         // equal
+  {"\\-",'-'},
+  {"\\/",'/'},
+  {"\\*",'*'},
+  {"[0-9]+",TK_NUM},
+  {"\\(",'('},
+  {"\\)",')'}
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -41,6 +49,8 @@ void init_regex() {
 
   for (i = 0; i < NR_REGEX; i ++) {
     ret = regcomp(&re[i], rules[i].regex, REG_EXTENDED);
+    //regcomp内置函数，编译错了返回非0
+    //compiled result will be put into re 数组
     if (ret != 0) {
       regerror(ret, &re[i], error_msg, 128);
       panic("regex compilation failed: %s\n%s", error_msg, rules[i].regex);
@@ -59,7 +69,8 @@ static int nr_token __attribute__((used))  = 0;
 static bool make_token(char *e) {
   int position = 0;
   int i;
-  regmatch_t pmatch;
+  int usedtoken = 0;
+  regmatch_t pmatch; //匹配的开始点与结束点
 
   nr_token = 0;
 
@@ -80,6 +91,11 @@ static bool make_token(char *e) {
          */
 
         switch (rules[i].token_type) {
+          case TK_NUM:
+            strncpy(substr_start,tokens[usedtoken].str,substr_len);
+            printf("%s\n",tokens[usedtoken].str);
+            tokens[usedtoken++].type = TK_NUM;
+            break;
           default: TODO();
         }
 

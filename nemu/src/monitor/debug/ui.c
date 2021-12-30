@@ -79,7 +79,7 @@ static int cmd_p(char* args){
 }
 
 static int cmd_x(char* args){
-
+  //paddr_read();
 }
 
 static int cmd_d(char* args){
