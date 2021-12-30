@@ -114,7 +114,7 @@ static bool make_token(char *e) {
           case ')':
             tokens[usedtoken++].type = ')';
             break;
-          default: ;
+          default: printf("type %d\n",rules[i].token_type);
         }
 
         break;
