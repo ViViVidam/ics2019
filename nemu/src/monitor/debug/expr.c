@@ -92,7 +92,7 @@ static bool make_token(char *e) {
 
         switch (rules[i].token_type) {
           case TK_NUM:
-            strncpy(substr_start,tokens[usedtoken].str,substr_len);
+            strncpy(tokens[usedtoken].str, substr_start,substr_len);
             printf("%s\n",tokens[usedtoken].str);
             tokens[usedtoken++].type = TK_NUM;
             break;
@@ -114,7 +114,7 @@ static bool make_token(char *e) {
           case ')':
             tokens[usedtoken++].type = ')';
             break;
-          default: printf("type %d\n",rules[i].token_type);
+          default:;
         }
 
         break;
