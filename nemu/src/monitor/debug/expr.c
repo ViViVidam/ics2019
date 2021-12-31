@@ -217,6 +217,7 @@ uint32_t expr(char *e, bool *success) {
       /* (E) or E op E */
       else{
         printf("expression reduced\n");
+        printf("%c\n",tokenstack[begin]);
         if(tokenstack[begin-2].type=='('){
           token_top = begin-1;//push out three element and in one element
           tokenstack[begin-2].type = REDUCED;
