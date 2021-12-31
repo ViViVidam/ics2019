@@ -7,9 +7,15 @@
 #include <regex.h>
 
 enum {
+  RE_GREAT = 300,
+  RE_EQU = 299,
+  RE_SMALL = 298,
+  RE_NOTYPE = 297,
+  REDUCED = 296,
   TK_NOTYPE = 256,
   TK_EQ = 255,
-  TK_NUM = 254
+  TK_NUM = 127,
+
 
   /* TODO: Add more token types */
 
@@ -61,12 +67,22 @@ void init_regex() {
 typedef struct token {
   int type;
   char str[32];
+  int val;
 } Token;
-
+/* + - * / ( ) i # */
+static int expr_priority[8][8] = {
+  {RE_GREAT,RE_GREAT,RE_SMALL,RE_SMALL,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
+  {RE_GREAT,RE_GREAT,RE_SMALL,RE_SMALL,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
+  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
+  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
+  {RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_EQU,RE_NOTYPE,RE_NOTYPE},
+  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_NOTYPE,RE_GREAT,RE_NOTYPE,RE_GREAT},
+  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_NOTYPE,RE_GREAT,RE_NOTYPE,RE_GREAT},
+  {RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_NOTYPE,RE_SMALL,RE_EQU}
+};
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
-
-static bool make_token(char *e) {
+static bool make_token(char *e,int* token_length) {
   int position = 0;
   int i;
   int usedtoken = 0;
@@ -97,21 +113,27 @@ static bool make_token(char *e) {
             tokens[usedtoken++].type = TK_NUM;
             break;
           case '+':
-            tokens[usedtoken++].type = '+';
+            tokens[usedtoken].type = '+';
+            tokens[usedtoken++].str[0] = '\0';
             break;
           case '-':
+            tokens[usedtoken].str[0] = '\0';
             tokens[usedtoken++].type = '-';
             break;
           case '*':
+            tokens[usedtoken].str[0] = '\0';
             tokens[usedtoken++].type = '*';
             break;
           case '/':
+            tokens[usedtoken].str[0] = '\0';
             tokens[usedtoken++].type = '/';
             break;
           case '(':
+            tokens[usedtoken].str[0] = '\0';
             tokens[usedtoken++].type = '(';
             break;
           case ')':
+            tokens[usedtoken].str[0] = '\0';
             tokens[usedtoken++].type = ')';
             break;
           default:;
@@ -126,18 +148,116 @@ static bool make_token(char *e) {
       return false;
     }
   }
-
+  *token_length = usedtoken;
   return true;
 }
 
+int getindex(char a){
+  switch(a){
+      case '#':
+        return 7;
+        break;
+      case TK_NUM:
+        return 6;
+      case ')':
+        return 5;
+      case '(':
+        return 4;
+      case '/':
+        return 3;
+      case '*':
+        return 2;
+      case '-':
+        return 1;
+      case '+':
+        return 0;
+  }
+}
+
 uint32_t expr(char *e, bool *success) {
-  if (!make_token(e)) {
+  int i = 0;
+  Token tokenstack[128];
+  int token_top = 0;
+  int priority_stack[128];//the location where <
+  int priority_top = 0;
+  int token_length = 0;
+
+  if (!make_token(e,&token_length)) {
     *success = false;
     return 0;
   }
 
   /* TODO: Insert codes to evaluate the expression. */
-  TODO();
-
-  return 0;
+  /* total token count only has 32 length at maximum*/
+  priority_stack[0] = 0;
+  tokens[token_length].type = '#';
+  tokens[token_length++].str[0] = "\0";
+  tokenstack[token_top++].type = '#';
+  for(i = 0;i < token_length; i++){
+    int present = tokenstack[token_top-1].type;
+    int next = tokens[i].type;
+    char* str = tokens[i].str;
+    int relation = expr_priority[getindex(present)][getindex(next)];
+    if(relation==RE_GREAT){
+      if(str)
+        strcpy(tokenstack[token_top].str,str);
+      tokenstack[token_top++].type = next;
+      priority_stack[priority_top++]=token_top-1;
+    }
+    else if(relation==RE_SMALL){
+      int begin = priority_stack[--priority_top];
+      /* i => real number*/
+      if( (i - begin) == 1 ){
+        printf("number reduced:%s\n",tokenstack[i].str);
+        tokenstack[token_top].val = atoi(tokenstack[i].str);
+        tokenstack[token_top].type = REDUCED;
+      }
+      /* (E) or E op E */
+      else{
+        printf("expression reduced\n");
+        if(tokenstack[begin].type=='('){
+          token_top = begin + 1;//push out three element and in one element
+          tokenstack[begin].type = REDUCED;
+          tokenstack[begin].val = tokenstack[begin+1].val;
+          printf("() detected, res:%d\n",tokenstack[begin].val);
+        }
+        else if(tokenstack[begin].type==REDUCED){
+          token_top = begin + 1;
+          switch(tokenstack[token_top].type){
+            case '+':
+              tokenstack[begin].val = tokenstack[begin].val + tokenstack[begin+2].val;
+              break;
+            case '-':
+              tokenstack[begin].val = tokenstack[begin].val - tokenstack[begin+2].val;
+              break;
+            case '*':
+              tokenstack[begin].val = tokenstack[begin].val * tokenstack[begin+2].val;
+              break;
+            case '/':
+              tokenstack[begin].val = tokenstack[begin].val / tokenstack[begin+2].val;
+              break; 
+            default:
+              printf("unrecognized operation %d\n",tokenstack[token_top].type);
+              return -1;
+          }
+        }
+      }
+    }
+    else if(relation==RE_EQU){
+      strcpy(tokenstack[token_top].str,str);
+      tokenstack[token_top++].type = next;
+    }
+    else{
+      printf("invalid input expression\n");
+      return -1;
+    }
+  }
+  if(token_top!=3){
+    printf("reduction failed, wrong expression\n");
+    return -1;
+  }
+  else{
+    printf("answer: %d\n",tokenstack[1].val);
+    return 0;
+  }
 }
