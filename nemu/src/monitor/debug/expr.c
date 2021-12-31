@@ -209,7 +209,7 @@ uint32_t expr(char *e, bool *success) {
       int begin = priority_stack[--priority_top];
       /* i => real number*/
       printf("%d\n",begin);
-      if( (token_top - begin) == 1 ){
+      if( (token_top - begin) == 1 && tokenstack[begin].type == TK_NUM){
         printf("number reduced:%s\n",tokenstack[begin].str);
         tokenstack[begin].val = atoi(tokenstack[begin].str);
         tokenstack[begin].type = REDUCED; 
