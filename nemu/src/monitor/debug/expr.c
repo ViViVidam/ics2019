@@ -250,6 +250,7 @@ uint32_t expr(char *e, bool *success) {
       i = i - 1;
     }
     else if(relation==RE_EQU){
+      printf("RE_EQU\n");
       strcpy(tokenstack[token_top].str,str);
       tokenstack[token_top++].type = next;
       priority_stack[priority_top++] = token_top - 1;
