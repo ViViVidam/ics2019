@@ -98,7 +98,7 @@ static int cmd_x(char* args){
   arg = strtok(NULL,"");
   int addr = expr(arg,&success);
   if(success)
-    paddr_read(addr,size);
+    paddr_read(addr,4*size);
   else
     printf("invalid addr expression\n");
 }
