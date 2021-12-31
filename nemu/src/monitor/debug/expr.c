@@ -252,6 +252,7 @@ uint32_t expr(char *e, bool *success) {
     else if(relation==RE_EQU){
       strcpy(tokenstack[token_top].str,str);
       tokenstack[token_top++].type = next;
+      priority_stack[priority_top++] = token_top - 1;
     }
     else{
       printf("invalid input expression\n");
