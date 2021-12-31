@@ -194,6 +194,7 @@ uint32_t expr(char *e, bool *success) {
   tokens[token_length++].str[0] = "\0";
   tokenstack[token_top++].type = '#';
   for(i = 0;i < token_length; i++){
+    printf("%s\n",tokens[i].str);
     int present = tokenstack[token_top-1].type;
     int next = tokens[i].type;
     char* str = tokens[i].str;
