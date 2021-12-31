@@ -97,8 +97,12 @@ static int cmd_x(char* args){
   int size = atoi(arg);
   arg = strtok(NULL,"");
   int addr = expr(arg,&success);
-  if(success)
-    vaddr_read(addr,4);
+  if(success){
+    for(int i=0;i<size;i++){
+      vaddr_read(addr,4);
+      addr+=1;
+    }
+  }
   else
     printf("invalid addr expression\n");
 }
