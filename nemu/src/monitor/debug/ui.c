@@ -92,11 +92,11 @@ static int cmd_p(char* args){
 }
 
 static int cmd_x(char* args){
-  char *arg = strtok(NULL,"");
+  char *arg = strtok(NULL," ");
   bool success = false;
-  uint32_t size = atoi(arg);
+  int size = atoi(arg);
   arg = strtok(NULL,"");
-  uint32_t addr = expr(arg,&success);
+  int addr = expr(arg,&success);
   if(success)
     paddr_read(addr,size);
   else
