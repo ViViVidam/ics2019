@@ -198,6 +198,7 @@ uint32_t expr(char *e, bool *success) {
     int next = tokens[i].type;
     char* str = tokens[i].str;
     int relation = expr_priority[getindex(present)][getindex(next)];
+    printf("%d %d\n",present,next);
     if(relation==RE_SMALL){
       if(str)
         strcpy(tokenstack[token_top].str,str);
