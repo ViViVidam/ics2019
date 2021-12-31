@@ -204,6 +204,7 @@ uint32_t expr(char *e, bool *success) {
         strcpy(tokenstack[token_top].str,str);
       tokenstack[token_top++].type = next;
       priority_stack[priority_top++]=token_top-1;
+      printf("move in RE_SMALL\n");
     }
     else if(relation==RE_GREAT){
       int begin = priority_stack[--priority_top];
