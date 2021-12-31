@@ -189,22 +189,21 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   /* total token count only has 32 length at maximum*/
-  priority_stack[0] = 0;
+  priority_stack[priority_top++] = 0;
   tokens[token_length].type = '#';
   tokens[token_length++].str[0] = "\0";
   tokenstack[token_top++].type = '#';
   for(i = 0;i < token_length; i++){
-    int present = tokenstack[token_top-1].type;
+    int present = tokenstack[priority_stack[priority_top-1]].type;
     int next = tokens[i].type;
     char* str = tokens[i].str;
     int relation = expr_priority[getindex(present)][getindex(next)];
     printf("%d %d\n",present,next);
     if(relation==RE_SMALL){
-      if(str)
-        strcpy(tokenstack[token_top].str,str);
+      strcpy(tokenstack[token_top].str,str);
       tokenstack[token_top++].type = next;
       priority_stack[priority_top++]=token_top-1;
-      printf("%s move in RE_SMALL\n",tokens[i].str);
+      printf("%s move in RE_SMALL\n",tokenstack[token_top-1].str);
     }
     else if(relation==RE_GREAT){
       int begin = priority_stack[--priority_top];
