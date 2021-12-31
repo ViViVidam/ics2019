@@ -209,7 +209,8 @@ uint32_t expr(char *e, bool *success) {
       int begin = priority_stack[--priority_top];
       /* i => real number*/
       printf("%d\n",begin);
-      if( (token_top - begin) == 1 && tokenstack[begin].type == TK_NUM){
+      if( (token_top - begin) == 1 && tokenstack[begin].type == TK_NUM)
+      {
         printf("number reduced:%s\n",tokenstack[begin].str);
         tokenstack[begin].val = atoi(tokenstack[begin].str);
         tokenstack[begin].type = REDUCED; 
@@ -217,11 +218,10 @@ uint32_t expr(char *e, bool *success) {
       /* (E) or E op E */
       else{
         printf("expression reduced\n");
-        printf("%c\n",tokenstack[begin]);
         if(tokenstack[begin-2].type=='('){
           token_top = begin-1;//push out three element and in one element
           tokenstack[begin-2].type = REDUCED;
-          tokenstack[begin-2].val = tokenstack[begin].val;
+          tokenstack[begin-2].val = tokenstack[begin-1].val;
           priority_top--;
           printf("() detected, res:%d\n",tokenstack[begin-2].val);
         }
