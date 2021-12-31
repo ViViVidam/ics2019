@@ -75,7 +75,7 @@ static int expr_priority[8][8] = {
   {RE_GREAT,RE_GREAT,RE_SMALL,RE_SMALL,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
   {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
   {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
-  {RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_EQU,RE_NOTYPE,RE_NOTYPE},
+  {RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_EQU,RE_SMALL,RE_NOTYPE},
   {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_NOTYPE,RE_GREAT,RE_NOTYPE,RE_GREAT},
   {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_NOTYPE,RE_GREAT,RE_NOTYPE,RE_GREAT},
   {RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_NOTYPE,RE_SMALL,RE_EQU}
@@ -199,13 +199,13 @@ uint32_t expr(char *e, bool *success) {
     int next = tokens[i].type;
     char* str = tokens[i].str;
     int relation = expr_priority[getindex(present)][getindex(next)];
-    if(relation==RE_GREAT){
+    if(relation==RE_SMALL){
       if(str)
         strcpy(tokenstack[token_top].str,str);
       tokenstack[token_top++].type = next;
       priority_stack[priority_top++]=token_top-1;
     }
-    else if(relation==RE_SMALL){
+    else if(relation==RE_GREAT){
       int begin = priority_stack[--priority_top];
       /* i => real number*/
       if( (i - begin) == 1 ){
