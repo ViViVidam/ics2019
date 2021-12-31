@@ -217,13 +217,13 @@ uint32_t expr(char *e, bool *success) {
       /* (E) or E op E */
       else{
         printf("expression reduced\n");
-        if(tokenstack[begin].type=='('){
+        if(tokenstack[begin-1].type=='('){
           token_top = begin + 1;//push out three element and in one element
           tokenstack[begin].type = REDUCED;
           tokenstack[begin].val = tokenstack[begin+1].val;
           printf("() detected, res:%d\n",tokenstack[begin].val);
         }
-        else if(tokenstack[begin].type==REDUCED){
+        else if(tokenstack[begin-1].type==REDUCED){
           token_top = begin + 1;
           switch(tokenstack[token_top].type){
             case '+':
