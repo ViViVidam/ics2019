@@ -209,9 +209,9 @@ uint32_t expr(char *e, bool *success) {
       int begin = priority_stack[--priority_top];
       /* i => real number*/
       if( (token_top - begin) == 1 ){
-        printf("number reduced:%s\n",tokenstack[i].str);
-        tokenstack[token_top].val = atoi(tokenstack[i].str);
-        tokenstack[token_top].type = REDUCED;
+        printf("number reduced:%s\n",tokenstack[begin].str);
+        tokenstack[begin].val = atoi(tokenstack[begin].str);
+        tokenstack[begin].type = REDUCED; 
       }
       /* (E) or E op E */
       else{
@@ -243,6 +243,7 @@ uint32_t expr(char *e, bool *success) {
           }
         }
       }
+      i = i - 1;
     }
     else if(relation==RE_EQU){
       strcpy(tokenstack[token_top].str,str);
