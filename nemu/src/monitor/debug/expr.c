@@ -208,6 +208,7 @@ uint32_t expr(char *e, bool *success) {
     else if(relation==RE_GREAT){
       int begin = priority_stack[--priority_top];
       /* i => real number*/
+      printf("%d\n",begin);
       if( (token_top - begin) == 1 ){
         printf("number reduced:%s\n",tokenstack[begin].str);
         tokenstack[begin].val = atoi(tokenstack[begin].str);
