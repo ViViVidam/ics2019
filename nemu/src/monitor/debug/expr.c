@@ -256,16 +256,18 @@ uint32_t expr(char *e, bool *success) {
       priority_stack[priority_top++] = token_top - 1;
     }
     else{
-      printf("invalid input expression\n");
-      return -1;
+      *success = false;
+      return 0;
     }
   }
   if(token_top!=3){
     printf("reduction failed, wrong expression\n");
-    return -1;
+    *success = false;
+    return 0;
   }
   else{
     printf("answer: %d\n",tokenstack[1].val);
-    return 0;
+    *success = true;
+    return tokenstack[1].val;
   }
 }

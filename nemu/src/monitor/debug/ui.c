@@ -76,16 +76,31 @@ static int cmd_info(char *args){
 
 static int cmd_p(char* args){
   char *arg = strtok(NULL,"");
-  bool res=false;
+  bool success=false;
+  int result = 0;
   if(arg==NULL){
     printf("subparams are expected\n");
   }
   printf("%s",arg);
-  expr(arg,&res);
+  result = expr(arg,&success);
+  if(success){
+    printf("expression answer: %d\n",result);
+  }
+  else{
+    printf("invalid expression\n");
+  }
 }
 
 static int cmd_x(char* args){
-  //paddr_read();
+  char *arg = strtok(NULL,"");
+  bool success = false;
+  uint32_t size = atoi(arg);
+  arg = strtok(NULL,"");
+  uint32_t addr = expr(arg,&success);
+  if(success)
+    paddr_read(addr,size);
+  else
+    printf("invalid addr expression\n");
 }
 
 static int cmd_d(char* args){
