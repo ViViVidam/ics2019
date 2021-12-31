@@ -194,7 +194,6 @@ uint32_t expr(char *e, bool *success) {
   tokens[token_length++].str[0] = "\0";
   tokenstack[token_top++].type = '#';
   for(i = 0;i < token_length; i++){
-    printf("%s\n",tokens[i].str);
     int present = tokenstack[token_top-1].type;
     int next = tokens[i].type;
     char* str = tokens[i].str;
@@ -204,7 +203,7 @@ uint32_t expr(char *e, bool *success) {
         strcpy(tokenstack[token_top].str,str);
       tokenstack[token_top++].type = next;
       priority_stack[priority_top++]=token_top-1;
-      printf("move in RE_SMALL\n");
+      printf("%s move in RE_SMALL\n",tokens[i].str);
     }
     else if(relation==RE_GREAT){
       int begin = priority_stack[--priority_top];
