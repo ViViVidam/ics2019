@@ -228,6 +228,7 @@ uint32_t expr(char *e, bool *success) {
           switch(tokenstack[token_top].type){
             case '+':
               tokenstack[begin].val = tokenstack[begin].val + tokenstack[begin+2].val;
+              printf("%d\n",tokenstack[begin].val);
               break;
             case '-':
               tokenstack[begin].val = tokenstack[begin].val - tokenstack[begin+2].val;
