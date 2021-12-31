@@ -224,7 +224,7 @@ uint32_t expr(char *e, bool *success) {
           printf("() detected, res:%d\n",tokenstack[begin].val);
         }
         else if(tokenstack[begin-1].type==REDUCED){
-          token_top = begin - 1;
+          token_top = begin;
           switch(tokenstack[begin].type){
             case '+':
               tokenstack[begin-1].val = tokenstack[begin-1].val + tokenstack[begin+1].val;
@@ -240,7 +240,7 @@ uint32_t expr(char *e, bool *success) {
               tokenstack[begin-1].val = tokenstack[begin-1].val / tokenstack[begin+1].val;
               break; 
             default:
-              printf("unrecognized operation %d\n",tokenstack[token_top].type);
+              printf("unrecognized operation %d\n",tokenstack[begin].type);
               return -1;
           }
         }
