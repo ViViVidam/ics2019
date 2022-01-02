@@ -292,7 +292,8 @@ uint32_t expr(char *e, bool *success) {
       }
       tokenstack[tokenpointer-1].type = 'E';
       y = getindex('E');
-      statestack[statepointer-1] = reg_expr[x][y];
+      int state_pre = statestack[statepointer-2];
+      statestack[statepointer-1] = reg_expr[state_pre][y];
       for(int j=0;j<3;j++)
         printf("%d ",statestack[j]);
       printf("\n");
