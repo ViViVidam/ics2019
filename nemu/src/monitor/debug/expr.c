@@ -7,9 +7,7 @@
 #include <regex.h>
 
 enum {
-  RE_GREAT = 300,
-  RE_EQU = 299,
-  RE_SMALL = 298,
+  RULE = 200,
   RE_NOTYPE = 297,
   REDUCED = 296,
   TK_NOTYPE = 256,
@@ -71,15 +69,34 @@ typedef struct token {
   int val;
 } Token;
 /* + - * / ( ) i # */
-static int expr_priority[8][8] = {
-  {RE_GREAT,RE_GREAT,RE_SMALL,RE_SMALL,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
-  {RE_GREAT,RE_GREAT,RE_SMALL,RE_SMALL,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
-  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
-  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_SMALL,RE_GREAT,RE_SMALL,RE_GREAT},
-  {RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_EQU,RE_SMALL,RE_NOTYPE},
-  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_NOTYPE,RE_GREAT,RE_NOTYPE,RE_GREAT},
-  {RE_GREAT,RE_GREAT,RE_GREAT,RE_GREAT,RE_NOTYPE,RE_GREAT,RE_NOTYPE,RE_GREAT},
-  {RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_SMALL,RE_NOTYPE,RE_SMALL,RE_EQU}
+static int reg_expr[26][13] = {
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,2},
+  {3,8,11,12,15,17,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,25,RULE+1,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,4},
+  {RULE+2,RULE+2,11,12,RULE+2,RULE+2,RE_NOTYPE,RE_NOTYPE,RULE+2,RULE+2,RULE+2,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,9},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,13},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,10},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,14},
+  {RULE+6,RULE+6,RULE+6,RULE+6,RULE+6,RULE+6,RULE+6,RULE+6,RULE+6,RULE+6,RULE+6,RE_NOTYPE,RE_NOTYPE},
+  {3,8,11,12,15,17,RE_NOTYPE,19,RE_NOTYPE,25,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,21},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,22},
+  {RULE+7,RULE+7,RULE+7,RULE+7,RULE+7,RULE+7,RULE+7,RULE+7,RULE+7,RULE+7,RULE+7,RE_NOTYPE,RE_NOTYPE},
+  {RULE+3,RULE+3,11,12,RULE+3,RULE+3,RE_NOTYPE,RE_NOTYPE,RULE+3,RULE+3,RULE+3,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,16,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,23},
+  {RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,18,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,24},
+  {RULE+10,RULE+10,RULE+10,RULE+10,RULE+10,RULE+10,RULE+10,RULE+10,RULE+10,RULE+10,RULE+10,RE_NOTYPE,RE_NOTYPE},
+  {RULE+11,RULE+11,RULE+11,RULE+11,RULE+11,RULE+11,RULE+11,RULE+11,RULE+11,RULE+11,RULE+11,RE_NOTYPE,RE_NOTYPE},
+  {RULE+4,RULE+4,RULE+4,RULE+4,RULE+4,RULE+4,RE_NOTYPE,RE_NOTYPE,RULE+4,RULE+4,RULE+4,RE_NOTYPE,RE_NOTYPE},
+  {RULE+5,RULE+5,RULE+5,RULE+5,RULE+5,RULE+5,RE_NOTYPE,RE_NOTYPE,RULE+5,RULE+5,RULE+5,RE_NOTYPE,RE_NOTYPE},
+  {3,8,11,12,RULE+8,RULE+8,RE_NOTYPE,RE_NOTYPE,RULE+8,RULE+8,RULE+8,RE_NOTYPE,RE_NOTYPE},
+  {3,8,11,12,RULE+9,RULE+9,RE_NOTYPE,RE_NOTYPE,RULE+9,RULE+9,RULE+9,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,26,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE},
+  {RE_NOTYPE,6,5,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,7,RE_NOTYPE,20,RE_NOTYPE,RE_NOTYPE,RE_NOTYPE,27},
+  {3,8,11,12,15,17,RE_NOTYPE,RE_NOTYPE,RULE+12,RULE+12,RULE+12,RE_NOTYPE,RE_NOTYPE}
 };
 static Token tokens[32] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
@@ -153,16 +170,25 @@ static bool make_token(char *e,int* token_length) {
   return true;
 }
 
-int getindex(char a){
+int getindex(uint32_t a){
   switch(a){
+      case 'E':
+        return 12;
+      case 'A':
+       return 11;
       case '#':
-        return 7;
-        break;
+        return 10;
+      case '&':
+        return 9;
       case TK_NUM:
-        return 6;
+        return 8;
       case ')':
-        return 5;
+        return 7;
       case '(':
+        return 6;
+      case '!':
+        return 5;
+      case '=':
         return 4;
       case '/':
         return 3;
@@ -178,9 +204,9 @@ int getindex(char a){
 uint32_t expr(char *e, bool *success) {
   int i = 0;
   Token tokenstack[128];
-  int token_top = 0;
-  int priority_stack[128];//the location where <
-  int priority_top = 0;
+  int tokenpointer = 0;
+  int statestack[128];//the location where <
+  int statepointer = 0;
   int token_length = 0;
 
   if (!make_token(e,&token_length)) {
@@ -190,85 +216,92 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   /* total token count only has 32 length at maximum*/
-  priority_stack[priority_top++] = 0;
-  tokens[token_length].type = '#';
-  tokens[token_length++].str[0] = "\0";
-  tokenstack[token_top++].type = '#';
-  for(i = 0;i < token_length; i++){
-    int present = tokenstack[priority_stack[priority_top-1]].type;
-    int next = tokens[i].type;
-    char* str = tokens[i].str;
-    int relation = expr_priority[getindex(present)][getindex(next)];
-    printf("%d %d\n",present,next);
-    if(relation==RE_SMALL){
-      strcpy(tokenstack[token_top].str,str);
-      tokenstack[token_top++].type = next;
-      priority_stack[priority_top++]=token_top-1;
-      printf("%s move in RE_SMALL\n",tokenstack[token_top-1].str);
-    }
-    else if(relation==RE_GREAT){
-      int begin = priority_stack[--priority_top];
-      /* i => real number*/
-      printf("%d\n",begin);
-      if( (token_top - begin) == 1 && tokenstack[begin].type == TK_NUM)
-      {
-        printf("number reduced:%s\n",tokenstack[begin].str);
-        tokenstack[begin].val = atoi(tokenstack[begin].str);
-        tokenstack[begin].type = REDUCED; 
+  tokenstack[tokenpointer++].type = '#';
+  statestack[statepointer++] = 0;
+  for(i=0;i<token_length;i++){
+    int x = statestack[statepointer-1];
+    int y = getindex(tokens[i].type);
+    int action = reg_expr[x][y];
+    if(action>RULE){
+      action = action - RULE;
+      switch(action){
+        case 1:
+          printf("finish\n");
+          return tokenstack[tokenpointer-1].val;
+          break;
+        case 2:
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-1].val + tokenstack[tokenpointer-3].val;
+          tokenpointer -= 2;
+          statepointer -= 2;
+          break;
+        case 3:
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-1].val - tokenstack[tokenpointer-3].val;
+          tokenpointer -= 2;
+          statepointer -= 2;
+          break;
+        case 4:
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-1].val * tokenstack[tokenpointer-3].val;
+          tokenpointer -= 2;
+          statepointer -= 2;
+          break;
+        case 5:
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-1].val / tokenstack[tokenpointer-3].val;
+          tokenpointer -= 2;
+          statepointer -= 2;
+          break;
+        case 6:
+          tokenstack[tokenpointer-2].val = vaddr_read(tokenstack[tokenpointer-1].val,4);
+          tokenpointer -= 1;
+          statepointer -= 1;
+          break;
+        case 7:
+          tokenstack[tokenpointer-2].val = -tokenstack[tokenpointer-1].val;
+          tokenpointer -= 1;
+          statepointer -= 1;
+          break;
+        case 8:
+          tokenstack[tokenpointer-4].val = (tokenstack[tokenpointer-1].val == tokenstack[tokenpointer-4].val);
+          tokenpointer -= 3;
+          statepointer -= 3;
+          break;
+        case 9:
+          tokenstack[tokenpointer-4].val = (tokenstack[tokenpointer-1].val != tokenstack[tokenpointer-4].val);
+          tokenpointer -= 3;
+          statepointer -= 3;
+          break;
+        case 10:
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-2].val;
+          tokenpointer -= 2;
+          statepointer -= 2;
+          break;
+        case 11:
+          tokenstack[tokenpointer-1].val = atoi(tokens[i].str);
+          break;
+        case 12:
+          tokenstack[tokenpointer-4].val = (tokenstack[tokenpointer-1].val && tokenstack[tokenpointer-4].val);
+          tokenpointer -= 3;
+          statepointer -= 3;
+          break;
+        default:
+          printf("unrecognized action\n");
       }
-      /* (E) or E op E */
-      else{
-        printf("expression reduced\n");
-        if(tokenstack[begin].type==')'){
-          token_top = begin-1;//push out three element and in one element
-          tokenstack[begin-2].type = REDUCED;
-          tokenstack[begin-2].val = tokenstack[begin-1].val;
-          priority_top--;
-          printf("() detected, res:%d\n",tokenstack[begin-2].val);
-        }
-        else if(tokenstack[begin-1].type==REDUCED){
-          token_top = begin;
-          switch(tokenstack[begin].type){
-            case '+':
-              tokenstack[begin-1].val = tokenstack[begin-1].val + tokenstack[begin+1].val;
-              printf("%d\n",tokenstack[begin].val);
-              break;
-            case '-':
-              tokenstack[begin-1].val = tokenstack[begin-1].val - tokenstack[begin+1].val;
-              break;
-            case '*':
-              tokenstack[begin-1].val = tokenstack[begin-1].val * tokenstack[begin+1].val;
-              break;
-            case '/':
-              tokenstack[begin-1].val = tokenstack[begin-1].val / tokenstack[begin+1].val;
-              break; 
-            default:
-              printf("unrecognized operation %d\n",tokenstack[begin].type);
-              return -1;
-          }
-        }
-      }
-      i = i - 1;
+      tokenstack[tokenpointer-1].type = 'E';
+      y = getindex('E');
+      statestack[statepointer-1] = reg_expr[x][y];
     }
-    else if(relation==RE_EQU){
-      printf("RE_EQU\n");
-      strcpy(tokenstack[token_top].str,str);
-      tokenstack[token_top++].type = next;
-      priority_stack[priority_top++] = token_top - 1;
-    }
-    else{
+    else if(action==RE_NOTYPE){
       *success = false;
+      printf("Illegal expression\n");
       return 0;
     }
-  }
-  if(token_top!=3){
-    printf("reduction failed, wrong expression\n");
-    *success = false;
-    return 0;
-  }
-  else{
-    printf("answer: %d\n",tokenstack[1].val);
-    *success = true;
-    return tokenstack[1].val;
+    else{
+      if(tokens[i].type == TK_NUM){
+        printf("TK_NUM error\n");
+      }
+      else{
+        statestack[statepointer++] = action;
+        tokenstack[tokenpointer++].type = tokens[i].type;
+      }
+    }
   }
 }
