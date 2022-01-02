@@ -128,9 +128,14 @@ static bool make_token(char *e,int* token_length) {
          */
 
         switch (rules[i].token_type) {
+          case TK_HEX:
+            strncpy(tokens[usedtoken].str, substr_start,substr_len);
+            tokens[usedtoken++].type = TK_HEX;
+          case TK_REG:
+            strncpy(tokens[usedtoken].str, substr_start,substr_len);
+            tokens[usedtoken++].type = TK_REG;
           case TK_NUM:
             strncpy(tokens[usedtoken].str, substr_start,substr_len);
-            printf("%s\n",tokens[usedtoken].str);
             tokens[usedtoken++].type = TK_NUM;
             break;
           case '+':
@@ -183,6 +188,10 @@ int getindex(uint32_t a){
         return 10;
       case '&':
         return 9;
+      case TK_REG:
+        return 8;
+      case TK_HEX:
+        return 8;
       case TK_NUM:
         return 8;
       case ')':
