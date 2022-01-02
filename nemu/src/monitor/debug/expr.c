@@ -220,9 +220,9 @@ uint32_t expr(char *e, bool *success) {
   /* total token count only has 32 length at maximum*/
   tokens[token_length++].type = '#';
   tokenstack[tokenpointer++].type = '#';
-  statestack[statepointer++] = 0;
+  statestack[statepointer++] = 1;
   for(i=0;i<token_length;i++){
-    int x = statestack[statepointer-1];
+    int x = statestack[statepointer-1]-1;
     int y = getindex(tokens[i].type);
     int action = reg_expr[x][y];
     printf("(%d %d)action: %d\n",x,y,action);
