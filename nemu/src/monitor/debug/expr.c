@@ -225,7 +225,7 @@ uint32_t expr(char *e, bool *success) {
     int x = statestack[statepointer-1];
     int y = getindex(tokens[i].type);
     int action = reg_expr[x][y];
-    printf("action: %d\n",action);
+    printf("(%d %d)action: %d\n",x,y,action);
     if(action>RULE){
       action = action - RULE;
       switch(action){
