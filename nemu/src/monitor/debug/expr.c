@@ -293,6 +293,9 @@ uint32_t expr(char *e, bool *success) {
       tokenstack[tokenpointer-1].type = 'E';
       y = getindex('E');
       statestack[statepointer-1] = reg_expr[x][y];
+      for(int j=0;j<3;j++)
+        printf("%d ",statestack[j]);
+      printf("\n");
       i--;
     }
     else if(action==RE_NOTYPE){
