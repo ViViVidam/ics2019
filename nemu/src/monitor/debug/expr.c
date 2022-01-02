@@ -303,7 +303,7 @@ uint32_t expr(char *e, bool *success) {
           type = tokenstack[tokenpointer-1].type;
           printf("token type %d\n",type);
           if(type == TK_HEX){
-            tokenstack[tokenpointer-1].val = (int)strtol(tokenstack[tokenpointer], NULL, 16);
+            tokenstack[tokenpointer-1].val = (int)strtol(tokenstack[tokenpointer-1].str, NULL, 16);
             printf("hex %d\n",tokenstack[tokenpointer-1].val);
           }
           else if(type == TK_NUM)
