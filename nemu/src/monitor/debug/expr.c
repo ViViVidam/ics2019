@@ -198,6 +198,8 @@ int getindex(uint32_t a){
         return 1;
       case '+':
         return 0;
+      default:
+        return -1;
   }
 }
 
