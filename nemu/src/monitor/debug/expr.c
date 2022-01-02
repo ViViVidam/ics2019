@@ -259,7 +259,7 @@ uint32_t expr(char *e, bool *success) {
           statepointer -= 1;
           break;
         case 7:
-          printf("%d %d\n",tokenstack[tokenpointer-2].val,tokenstack[tokenpointer-1].val);
+          printf("val %d %d\n",tokenstack[tokenpointer-2].val,tokenstack[tokenpointer-1].val);
           tokenstack[tokenpointer-2].val = -tokenstack[tokenpointer-1].val;
           tokenpointer -= 1;
           statepointer -= 1;
