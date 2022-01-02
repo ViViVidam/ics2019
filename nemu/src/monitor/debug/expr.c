@@ -303,7 +303,7 @@ uint32_t expr(char *e, bool *success) {
           else if(type == TK_NUM)
             tokenstack[tokenpointer-1].val = atoi(tokenstack[tokenpointer-1].str);
           else{
-            int tmp = isa_reg_str2val(tokenstack[tokenpointer-1].str,&success2);
+            int tmp = isa_reg_str2val(tokenstack[tokenpointer-1].str+1,&success2);
             if(success2){
               tokenstack[tokenpointer-1].val = tmp;
             }
