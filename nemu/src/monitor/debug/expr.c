@@ -213,7 +213,8 @@ uint32_t expr(char *e, bool *success) {
   int statestack[128];//the location where <
   int statepointer = 0;
   int token_length = 0;
-
+  bool success2 = false;
+  int type = 0;
   if (!make_token(e,&token_length)) {
     *success = false;
     return 0;
@@ -284,7 +285,23 @@ uint32_t expr(char *e, bool *success) {
           statepointer -= 2;
           break;
         case 11:
-          tokenstack[tokenpointer-1].val = atoi(tokenstack[tokenpointer-1].str);
+          type = tokenstack[tokenpointer-1].type;
+          if(type == TK_HEX){
+            tokenstack[tokenpointer-1].val = (int)strtol(tokenstack[tokenpointer], NULL, 16);
+          }
+          else if(type == TK_NUM)
+            tokenstack[tokenpointer-1].val = atoi(tokenstack[tokenpointer-1].str);
+          else{
+            int tmp = isa_reg_str2val(tokenstack[tokenpointer-1].str,&success2);
+            if(success2){
+              tokenstack[tokenpointer-1].val = tmp;
+            }
+            else{
+              printf("invalid register name %s\n",tokenstack[tokenpointer-1].str);
+              success = false;
+              return 0;
+            }
+          }
           break;
         case 12:
           tokenstack[tokenpointer-4].val = (tokenstack[tokenpointer-1].val && tokenstack[tokenpointer-4].val);
