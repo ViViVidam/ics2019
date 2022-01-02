@@ -220,7 +220,7 @@ uint32_t expr(char *e, bool *success) {
   /* total token count only has 32 length at maximum*/
   tokens[token_length++].type = '#';
   tokenstack[tokenpointer++].type = '#';
-  statestack[statepointer++] = 1;
+  statestack[statepointer++] = 0;
   for(i=0;i<token_length;i++){
     int x = statestack[statepointer-1]-1;
     int y = getindex(tokens[i].type);
