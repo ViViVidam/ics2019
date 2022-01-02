@@ -229,6 +229,7 @@ uint32_t expr(char *e, bool *success) {
       action = action - RULE;
       switch(action){
         case 1:
+          *success = true;
           printf("finish\n");
           return tokenstack[tokenpointer-1].val;
           break;
@@ -298,13 +299,8 @@ uint32_t expr(char *e, bool *success) {
       return 0;
     }
     else{
-      if(tokens[i].type == TK_NUM){
-        printf("TK_NUM error\n");
-      }
-      else{
         statestack[statepointer++] = action;
         tokenstack[tokenpointer++].type = tokens[i].type;
-      }
     }
   }
 }
