@@ -304,13 +304,12 @@ uint32_t expr(char *e, bool *success) {
             tokenstack[tokenpointer-1].val = atoi(tokenstack[tokenpointer-1].str);
           else{
             int tmp = isa_reg_str2val(tokenstack[tokenpointer-1].str+1,&success2);
-            printf("%d",success2);
             if(success2){
               tokenstack[tokenpointer-1].val = tmp;
             }
             else{
               printf("invalid register name %s\n",tokenstack[tokenpointer-1].str);
-              success = false;
+              *success = false;
               return 0;
             }
           }
