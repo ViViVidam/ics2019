@@ -280,6 +280,7 @@ uint32_t expr(char *e, bool *success) {
           statepointer -= 2;
           break;
         case 11:
+          printf("%s\n",tokens[i].str);
           tokenstack[tokenpointer-1].val = atoi(tokens[i].str);
           break;
         case 12:
