@@ -286,6 +286,7 @@ uint32_t expr(char *e, bool *success) {
           break;
         case 11:
           type = tokenstack[tokenpointer-1].type;
+          printf("token type %d",type);
           if(type == TK_HEX){
             tokenstack[tokenpointer-1].val = (int)strtol(tokenstack[tokenpointer], NULL, 16);
             printf("hex %d\n",tokenstack[tokenpointer-1].val);
