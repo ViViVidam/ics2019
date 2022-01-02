@@ -218,6 +218,7 @@ uint32_t expr(char *e, bool *success) {
 
   /* TODO: Insert codes to evaluate the expression. */
   /* total token count only has 32 length at maximum*/
+  tokens[token_length++].type = '#';
   tokenstack[tokenpointer++].type = '#';
   statestack[statepointer++] = 0;
   for(i=0;i<token_length;i++){
