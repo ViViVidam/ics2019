@@ -233,6 +233,10 @@ uint32_t expr(char *e, bool *success) {
   /* total token count only has 32 length at maximum*/
   tokens[token_length++].type = '#';
   tokenstack[tokenpointer++].type = '#';
+  for(int i=0;i<token_length;i++){
+    printf("%d ",tokens[i].type);
+  }
+  printf("\n");
   statestack[statepointer++] = 1;
   for(i=0;i<token_length;i++){
     int x = statestack[statepointer-1]-1;
