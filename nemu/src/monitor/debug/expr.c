@@ -288,6 +288,7 @@ uint32_t expr(char *e, bool *success) {
           type = tokenstack[tokenpointer-1].type;
           if(type == TK_HEX){
             tokenstack[tokenpointer-1].val = (int)strtol(tokenstack[tokenpointer], NULL, 16);
+            printf("hex %d\n",tokenstack[tokenpointer-1].val);
           }
           else if(type == TK_NUM)
             tokenstack[tokenpointer-1].val = atoi(tokenstack[tokenpointer-1].str);
