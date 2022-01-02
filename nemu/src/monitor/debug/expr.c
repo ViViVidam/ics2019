@@ -239,17 +239,17 @@ uint32_t expr(char *e, bool *success) {
           statepointer -= 2;
           break;
         case 3:
-          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-1].val - tokenstack[tokenpointer-3].val;
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-3].val - tokenstack[tokenpointer-1].val;
           tokenpointer -= 2;
           statepointer -= 2;
           break;
         case 4:
-          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-1].val * tokenstack[tokenpointer-3].val;
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-3].val * tokenstack[tokenpointer-1].val;
           tokenpointer -= 2;
           statepointer -= 2;
           break;
         case 5:
-          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-1].val / tokenstack[tokenpointer-3].val;
+          tokenstack[tokenpointer-3].val = tokenstack[tokenpointer-3].val / tokenstack[tokenpointer-1].val;
           tokenpointer -= 2;
           statepointer -= 2;
           break;
