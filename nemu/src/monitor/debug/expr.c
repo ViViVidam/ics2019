@@ -289,6 +289,7 @@ uint32_t expr(char *e, bool *success) {
           break;
         default:
           printf("unrecognized action\n");
+          i = 999;
       }
       tokenstack[tokenpointer-1].type = 'E';
       y = getindex('E');
