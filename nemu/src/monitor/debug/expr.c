@@ -131,9 +131,11 @@ static bool make_token(char *e,int* token_length) {
           case TK_HEX:
             strncpy(tokens[usedtoken].str, substr_start,substr_len);
             tokens[usedtoken++].type = TK_HEX;
+            break;
           case TK_REG:
             strncpy(tokens[usedtoken].str, substr_start,substr_len);
             tokens[usedtoken++].type = TK_REG;
+            break;
           case TK_NUM:
             strncpy(tokens[usedtoken].str, substr_start,substr_len);
             tokens[usedtoken++].type = TK_NUM;
