@@ -281,7 +281,7 @@ uint32_t expr(char *e, bool *success) {
           break;
         case 11:
           printf("%s\n",tokens[i].str);
-          tokenstack[tokenpointer-1].val = atoi(tokens[i].str);
+          tokenstack[tokenpointer-1].val = atoi(tokenstack[tokenpointer-1].str);
           break;
         case 12:
           tokenstack[tokenpointer-4].val = (tokenstack[tokenpointer-1].val && tokenstack[tokenpointer-4].val);
