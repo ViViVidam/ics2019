@@ -280,7 +280,7 @@ uint32_t expr(char *e, bool *success) {
           statepointer -= 2;
           break;
         case 11:
-          printf("%s\n",tokens[i].str);
+          printf("%s\n",tokenstack[tokenpointer-1].str);
           tokenstack[tokenpointer-1].val = atoi(tokenstack[tokenpointer-1].str);
           break;
         case 12:
@@ -307,6 +307,7 @@ uint32_t expr(char *e, bool *success) {
     }
     else{
         statestack[statepointer++] = action;
+        strcpy(tokenstack[tokenpointer].str,tokens[i].str);
         tokenstack[tokenpointer++].type = tokens[i].type;
     }
   }
