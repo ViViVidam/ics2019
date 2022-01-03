@@ -108,11 +108,34 @@ static int cmd_x(char* args){
 }
 
 static int cmd_d(char* args){
-  printf("%s",args);
+  char *arg = strtok(NULL,"");
+  int num = atoi(arg);
+  if(num==0 && arg[0]!='0' && strlen(arg)!=1){
+    printf("invalid number %s\n",arg);
+  }
+  else{
+    switch(free_wp(num)){
+      case 1:
+        printf("watchpoint freed %d\n",num);
+        break;
+      case 0:
+        printf("watchpoint %d not found\n",num);
+        break;
+      case -1:
+        printf("no watchpoint is set\n");
+        break;
+      default:
+        ;
+    }
+    
+  }
 }
 
 static int cmd_w(char* args){
-
+  char *arg = strtok(NULL,"");
+  WP* wp =  new_wp();
+  strcpy(wp->expr,arg);
+  printf("watchpoint created at %d\nexpression%s\n",wp->NO,wp->expr);
 }
 
 static struct {
