@@ -118,10 +118,10 @@ static int cmd_d(char* args){
       case 1:
         printf("watchpoint freed %d\n",num);
         break;
-      case 0:
+      case -1:
         printf("watchpoint %d not found\n",num);
         break;
-      case -1:
+      case 0:
         printf("no watchpoint is set\n");
         break;
       default:
