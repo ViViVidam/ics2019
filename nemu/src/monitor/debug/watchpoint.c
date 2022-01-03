@@ -26,8 +26,8 @@ WP* new_wp(){
   if(free_){
     if(head==NULL){
       head = free_;
-      head->next = NULL;
       free_ = free_->next;
+      head->next = NULL;
       return head;
     }
     else{
