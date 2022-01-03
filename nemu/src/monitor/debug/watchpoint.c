@@ -28,7 +28,7 @@ WP* new_wp(){
       head = free_;
       free_ = free_->next;
       head->next = NULL;
-      printf("111\n");
+      printf("111 %s\n",head->expr);
       return head;
     }
     else{
