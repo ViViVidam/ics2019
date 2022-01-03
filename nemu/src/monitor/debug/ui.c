@@ -133,9 +133,10 @@ static int cmd_d(char* args){
 
 static int cmd_w(char* args){
   char *arg = strtok(NULL,"");
+  printf("arg: %s\n",arg);
   WP* wp =  new_wp();
   if(wp){
-  strcpy(wp->expr,arg);
+  //strcpy(wp->expr,arg);
   //printf("watchpoint created at %d\nexpression%s\n",wp->NO,wp->expr);
   }
   else{
