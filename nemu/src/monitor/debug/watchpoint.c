@@ -28,6 +28,7 @@ WP* new_wp(){
       head = free_;
       free_ = free_->next;
       head->next = NULL;
+      printf("111\n");
       return head;
     }
     else{
@@ -38,6 +39,7 @@ WP* new_wp(){
       tmp_head->next = free_;
       free_ = free_->next;
       tmp_head->next->next = NULL;
+      return tmp_head->next;
     }
   }
   else
