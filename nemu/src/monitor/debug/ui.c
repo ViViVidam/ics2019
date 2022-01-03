@@ -134,8 +134,13 @@ static int cmd_d(char* args){
 static int cmd_w(char* args){
   char *arg = strtok(NULL,"");
   WP* wp =  new_wp();
-  //strcpy(wp->expr,arg);
-  //printf("watchpoint created at %d\nexpression%s\n",wp->NO,wp->expr);
+  if(wp){
+  strcpy(wp->expr,arg);
+  printf("watchpoint created at %d\nexpression%s\n",wp->NO,wp->expr);
+  }
+  else{
+    printf("please free some watchpoint\n");
+  }
 }
 
 static struct {
