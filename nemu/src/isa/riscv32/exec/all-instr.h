@@ -13,3 +13,4 @@ make_EHelper(addi);
 make_EHelper(auipc);
 
 make_EHelper(jal);
+make_EHelper(jalr);
