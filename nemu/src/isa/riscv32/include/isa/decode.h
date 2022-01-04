@@ -60,4 +60,6 @@ make_DHelper(auipc);
 make_DHelper(jal);
 make_DHelper(jalr);
 make_DHelper(lui);
+make_DHelper(add);
+make_DHelper(sub);
 #endif

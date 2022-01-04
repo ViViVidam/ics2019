@@ -9,6 +9,8 @@ make_EHelper(inv);
 make_EHelper(nemu_trap);
 
 make_EHelper(addi);
+make_EHelper(add);
+make_EHelper(sub);
 
 make_EHelper(auipc);
 
