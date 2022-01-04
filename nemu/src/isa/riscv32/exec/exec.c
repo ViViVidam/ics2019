@@ -30,7 +30,7 @@ static make_EHelper(add_immediate){
 }
 
 static OpcodeEntry opcode_table [32] = {
-  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(addi,add_immediate), IDEX(auipc,auipc), EMPTY, EMPTY,
+  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(addi,add_immediate), IDEX(auipc,auipc), EMPTY, IDEX(lui,lui),
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, EMPTY, IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
   /* b11 */ EMPTY, EMPTY, EX(nemu_trap), IDEX(jal,jal), EMPTY, EMPTY, EMPTY, EMPTY,

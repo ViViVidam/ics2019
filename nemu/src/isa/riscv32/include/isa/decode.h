@@ -58,5 +58,5 @@ make_DHelper(st);
 make_DHelper(addi);
 make_DHelper(auipc);
 make_DHelper(jal);
-
+make_DHelper(lui);
 #endif
