@@ -25,8 +25,8 @@ static OpcodeEntry immediate_table [8] = {
 
 static make_EHelper(add_immediate){
   decinfo.width = store_table[decinfo.isa.instr.funct3].width;
-  printf("funct3%d\n",decinfo.isa.instr.funct3);
-  idex(pc, &store_table[decinfo.isa.instr.funct3]);
+  printf("funct3 %d\n",decinfo.isa.instr.funct3);
+  idex(pc, &immediate_table[decinfo.isa.instr.funct3]);
 }
 
 static OpcodeEntry opcode_table [32] = {
