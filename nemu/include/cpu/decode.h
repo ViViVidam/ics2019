@@ -12,6 +12,7 @@ enum { OP_TYPE_REG, OP_TYPE_MEM, OP_TYPE_IMM };
 typedef struct {
   uint32_t type;
   int width;
+  /* 解释方法，1.寄存器，2.地址，3.立即数，4.有符立即数*/
   union {
     uint32_t reg;
     rtlreg_t addr;
