@@ -8,7 +8,7 @@ make_EHelper(lui) {
 
 make_EHelper(auipc) {
   int32_t tmp = cpu.pc + id_src;
-  printf("auipc cpu:%x %d\n",cpu.pc,id_dest->reg);
+  printf("auipc %d %x %x\n",id_dest->reg,cpu.pc,tmp);
   rtl_sr(id_dest->reg,&tmp,4);
 }
 
