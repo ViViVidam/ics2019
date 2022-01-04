@@ -2,6 +2,7 @@
 make_EHelper(jal){
 	cpu.pc += id_src->val;
 	decinfo.jmp_pc = cpu.pc;
+  printf("%d\n",id_dest->reg);
   rtl_sr(&id_dest->reg,&(cpu.pc),4);
   printf("jal pc:%x\n",cpu.pc);
 }
