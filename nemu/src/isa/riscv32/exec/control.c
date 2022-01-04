@@ -6,5 +6,7 @@ make_EHelper(auipc) {
 }
 
 make_EHelper(jal){
-	cpu.pc += id_src;
+  vaddr_t offset = 4;
+	cpu.pc += id_src->val - offset;
+	decinfo.jmp_pc = cpu.pc;
 }
