@@ -5,5 +5,5 @@ make_EHelper(auipc) {
   printf("auipc %d\n",id_dest->reg);
   rtl_lr(id_dest->reg,&tmp,4);
   decinfo.is_jmp = true;
-  print_asm_template2(lui);
+  //print_asm_template2(lui);
 }
