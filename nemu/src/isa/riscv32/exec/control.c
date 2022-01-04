@@ -12,5 +12,5 @@ make_EHelper(jalr){
   tmp = tmp << 1;
   rtl_sr(id_dest->reg,&(cpu.pc),4);
   cpu.pc = tmp;
-  printf("jalr pc:%x\n",cpu.pc);
+  printf("jalr pc:%x %x %x\n",cpu.pc,id_src->val,id_src2->val);
 }
