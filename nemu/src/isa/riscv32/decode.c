@@ -62,8 +62,8 @@ make_DHelper(st) {
 make_DHelper(jal){
   int32_t offset = decinfo.isa.instr.simm20;
   offset = (offset << 8) | decinfo.isa.instr.imm19_12;
-  printf("offset %x\n",offset);
   offset = (offset << 1) | decinfo.isa.instr.imm11;
+  printf("offset %x\n",offset);
   offset = (offset << 10)| decinfo.isa.instr.imm10_1;
   offset = offset << 1;
   printf("offset %x\n",offset);
