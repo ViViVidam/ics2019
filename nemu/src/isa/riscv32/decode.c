@@ -58,6 +58,14 @@ make_DHelper(st) {
 
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
 }
+
+make_DHelper(auipc){
+  int32_t offset = decinfo.isa.instr.imm31_12;
+  offset = offset << 12;
+  decode_op_i(id_src,offset,true);
+  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
+}
+
 make_DHelper(addi){
   printf("addi called\n");
   decode_op_r(id_src,decinfo.isa.instr.rs1,true);
