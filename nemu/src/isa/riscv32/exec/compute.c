@@ -13,6 +13,7 @@ make_EHelper(auipc) {
 }
 
 make_EHelper(addi){
-  rtl_add(&id_dest->reg,&id_src->val,&id_src2->val);
+  uint32_t tmp = 0;
+  rtl_add(id_dest->reg,&id_src->val,&id_src2->val);
   printf("addi %x %x %d\n",id_dest->reg,id_src->val,id_src2->val);
 }
