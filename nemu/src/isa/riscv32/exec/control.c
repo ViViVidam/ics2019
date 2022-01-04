@@ -9,5 +9,5 @@ make_EHelper(jal){
   vaddr_t offset = 4;
 	cpu.pc += id_src->val - offset;
 	decinfo.jmp_pc = cpu.pc;
-  printf("jal pc:%d\n",cpu.pc);
+  printf("jal pc:%x\n",cpu.pc);
 }
