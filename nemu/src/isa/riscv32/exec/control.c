@@ -1,8 +1,8 @@
 #include "cpu/exec.h"
 make_EHelper(jal){
+  rtl_sr(id_dest->reg,&(cpu.pc),4);
 	cpu.pc += id_src->val;
 	decinfo.jmp_pc = cpu.pc;
-  rtl_sr(id_dest->reg,&(cpu.pc),4);
   printf("jal pc:%x\n",cpu.pc);
 }
 
