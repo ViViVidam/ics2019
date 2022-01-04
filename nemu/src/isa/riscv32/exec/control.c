@@ -1,8 +1,10 @@
 #include "cpu/exec.h"
 make_EHelper(auipc) {
-  //rtl_sr(id_dest->reg, &id_src->val, 4);
   int32_t tmp = cpu.pc + id_src;
   printf("auipc cpu:%x %d\n",cpu.pc,id_dest->reg);
   rtl_sr(id_dest->reg,&tmp,4);
-  //print_asm_template2(lui);
+}
+
+make_EHelper(jal){
+	cpu.pc += id_src;
 }

@@ -11,3 +11,5 @@ make_EHelper(nemu_trap);
 make_EHelper(addi);
 
 make_EHelper(auipc);
+
+make_EHelper(jal);

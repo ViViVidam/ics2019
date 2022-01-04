@@ -59,6 +59,20 @@ make_DHelper(st) {
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
 }
 
+make_DHelper(jal){
+  int32_t offset = decinfo.isa.instr.imm31_12;
+  int32_t test = 1;
+  printf("offset1: %x %x\n",offset,test);
+  offset = offset << 12;
+  test = test << 31;
+  printf("offset2: %x %X\n",offset,test);
+  offset = offset >> 12;
+  test = test>>31;
+  printf("offset3: %x %x\n",offset,test);
+  decode_op_i(id_src,offset,true);
+  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
+}
+
 make_DHelper(auipc){
   int32_t offset = decinfo.isa.instr.imm31_12;
   offset = offset << 12;
