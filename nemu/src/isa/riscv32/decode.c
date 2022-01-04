@@ -105,3 +105,17 @@ make_DHelper(op){
   decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
   decode_op_r(id_dest,decinfo.isa.instr.rd,false);
 }
+
+make_DHelper(branch){
+  int32_t offset = decinfo.isa.instr.simm12;
+  offset = offset << 1 | decinfo.isa.instr.imm11;
+  offset = offset << 6 | decinfo.isa.instr.imm10_5;
+  offset = offset << 4 | decinfo.isa.instr.imm4_1;
+  offset = offset << 1;
+  offset = offset << 19;
+  offset = offset >> 19;
+  decode_op_i(id_dest,offset,true);
+  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
+  decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
+
+}
