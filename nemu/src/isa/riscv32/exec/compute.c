@@ -69,8 +69,15 @@ make_EHelper(sub){
   printf("sub %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
 
-make_EHelper(srai){
-  int32_t tmp = id_src->val;
-  tmp = tmp >> id_src2->reg;
-  rtl_sr(id_dest->reg,&tmp,4);
+make_EHelper(sri){
+  if(decinfo.isa.instr.funct7>>5){
+    int32_t tmp = id_src->val;
+    tmp = tmp >> id_src2->reg;
+    rtl_sr(id_dest->reg,&tmp,4);
+  }
+  else{
+    uint32_t tmp = id_src->val;
+    tmp = tmp >> id_src2->reg;
+    rtl_sr(id_dest->reg,&tmp,4);
+  }
 }

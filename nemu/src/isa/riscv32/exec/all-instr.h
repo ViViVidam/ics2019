@@ -13,7 +13,7 @@ make_EHelper(nemu_trap);
 make_EHelper(addi);
 make_EHelper(sltiu);
 
-make_EHelper(srai);
+make_EHelper(sri);
 make_EHelper(add);
 make_EHelper(sub);
 make_EHelper(sltu);
