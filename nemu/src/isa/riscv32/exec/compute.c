@@ -60,11 +60,11 @@ make_EHelper(or){
 make_EHelper(add){
   rtl_add(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
-  printf("add %x %x %d\n",id_dest->reg,id_src->val,id_src2->val);
+  printf("add %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
 
 make_EHelper(sub){
   rtl_sub(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
-  printf("sub %x %x %d\n",id_dest->reg,id_src->val,id_src2->val);
+  printf("sub %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
