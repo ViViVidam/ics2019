@@ -29,7 +29,7 @@ static make_EHelper(immediate){
 }
 
 static OpcodeEntry op_table [2][8]={
-  {EXW(add,4),EXW(sll,4),EMPTY,EXW(sltu,4),EXW(xor,4),EMPTY,EXW(or,4),EXW(and,4)},
+  {EXW(add,4),EXW(sll,4),EXW(slt,4),EXW(sltu,4),EXW(xor,4),EMPTY,EXW(or,4),EXW(and,4)},
   {EXW(sub,4),EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY}
 };
 static make_EHelper(operation){
@@ -38,7 +38,7 @@ static make_EHelper(operation){
 }
 
 static OpcodeEntry branch_table[8]={
-  EXW(beq,4),EXW(bne,4),EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY
+  EXW(beq,4),EXW(bne,4),EMPTY,EMPTY,EXW(blt,4),EXW(bge,4),EMPTY,EMPTY
 };
 
 static make_EHelper(branch){

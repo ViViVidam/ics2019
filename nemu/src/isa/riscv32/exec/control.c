@@ -36,3 +36,23 @@ make_EHelper(bne){
   else
     printf("bne no jump"); 
 }
+
+make_EHelper(blt){
+  if(id_src->val < id_src2->val){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    printf("blt pc:%x\n",cpu.pc);
+  }
+  else
+    printf("blt no jump"); 
+}
+
+make_EHelper(bge){
+  if(id_src->val > id_src2->val){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    printf("bge pc:%x\n",cpu.pc);
+  }
+  else
+    printf("bge no jump"); 
+}
