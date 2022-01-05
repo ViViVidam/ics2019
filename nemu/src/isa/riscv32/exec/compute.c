@@ -32,6 +32,18 @@ make_EHelper(sltiu){
   printf("sltiu %d %x %x\n",id_dest->val,id_src->val,id_src2->val);
 }
 
+make_EHelper(sltu){
+  uint32_t rs1 = id_src->val;
+  uint32_t rs2 = id_src2->val;
+  if(rs1<rs2){
+    id_dest->val = 1;
+  }
+  else{
+    id_dest->val = 0;
+  }
+  rtl_sr(id_dest->reg,&id_dest->val,4);
+}
+
 make_EHelper(add){
   rtl_add(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);

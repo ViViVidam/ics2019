@@ -13,6 +13,7 @@ make_EHelper(sltiu);
 
 make_EHelper(add);
 make_EHelper(sub);
+make_EHelper(sltu);
 
 make_EHelper(auipc);
 
