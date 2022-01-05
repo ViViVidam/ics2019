@@ -12,8 +12,8 @@ make_EHelper(ld) {
   }
 }
 
-make_EHelper(lbu) {
-  uint32_t val = 0;
+make_EHelper(lh) {
+  int32_t val = 0;
   rtl_lm(&s0,&id_src->addr, decinfo.width);
   val = s0;
   rtl_sr(id_dest->reg,&val,4);
