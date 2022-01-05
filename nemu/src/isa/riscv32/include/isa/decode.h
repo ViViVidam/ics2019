@@ -62,4 +62,5 @@ make_DHelper(jalr);
 make_DHelper(lui);
 make_DHelper(op);
 make_DHelper(branch);
+make_DHelper(sf);
 #endif

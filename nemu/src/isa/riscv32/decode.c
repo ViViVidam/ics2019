@@ -117,5 +117,10 @@ make_DHelper(branch){
   decode_op_i(id_dest,offset,true);
   decode_op_r(id_src,decinfo.isa.instr.rs1,true);
   decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
+}
 
+make_DHelper(sf){
+  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
+  decode_op_r(id_src2,decinfo.isa.instr.rs2,false);
+  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
 }

@@ -68,3 +68,9 @@ make_EHelper(sub){
   rtl_sr(id_dest->reg,&id_dest->val,4);
   printf("sub %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
+
+make_EHelper(srai){
+  int32_t tmp = id_src->val;
+  tmp = tmp >> id_src2->reg;
+  rtl_sr(id_dest->reg,&tmp,4);
+}

@@ -28,6 +28,16 @@ static make_EHelper(immediate){
   idex(pc, &immediate_table[decinfo.isa.instr.funct3]);
 }
 
+static OpcodeEntry shift_table[2][8] = {
+  {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
+  {EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EXW(srai,4),EMPTY,EMPTY}
+};
+
+static make_EHelper(shift){
+  decinfo.width = shift_table[decinfo.isa.instr.funct7>>5][decinfo.isa.instr.funct3].width;
+  idex(pc,&shift_table[decinfo.isa.instr.funct7>>5][decinfo.isa.instr.funct3]); 
+}
+
 static OpcodeEntry op_table [2][8]={
   {EXW(add,4),EMPTY,EMPTY,EXW(sltu,4),EXW(xor,4),EMPTY,EXW(or,4),EMPTY},
   {EXW(sub,4),EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY}
@@ -46,8 +56,10 @@ static make_EHelper(branch){
   idex(pc, &branch_table[decinfo.isa.instr.funct3]);
 }
 
+
+
 static OpcodeEntry opcode_table [32] = {
-  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, EMPTY, IDEX(immediate,immediate), IDEX(auipc,auipc), EMPTY, IDEX(lui,lui),
+  /* b00 */ IDEX(ld, load), EMPTY, EMPTY, IDEX(sf,shift), IDEX(immediate,immediate), IDEX(auipc,auipc), EMPTY, IDEX(lui,lui),
   /* b01 */ IDEX(st, store), EMPTY, EMPTY, EMPTY, IDEX(op,operation), IDEX(U, lui), EMPTY, EMPTY,
   /* b10 */ EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,
   /* b11 */ IDEX(branch,branch), IDEX(jalr,jalr), EX(nemu_trap), IDEX(jal,jal), EMPTY, EMPTY, EMPTY, EMPTY,
