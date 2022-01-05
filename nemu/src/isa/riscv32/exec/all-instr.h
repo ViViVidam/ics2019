@@ -4,6 +4,8 @@ make_EHelper(lui);
 
 make_EHelper(ld);
 make_EHelper(st);
+make_EHelper(sh);
+make_EHelper(sb);
 
 make_EHelper(inv);
 make_EHelper(nemu_trap);

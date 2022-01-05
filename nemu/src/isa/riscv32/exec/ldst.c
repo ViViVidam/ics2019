@@ -22,3 +22,13 @@ make_EHelper(st) {
     default: assert(0);
   }
 }
+
+make_EHelper(sh) {
+  rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
+  printf("sm %x\n",id_dest->val);
+}
+
+make_EHelper(sb) {
+  rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
+  printf("sb %x\n",id_dest->val);
+}
