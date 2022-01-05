@@ -70,6 +70,7 @@ make_EHelper(sub){
 }
 
 make_EHelper(sri){
+  printf("sri %d\n",decinfo.isa.instr.funct7>>5);
   if(decinfo.isa.instr.funct7>>5){
     int32_t tmp = id_src->val;
     tmp = tmp >> id_src2->reg;
