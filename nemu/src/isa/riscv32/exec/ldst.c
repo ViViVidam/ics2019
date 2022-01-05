@@ -3,7 +3,7 @@
 make_EHelper(ld) {
   rtl_lm(&s0, &id_src->addr, decinfo.width);
   rtl_sr(id_dest->reg, &s0, 4);
-  printf("ld %d\n",s0);
+  printf("ld %x\n",s0);
   switch (decinfo.width) {
     case 4: print_asm_template2(lw); break;
     case 2: print_asm_template2(lhu); break;
@@ -14,7 +14,7 @@ make_EHelper(ld) {
 
 make_EHelper(st) {
   rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
-  printf("st %d\n",id_dest->val);
+  printf("st %x\n",id_dest->val);
   switch (decinfo.width) {
     case 4: print_asm_template2(sw); break;
     case 2: print_asm_template2(sh); break;
