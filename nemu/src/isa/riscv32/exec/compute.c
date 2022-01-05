@@ -70,7 +70,6 @@ make_EHelper(sub){
 }
 
 make_EHelper(sri){
-  printf("sri %d %d\n",decinfo.isa.instr.funct7>>5,id_src2->reg);
   if(decinfo.isa.instr.funct7>>5){
     int32_t tmp = id_src->val;
     tmp = tmp >> id_src2->reg;
@@ -81,20 +80,24 @@ make_EHelper(sri){
     tmp = tmp >> id_src2->reg;
     rtl_sr(id_dest->reg,&tmp,4);
   }
+  printf("sri %x %x %d\n",id_dest->val,id_src->val,id_src2->reg);
 }
 
 make_EHelper(sll) {
   int32_t tmp = id_src->val;
   tmp = tmp << id_src2->val;
   rtl_sr(id_dest->reg,&tmp,4);
+  printf("sll %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
 
 make_EHelper(andi){
   rtl_or(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
+  printf("andi %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
 
 make_EHelper(and){
   rtl_and(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
+  printf("and %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
