@@ -19,7 +19,7 @@ make_EHelper(jalr){
 
 make_EHelper(beq){
   if(id_src->val == id_src2->val){
-    cpu.pc = id_dest->val;
+    cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
     printf("beq pc:%x\n",cpu.pc);
   }
@@ -29,7 +29,7 @@ make_EHelper(beq){
 
 make_EHelper(bne){
   if(id_src->val != id_src2->val){
-    cpu.pc = id_dest->val;
+    cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
     printf("bne pc:%x\n",cpu.pc);
   }
