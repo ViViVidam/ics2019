@@ -19,7 +19,17 @@ make_EHelper(lh) {
   val = val<<48;
   val = val>>48;
   rtl_sr(id_dest->reg,&val,4);
-  printf("lh %x\n",s0);
+  printf("lh %x\n",val);
+}
+
+make_EHelper(lb) {
+  int32_t val = 0;
+  rtl_lm(&s0,&id_src->addr, decinfo.width);
+  val = s0;
+  val = val<<56;
+  val = val>>56;
+  rtl_sr(id_dest->reg,&val,4);
+  printf("lh %x\n",val);
 }
 
 make_EHelper(st) {
