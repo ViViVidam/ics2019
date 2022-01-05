@@ -26,3 +26,13 @@ make_EHelper(beq){
   else
     printf("beq no jump"); 
 }
+
+make_EHelper(bne){
+  if(id_src->val != id_src2->val){
+    cpu.pc = id_dest->val;
+    decinfo.is_jmp = true;
+    printf("bne pc:%x\n",cpu.pc);
+  }
+  else
+    printf("bne no jump"); 
+}

@@ -19,3 +19,4 @@ make_EHelper(auipc);
 make_EHelper(jal);
 make_EHelper(jalr);
 make_EHelper(beq);
+make_EHelper(bne);
