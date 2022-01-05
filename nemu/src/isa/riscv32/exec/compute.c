@@ -42,6 +42,7 @@ make_EHelper(sltu){
     id_dest->val = 0;
   }
   rtl_sr(id_dest->reg,&id_dest->val,4);
+  printf("sltu %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
 }
 
 make_EHelper(xor){
