@@ -17,8 +17,8 @@ make_EHelper(lh) {
   rtl_lm(&s0,&id_src->addr, decinfo.width);
   val = s0;
   printf("lh %x\n",val);
-  val = val<<48;
-  val = val>>48;
+  val = val<<16;
+  val = val>>16;
   rtl_sr(id_dest->reg,&val,4);
   printf("lh %x\n",val);
 }
@@ -28,8 +28,8 @@ make_EHelper(lb) {
   rtl_lm(&s0,&id_src->addr, decinfo.width);
   val = s0;
   printf("lb %x\n",val);
-  val = val<<56;
-  val = val>>56;
+  val = val<<24;
+  val = val>>24;
   rtl_sr(id_dest->reg,&val,4);
   printf("lb %x\n",val);
 }
