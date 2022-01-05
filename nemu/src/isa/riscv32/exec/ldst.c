@@ -16,6 +16,8 @@ make_EHelper(lh) {
   int32_t val = 0;
   rtl_lm(&s0,&id_src->addr, decinfo.width);
   val = s0;
+  val = val<<48;
+  val = val>>48;
   rtl_sr(id_dest->reg,&val,4);
   printf("lh %x\n",s0);
 }
