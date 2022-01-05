@@ -92,3 +92,8 @@ make_EHelper(andi){
   rtl_or(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
 }
+
+make_EHelper(and){
+  rtl_and(&id_dest->val,&id_src->val,&id_src2->val);
+  rtl_sr(id_dest->reg,&id_dest->val,4);
+}

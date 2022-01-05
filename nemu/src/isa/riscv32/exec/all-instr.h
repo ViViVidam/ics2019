@@ -22,6 +22,7 @@ make_EHelper(sltu);
 make_EHelper(xor);
 make_EHelper(or);
 make_EHelper(andi);
+make_EHelper(and);
 
 make_EHelper(auipc);
 
