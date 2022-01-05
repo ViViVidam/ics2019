@@ -20,7 +20,7 @@ static make_EHelper(store) {
 }
 
 static OpcodeEntry immediate_table [8] = {
-  EXW(addi,4),EMPTY,EMPTY,EXW(sltiu,4),EMPTY,IDEX(shift,sri),EMPTY,EMPTY
+  EXW(addi,4),EMPTY,EMPTY,EXW(sltiu,4),EMPTY,IDEX(shift,sri),EMPTY,EXW(andi,4)
 };
 
 static make_EHelper(immediate){
