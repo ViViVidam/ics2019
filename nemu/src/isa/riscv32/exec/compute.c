@@ -91,7 +91,7 @@ make_EHelper(sll) {
 }
 
 make_EHelper(andi){
-  rtl_or(&id_dest->val,&id_src->val,&id_src2->val);
+  rtl_and(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
   printf("andi %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
