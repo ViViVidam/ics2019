@@ -29,7 +29,7 @@ static make_EHelper(immediate){
 }
 
 static OpcodeEntry op_table [2][8]={
-  {EXW(add,4),EMPTY,EMPTY,EXW(sltu,4),EXW(xor,4),EMPTY,EXW(or,4),EMPTY},
+  {EXW(add,4),EXW(sll,4),EMPTY,EXW(sltu,4),EXW(xor,4),EMPTY,EXW(or,4),EMPTY},
   {EXW(sub,4),EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY}
 };
 static make_EHelper(operation){
