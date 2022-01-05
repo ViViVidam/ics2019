@@ -102,6 +102,13 @@ make_EHelper(sri){
   printf("sri %x %x %d\n",id_dest->val,id_src->val,id_src2->reg);
 }
 
+make_EHelper(slli){
+  uint32_t tmp = id_src->val;
+  tmp = tmp >> id_src2->reg;
+  rtl_sr(id_dest->reg,&tmp,4);
+  printf("slli %x %x %d\n",id_dest->val,id_src->val,id_src2->reg);
+}
+
 make_EHelper(sll) {
   int32_t tmp = id_src->val;
   tmp = tmp << id_src2->val;
