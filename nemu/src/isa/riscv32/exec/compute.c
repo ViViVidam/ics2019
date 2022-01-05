@@ -45,7 +45,7 @@ make_EHelper(sltu){
 }
 
 make_EHelper(xor){
-  rtl_xori(&id_dest->val,&id_src->val,&id_src2->val);
+  rtl_xor(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_src->val,4);
   printf("xor %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
 }
