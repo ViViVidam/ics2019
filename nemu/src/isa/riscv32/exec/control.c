@@ -38,7 +38,9 @@ make_EHelper(bne){
 }
 
 make_EHelper(blt){
-  if(id_src->val < id_src2->val){
+  int32_t val1 = id_src->val;
+  int32_t val2 = id_src2->val;
+  if(val1 < val2){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
     printf("blt pc:%x\n",cpu.pc);
