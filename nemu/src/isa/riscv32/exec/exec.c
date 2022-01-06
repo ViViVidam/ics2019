@@ -30,7 +30,7 @@ static make_EHelper(immediate){
 
 /* for add sub and mul */
 static OpcodeEntry extended1 [5]={
-  EXW(add,4),EXW(sub,4),EXW(mul,4),EXW(xor,4),EXW(div,4)
+  EXW(add,4),EXW(mul,4),EXW(sub,4),EXW(xor,4),EXW(div,4)
 };
 
 static make_EHelper(add_sub_mul){
