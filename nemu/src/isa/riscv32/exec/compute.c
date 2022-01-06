@@ -127,3 +127,15 @@ make_EHelper(and){
   rtl_sr(id_dest->reg,&id_dest->val,4);
   printf("and %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
 }
+
+make_EHelper(mul){
+  rtl_mul_lo(&id_dest->val,&id_src->val,&id_src2->val);
+  rtl_sr(id_dest->reg,&id_dest->val,4);
+  printf("mult %d %d %d\n",id_dest->val,id_src->val,id_src2->val);
+}
+
+make_EHelper(div){
+  rtl_div_q(&id_dest->val,&id_src->val,&id_src2->val);
+  rtl_sr(id_dest->reg,&id_dest->val,4);
+  printf("div %d %d %d\n",id_dest->val,id_src->val,id_src2->val);
+}

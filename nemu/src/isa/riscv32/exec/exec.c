@@ -28,13 +28,43 @@ static make_EHelper(immediate){
   idex(pc, &immediate_table[decinfo.isa.instr.funct3]);
 }
 
-static OpcodeEntry op_table [2][8]={
-  {EXW(add,4),EXW(sll,4),EXW(slt,4),EXW(sltu,4),EXW(xor,4),EMPTY,EXW(or,4),EXW(and,4)},
-  {EXW(sub,4),EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY}
+/* for add sub and mul */
+static OpcodeEntry extended1 [5]={
+  EXW(add,4),EXW(sub,4),EXW(mul,4),EXW(xor,4),EXW(div,4)
+};
+
+static make_EHelper(add_sub_mul){
+  if(decinfo.isa.instr.funct7==0){
+    decinfo.width = extended1[0].width;
+    idex(pc,&extended1[0]);
+  }
+  else if(decinfo.isa.instr.funct7==1){
+    decinfo.width = extended1[1].width;
+    idex(pc,&extended1[1]);
+  }
+  else{
+    decinfo.width = extended1[2].width;
+    idex(pc,&extended1[2]);
+  }
+}
+
+static make_EHelper(xor_div){
+  if(decinfo.isa.instr.funct7==0){
+    decinfo.width = extended1[3].width;
+    idex(pc,&extended1[3]);
+  }
+  else{
+    decinfo.width = extended1[4].width;
+    idex(pc,&extended1[4]);
+  }
+}
+
+static OpcodeEntry op_table [8]={
+  EXW(add_sub_mul,4),EXW(sll,4),EXW(slt,4),EXW(sltu,4),EXW(xor_div,4),EMPTY,EXW(or,4),EXW(and,4)
 };
 static make_EHelper(operation){
-  decinfo.width = op_table[decinfo.isa.instr.funct7>>5][decinfo.isa.instr.funct3].width;
-  idex(pc, &op_table[decinfo.isa.instr.funct7>>5][decinfo.isa.instr.funct3]);
+  decinfo.width = op_table[decinfo.isa.instr.funct3].width;
+  idex(pc, &op_table[decinfo.isa.instr.funct3]);
 }
 
 static OpcodeEntry branch_table[8]={
