@@ -135,6 +135,7 @@ make_EHelper(mul){
 }
 
 make_EHelper(div){
+  printf("%d\n",id_src->val/id_src2->val);
   rtl_div_q(&id_dest->val,&id_src->val,&id_src2->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
   printf("div %d %d %d\n",id_dest->val,id_src->val,id_src2->val);
