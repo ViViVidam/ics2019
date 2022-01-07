@@ -51,6 +51,7 @@ static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
   if (key_f != key_r) {
+    printf("111\n");
     i8042_data_port_base[0] = key_queue[key_f];
     key_f = (key_f + 1) % KEY_QUEUE_LEN;
   }
@@ -60,6 +61,7 @@ static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
 }
 
 void init_i8042() {
+  printf("111\n");
   i8042_data_port_base = (void *)new_space(4);
   i8042_data_port_base[0] = _KEY_NONE;
   add_pio_map("keyboard", I8042_DATA_PORT, (void *)i8042_data_port_base, 4, i8042_data_io_handler);
