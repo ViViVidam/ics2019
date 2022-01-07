@@ -4,7 +4,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 int printf(const char *fmt, ...) {
-  printf("123\n");
+  int a=0;
   return 0;
 }
 
