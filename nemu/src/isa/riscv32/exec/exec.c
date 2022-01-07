@@ -66,10 +66,8 @@ static make_EHelper(or_rem){
     idex(pc,&extended1[5]);
   }
   else if(decinfo.isa.instr.funct7==1){
-    printf("111\n");
     decinfo.width = extended1[6].width;
     idex(pc,&extended1[6]);
-    printf("111\n ");
   }
 }
 
