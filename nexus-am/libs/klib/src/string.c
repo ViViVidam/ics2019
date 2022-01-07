@@ -46,7 +46,7 @@ char* strcat(char* dst, const char* src) {
 
 int strcmp(const char* s1, const char* s2) {
   size_t i = 0;
-  uint8_t tmp = 0;
+  int tmp = 0;
   for(i=0;s1[i]!='\0';i++){
     if(s2[i]=='\0'){
       return 1;
@@ -67,7 +67,7 @@ int strcmp(const char* s1, const char* s2) {
 
 int strncmp(const char* s1, const char* s2, size_t n) {
   size_t i = 0;
-  uint8_t tmp = 0;
+  int tmp = 0;
   for(i=0;i<n&&s1[i]!='\0';i++){
     if(*(s2+i)==0){
       return 1;
