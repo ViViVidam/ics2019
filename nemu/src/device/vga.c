@@ -51,6 +51,7 @@ void init_vga() {
   add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 8, vga_io_handler);
 
   vmem = (void *)new_space(0x80000);
+  add_pio_map("vmem", VMEM, (void *)vmem,0x80000,NULL);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
 }
 #endif	/* HAS_IOE */
