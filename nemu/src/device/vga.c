@@ -23,9 +23,9 @@ static uint32_t *screensize_port_base = NULL;
 
 static inline void update_screen() {
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
-  SDL_RenderClear(renderer);
-  SDL_RenderCopy(renderer, texture, NULL, NULL);
-  SDL_RenderPresent(renderer);
+  //SDL_RenderClear(renderer);
+  //SDL_RenderCopy(renderer, texture, NULL, NULL);
+  //SDL_RenderPresent(renderer);
 }
 
 static void vga_io_handler(uint32_t offset, int len, bool is_write) {
