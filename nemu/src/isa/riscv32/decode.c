@@ -105,7 +105,7 @@ make_DHelper(op){
   decode_op_r(id_src,decinfo.isa.instr.rs1,true);
   decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
   decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-  printf("decode ok\n");
+  //printf("decode ok\n");
 }
 
 make_DHelper(branch){
