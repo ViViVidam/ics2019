@@ -14,9 +14,9 @@ size_t strlen(const char *s) {
 char *strcpy(char* dst,const char* src) {
   //biggest type to held any data
   size_t pointer = 0;
-  while(*(src+pointer)){
-    printf("2\n");
+  while(*(src+pointer)!='\0'){
     *(dst+pointer) = *(src+pointer);
+    pointer++;
   }
   *(dst+pointer)='\0';
   return dst;
@@ -26,9 +26,7 @@ char* strncpy(char* dst, const char* src, size_t n) {
   size_t i;
   for (i = 0; i < n && src[i] != '\0'; i++)
      dst[i] = src[i];
-  for ( ; i < n; i++)
-     dst[i] = '\0';
-
+  dst[i] = '\0';
   return dst;
 }
 
@@ -38,7 +36,6 @@ char* strcat(char* dst, const char* src) {
     pointer++;
   }
   while(*src!='\0'){
-    printf("3\n");
     *(dst+pointer) = *src;
     src++;
     pointer++;
@@ -50,12 +47,11 @@ char* strcat(char* dst, const char* src) {
 int strcmp(const char* s1, const char* s2) {
   size_t i = 0;
   uint8_t tmp = 0;
-  while(*(s1+i)!='\0'){
-    printf("4\n");
-    if(*(s2+i)==0){
+  for(i=0;s1[i]!='\0';i++){
+    if(s2[i]==0){
       return 1;
     }
-    tmp = *(s1+i)-*(s2+i);
+    tmp = s1[i]-s2[i];
     if(tmp>0){
       return 1;
     }
@@ -63,7 +59,7 @@ int strcmp(const char* s1, const char* s2) {
       return -1;
     }
   }
-  if(*(s2+i)!='\0')
+  if(s2[i]!='\0')
     return -1;
   else
     return 0;
