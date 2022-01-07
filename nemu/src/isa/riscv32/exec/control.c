@@ -52,7 +52,7 @@ make_EHelper(blt){
 make_EHelper(bge){
   int32_t val1 = id_src->val;
   int32_t val2 = id_src2->val;
-  if(val1 > val2){
+  if(val1 > val2 || val1 == val2){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
     printf("bge pc:%x\n",cpu.pc);
