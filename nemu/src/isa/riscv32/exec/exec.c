@@ -61,6 +61,7 @@ static make_EHelper(xor_div){
 }
 
 static make_EHelper(or_rem){
+  printf("111\n");
   if(decinfo.isa.instr.funct7==0){
     decinfo.width = extended1[5].width;
     idex(pc,&extended1[5]);
