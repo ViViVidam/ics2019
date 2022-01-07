@@ -160,5 +160,5 @@ make_EHelper(mulh){
   printf("%ld %lx\n",results,results);
   results = results>>32;
   rtl_sr(id_dest->reg,&results,4);
-  printf("mult_hi %x %d %d\n",results,val1,val2);
+  printf("mult_hi %x %ld %ld\n",results,val1,val2);
 }
