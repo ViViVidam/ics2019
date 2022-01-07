@@ -44,4 +44,5 @@ make_EHelper(bltu);
 make_EHelper(bgeu);
 
 make_EHelper(rem);
+make_EHelper(remu);
 make_EHelper(mulh);

@@ -152,6 +152,14 @@ make_EHelper(rem){
   //printf("rem %d %d %d\n",id_dest->val,val1,val2);
 }
 
+make_EHelper(remu){
+  uint32_t val1 = id_src->val;
+  uint32_t val2 = id_src2->val;
+  rtl_div_r(&id_dest->val,&val1,&val2);
+  rtl_sr(id_dest->reg,&id_dest->val,4);
+  //printf("rem %d %d %d\n",id_dest->val,val1,val2);
+}
+
 make_EHelper(mulh){
   int64_t val1 = id_src->val;
   int64_t val2 = id_src2->val;
