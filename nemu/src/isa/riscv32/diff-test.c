@@ -14,10 +14,6 @@ bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
     if(ref_r->gpr[i]._32!=reg_l(i))
       return false;
   }
-  if(pc!=cpu.pc){
-      printf("%x %x\n",pc,cpu.pc);
-      return false;
-    }
   return true;
 }
 
