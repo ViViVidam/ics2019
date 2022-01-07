@@ -9,8 +9,10 @@ size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
       _DEV_TIMER_UPTIME_t *uptime = (_DEV_TIMER_UPTIME_t *)buf;
       t = inl(RTC_ADDR);
       printf("%d\n",t); 
-      uptime->hi = 0;
-      uptime->lo = 0;
+      if(uptime->lo > t){
+        uptime->hi +=1;
+      }
+      uptime->lo = t;
       return sizeof(_DEV_TIMER_UPTIME_t);
     }
     case _DEVREG_TIMER_DATE: {
