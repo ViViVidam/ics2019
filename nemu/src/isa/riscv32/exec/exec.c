@@ -35,7 +35,7 @@ static OpcodeEntry extended1 [11]={
 };
 
 static make_EHelper(add_sub_mul){
-  printf("add_sub_mul %d\n",decinfo.isa.instr.funct7);
+  //printf("add_sub_mul %d\n",decinfo.isa.instr.funct7);
   if(decinfo.isa.instr.funct7==0){
     decinfo.width = extended1[0].width;
     idex(pc,&extended1[0]);
