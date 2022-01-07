@@ -4,14 +4,59 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 int printf(const char *fmt, ...) {
-  _putc('a');
-  _putc('a');
-  _putc('a');
-  _putc('a');
-  _putc('a');
-  _putc('a');
-  _putc('a');
-  return 0;
+  va_list args;
+  int num = 0;
+  int tmp = 0;
+  int i = 0;
+  char mod = 0;
+  char stack[100];
+  int stacktop=0;
+  char* string;
+  char c;
+  va_start(args,fmt);
+  while(*fmt){
+    if(*fmt=='%'){
+      fmt++;
+      switch(*fmt){
+      case 'd':
+      num = va_arg(args,int);
+      tmp = num;
+      if(tmp<0){
+        _putc('-');
+        tmp = -tmp;
+      }
+      else if(tmp==0){
+        _putc('0');
+      }
+      while(tmp){
+        mod = (char) tmp%10;
+        tmp = tmp/10;
+        stack[stacktop++]='0'+mod;
+      }
+      while(stacktop){
+        stacktop--;
+        _putc(stack[stacktop]);
+      }
+      break;
+    case 'c':
+      c = (char) va_arg(args,int);
+      _putc(c);
+      break;
+    case 's':
+      string = va_arg(args,char*);
+      while(*string){
+        _putc(*string);
+        string++;
+      }
+      }
+    }
+    else{
+      _putc(*fmt);
+    }
+    fmt++;
+  }
+  va_end(args);
+  return i;
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
