@@ -15,7 +15,6 @@ static const char *tests[256] = {
 };
 
 int main(const char *args) {
-  printf("123\n");
   switch (args[0]) {
     CASE('h', hello);
     CASE('i', hello_intr, IOE, CTE(simple_trap));
