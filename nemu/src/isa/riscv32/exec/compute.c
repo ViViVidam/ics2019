@@ -153,7 +153,9 @@ make_EHelper(rem){
 }
 
 make_EHelper(mulh){
-  rtl_mul_hi(&id_dest->val,&id_src->val,&id_src2->val);
+  int32_t val1 = id_src->val;
+  int32_t val2 = id_src2->val;
+  rtl_mul_hi(&id_dest->val,&val1,&val2);
   rtl_sr(id_dest->reg,&id_dest->val,4);
   printf("mult_hi %d %d %d\n",id_dest->val,id_src->val,id_src2->val);
 }
