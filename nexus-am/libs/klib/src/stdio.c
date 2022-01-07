@@ -5,6 +5,12 @@
 
 int printf(const char *fmt, ...) {
   _putc('a');
+  _putc('a');
+  _putc('a');
+  _putc('a');
+  _putc('a');
+  _putc('a');
+  _putc('a');
   return 0;
 }
 
