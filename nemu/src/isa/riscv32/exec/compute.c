@@ -160,8 +160,8 @@ make_EHelper(mulh){
   val1 = val1 >> 32;
   val2 = val2 << 32;
   val2 = val2 >> 32;
-  int64_t results = val1*val2;
-  rtl_mul_hi(&id_dest->val,&id_src->val,&id_src2->val);
+  int64_t results = 0;
+  rtl_mul_hi(&results,&val1,&val2);
   printf("%lx %lx\n",val1,val2);
   results = results>>32;
   rtl_sr(id_dest->reg,&results,4);
