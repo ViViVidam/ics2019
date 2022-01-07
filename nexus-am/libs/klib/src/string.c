@@ -48,7 +48,7 @@ int strcmp(const char* s1, const char* s2) {
   size_t i = 0;
   uint8_t tmp = 0;
   for(i=0;s1[i]!='\0';i++){
-    if(s2[i]==0){
+    if(s2[i]=='\0'){
       return 1;
     }
     tmp = s1[i]-s2[i];
