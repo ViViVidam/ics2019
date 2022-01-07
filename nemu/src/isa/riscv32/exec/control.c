@@ -21,7 +21,7 @@ make_EHelper(beq){
   if(id_src->val == id_src2->val){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
-    printf("beq pc:%x\n",cpu.pc);
+    printf("beq %d %d pc:%x\n",id_src->val,id_src2->val,cpu.pc);
   }
   else
     printf("beq no jump"); 
