@@ -4,7 +4,7 @@ make_EHelper(jal){
   rtl_sr(id_dest->reg,&(nextpc),4);
 	cpu.pc += id_src->val;
 	decinfo.jmp_pc = cpu.pc;
-  printf("jal pc:%x\n",cpu.pc);
+  //printf("jal pc:%x\n",cpu.pc);
 }
 
 make_EHelper(jalr){
@@ -14,27 +14,25 @@ make_EHelper(jalr){
   tmp = tmp << 1;
   rtl_sr(id_dest->reg,&(nextpc),4);
   cpu.pc = tmp;
-  printf("jalr pc:%x %x %x\n",cpu.pc,id_src->val,id_src2->val);
+  //printf("jalr pc:%x %x %x\n",cpu.pc,id_src->val,id_src2->val);
 }
 
 make_EHelper(beq){
   if(id_src->val == id_src2->val){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
-    printf("beq %d %d pc:%x\n",id_src->val,id_src2->val,cpu.pc);
+    //printf("beq %d %d pc:%x\n",id_src->val,id_src2->val,cpu.pc);
   }
-  else
-    printf("beq no jump"); 
+    //printf("beq no jump"); 
 }
 
 make_EHelper(bne){
   if(id_src->val != id_src2->val){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
-    printf("bne pc:%x\n",cpu.pc);
+    //printf("bne pc:%x\n",cpu.pc);
   }
-  else
-    printf("bne no jump"); 
+    //printf("bne no jump"); 
 }
 
 make_EHelper(blt){
@@ -43,10 +41,9 @@ make_EHelper(blt){
   if(val1 < val2){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
-    printf("blt pc:%x\n",cpu.pc);
+    //printf("blt pc:%x\n",cpu.pc);
   }
-  else
-    printf("blt no jump"); 
+    //printf("blt no jump"); 
 }
 
 make_EHelper(bge){
@@ -55,10 +52,9 @@ make_EHelper(bge){
   if(val1 > val2 || val1 == val2){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
-    printf("bge pc:%x\n",cpu.pc);
+    //printf("bge pc:%x\n",cpu.pc);
   }
-  else
-    printf("bge no jump"); 
+    //printf("bge no jump"); 
 }
 
 make_EHelper(bltu){
@@ -67,10 +63,9 @@ make_EHelper(bltu){
   if(val1 < val2){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
-    printf("blt pc:%x\n",cpu.pc);
+    //printf("blt pc:%x\n",cpu.pc);
   }
-  else
-    printf("blt no jump"); 
+    //printf("blt no jump"); 
 }
 
 make_EHelper(bgeu){
@@ -79,8 +74,7 @@ make_EHelper(bgeu){
   if(val1 > val2 || val1 == val2){
     cpu.pc += id_dest->val;
     decinfo.is_jmp = true;
-    printf("bge pc:%x\n",cpu.pc);
+    //printf("bge pc:%x\n",cpu.pc);
   }
-  else
-    printf("bge no jump"); 
+    //printf("bge no jump"); 
 }
