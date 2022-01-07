@@ -69,6 +69,7 @@ static make_EHelper(or_rem){
     printf("111\n");
     decinfo.width = extended1[6].width;
     idex(pc,&extended1[6]);
+    printf("111\n ");
   }
 }
 
