@@ -4,7 +4,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 int printf(const char *fmt, ...) {
-  _putc('1');
+  read_key();
   return 0;
 }
 
