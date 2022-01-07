@@ -7,7 +7,7 @@
 
 #include <am.h>
 #include <stdarg.h>
-
+//native中使用自己编写的库
 //#define __NATIVE_USE_KLIB__
 
 #ifdef __NATIVE_USE_KLIB__
