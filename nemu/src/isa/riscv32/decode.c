@@ -67,6 +67,7 @@ make_DHelper(jal){
   offset = offset << 1;
   offset = offset << 11;
   offset = offset >> 11;
+  printf("%x\n",offset);
   decinfo.is_jmp  =true;
   decode_op_i(id_src,offset,true);
   decode_op_r(id_dest,decinfo.isa.instr.rd,false);
