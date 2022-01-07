@@ -29,7 +29,7 @@ static make_EHelper(immediate){
 }
 
 /* for add sub and mul */
-static OpcodeEntry extended1 [7]={
+static OpcodeEntry extended1 [9]={
   EXW(add,4),EXW(mul,4),EXW(sub,4),EXW(xor,4),EXW(div,4),EXW(or,4),EXW(rem,4),
   EXW(sll,4),EXW(mulh,4)
 };
