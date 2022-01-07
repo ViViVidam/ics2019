@@ -145,10 +145,9 @@ make_EHelper(div){
 
 
 make_EHelper(rem){
-  int32_t val1 = id_src->val;
+  /*int32_t val1 = id_src->val;
   int32_t val2 = id_src2->val;
-  printf("%d\n",val1/val2);
   rtl_div_r(&id_dest->val,&val1,&val2);
   rtl_sr(id_dest->reg,&id_dest->val,4);
-  printf("rem %d %d %d\n",id_dest->val,val1,val2);
+  printf("rem %d %d %d\n",id_dest->val,val1,val2);*/
 }
