@@ -157,7 +157,7 @@ make_EHelper(mulh){
   int32_t val2 = id_src2->val;
   int64_t results = val1*val2;
   rtl_mul_hi(&id_dest->val,&id_src->val,&id_src2->val);
-  printf("%x\n",results);
+  printf("%lx\n",results);
   rtl_sr(id_dest->reg,&results,4);
   printf("mult_hi %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
 }
