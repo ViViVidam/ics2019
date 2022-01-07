@@ -6,6 +6,7 @@ size_t __am_timer_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_TIMER_UPTIME: {
       uint32_t t = 0;
+      printf("111\n");
       _DEV_TIMER_UPTIME_t *uptime = (_DEV_TIMER_UPTIME_t *)buf;
       t = inl(RTC_ADDR);
       if(uptime->lo > t){
