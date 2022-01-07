@@ -40,3 +40,4 @@ make_EHelper(blt);
 make_EHelper(bge);
 
 make_EHelper(rem);
+make_EHelper(mulh);
