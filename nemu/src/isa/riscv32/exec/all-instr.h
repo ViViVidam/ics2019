@@ -21,6 +21,8 @@ make_EHelper(slli);
 make_EHelper(add);
 make_EHelper(sub);
 make_EHelper(sll);
+make_EHelper(sra);
+make_EHelper(srl);
 make_EHelper(slt);
 make_EHelper(sltu);
 make_EHelper(xor);
