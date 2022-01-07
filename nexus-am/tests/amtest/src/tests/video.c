@@ -69,7 +69,7 @@ void update() {
 }
 
 void video_test() {
-  /*unsigned long last = 0;
+  unsigned long last = 0;
   unsigned long fps_last = 0;
   int fps = 0;
 
@@ -87,5 +87,5 @@ void video_test() {
       fps_last = upt;
       fps = 0;
     }
-  }*/
+  }
 }
