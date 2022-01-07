@@ -103,7 +103,7 @@ static make_EHelper(operation){
 }
 
 static OpcodeEntry branch_table[8]={
-  EXW(beq,4),EXW(bne,4),EMPTY,EMPTY,EXW(blt,4),EXW(bge,4),EMPTY,EMPTY
+  EXW(beq,4),EXW(bne,4),EMPTY,EMPTY,EXW(blt,4),EXW(bge,4),EXW(bltu,4),EXW(bgeu,4)
 };
 
 static make_EHelper(branch){

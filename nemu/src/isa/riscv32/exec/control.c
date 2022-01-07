@@ -60,3 +60,27 @@ make_EHelper(bge){
   else
     printf("bge no jump"); 
 }
+
+make_EHelper(bltu){
+  uint32_t val1 = id_src->val;
+  uint32_t val2 = id_src2->val;
+  if(val1 < val2){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    printf("blt pc:%x\n",cpu.pc);
+  }
+  else
+    printf("blt no jump"); 
+}
+
+make_EHelper(bgeu){
+  uint32_t val1 = id_src->val;
+  uint32_t val2 = id_src2->val;
+  if(val1 > val2 || val1 == val2){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    printf("bge pc:%x\n",cpu.pc);
+  }
+  else
+    printf("bge no jump"); 
+}

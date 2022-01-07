@@ -40,6 +40,8 @@ make_EHelper(beq);
 make_EHelper(bne);
 make_EHelper(blt);
 make_EHelper(bge);
+make_EHelper(bltu);
+make_EHelper(bgeu);
 
 make_EHelper(rem);
 make_EHelper(mulh);
