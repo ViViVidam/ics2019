@@ -21,6 +21,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read(&header, 0, sizeof(Elf32_Ehdr));
   printf("num %d\n",header.e_phnum);
   segmentoffset = header.e_phoff;
+  for(int i=0;i<header.e_phnum;i++){
+    ramdisk_read(&segment,header.e_phoff,sizeof(segment));
+    if(segment.p_type==PT_LOAD){
+      printf("pt laod\n");
+    }
+  }
   ramdisk_read(&segment, segmentoffset, sizeof(Elf32_Ehdr));
   segcontent_off = segment.p_offset;
   memsize = segment.p_memsz;
