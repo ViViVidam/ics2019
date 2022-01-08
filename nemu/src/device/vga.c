@@ -22,25 +22,25 @@ static uint32_t (*vmem) [SCREEN_W] = NULL;
 static uint32_t *screensize_port_base = NULL;
 
 static inline void update_screen() {
-  //SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));
-  //SDL_RenderClear(renderer);
-  //SDL_RenderCopy(renderer, texture, NULL, NULL);
-  //SDL_RenderPresent(renderer);
+  SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));//更新像素
+  SDL_RenderClear(renderer);//清空窗口
+  SDL_RenderCopy(renderer, texture, NULL, NULL);//将文理交给renderer
+  SDL_RenderPresent(renderer);//渲染
 }
 
 static void vga_io_handler(uint32_t offset, int len, bool is_write) {
   // TODO: call `update_screen()` when writing to the sync register
   //TODO();
   printf("call back vga\n");
-  //update_screen();
+  update_screen();
 }
-
+//int x, y; uint32_t *pixels; int w, h, sync
 void init_vga() {
   char title[128];
   sprintf(title, "%s-NEMU", str(__ISA__));
 
   SDL_Init(SDL_INIT_VIDEO);
-  SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);
+  SDL_CreateWindowAndRenderer(SCREEN_W * 2, SCREEN_H * 2, 0, &window, &renderer);//创建窗口以及渲染器
   SDL_SetWindowTitle(window, title);
   texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888,
       SDL_TEXTUREACCESS_STATIC, SCREEN_W, SCREEN_H);
