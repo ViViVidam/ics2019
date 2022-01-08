@@ -19,6 +19,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Off segmentoffset = 0;
   Elf32_Off segcontent_off = 0;
   ramdisk_read(&header, 0, sizeof(Elf32_Ehdr));
+  printf("%x\n",&ramdisk_start);
   printf("num %d\n",header.e_phnum);
   printf("header %d %d\n",header.e_phoff,header.e_ehsize);
   segmentoffset = header.e_phoff;
@@ -28,7 +29,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     if(segment.p_type==PT_LOAD){
       printf("pt load\n");
       //ramdisk_write(segment.p_vaddr,segment.p_offset,segment.p_filesz);
-      printf("%d %d %d\n",segment.p_offset,segment.p_filesz,segment.p_memsz);
+      printf("%x %d %d %d\n",segment.p_vaddr,segment.p_offset,segment.p_filesz,segment.p_memsz);
       //memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
     }
   }
