@@ -30,7 +30,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     if(segment.p_type==PT_LOAD){
       printf("pt load\n");
       ramdisk_write(segment.p_vaddr,segment.p_offset,segment.p_filesz);
-      printf("%x %d %d %d\n",segment.p_vaddr,segment.p_offset,segment.p_filesz,segment.p_memsz);
+      printf("%x %d %x %x\n",segment.p_vaddr,segment.p_offset,segment.p_filesz,segment.p_memsz);
       //memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
     }
   }
