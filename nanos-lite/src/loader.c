@@ -11,7 +11,7 @@ extern uint8_t ramdisk_start;
 #endif
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  Elf_Ehdr header;
+  /*Elf_Ehdr header;
   Elf_Phdr segment;
   Elf32_Addr vaddr;
   Elf32_Word filesize;
@@ -28,7 +28,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     }
   }
   printf("%x\n",header.e_entry);
-  return header.e_entry;
+  return header.e_entry;*/
+  retrun NULL;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
