@@ -25,7 +25,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       _DEV_VIDEO_FBCTL_t *ctl = (_DEV_VIDEO_FBCTL_t *)buf;
       for(i=0;i<ctl->w;i++){
         for(j=0;j<ctl->h;j++){
-          fb[(ctl->x+i)*W+ctl->y+j]=*(ctl->pixels+i*(ctl->w)+j);
+          fb[(ctl->y+j)*W+ctl->x+i]=*(ctl->pixels+j*(ctl->w)+i);
         }
       }
       if (ctl->sync) {
