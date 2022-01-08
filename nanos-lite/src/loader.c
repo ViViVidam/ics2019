@@ -25,10 +25,10 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     ramdisk_read(&segment,header.e_phoff+i*header.e_phentsize,header.e_phentsize);
     if(segment.p_type==PT_LOAD){
       printf("pt load\n");
+      ramdisk_write(segment.p_vaddr,segment.p_offset,segment.p_filesz);
+      printf("%d %d %d\n",segment.p_offset,segment.p_filesz,segment.p_memsz);
+      memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
     }
-    ramdisk_write(segment.p_vaddr,segment.p_offset,segment.p_filesz);
-    printf("%d %d %d\n",segment.p_offset,segment.p_filesz,segment.p_memsz);
-    memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
   }
   return header.e_entry;
 }
