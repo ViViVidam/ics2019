@@ -18,12 +18,12 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Off segmentoffset = 0;
   Elf32_Off segcontent_off = 0;
   ramdisk_read(&header, 0, sizeof(Elf32_Ehdr));
-  segcontent_off = header.e_phoff;
-  printf("%d\n",segcontent_off);
+  segmentoffset = header.e_phoff;
+  printf("%d\n",segmentoffset);
   ramdisk_read(&segment, segmentoffset, sizeof(Elf32_Ehdr));
   segcontent_off = segment.p_offset;
   memsize = segment.p_memsz;
-  vaddr = segment.p_paddr;
+  vaddr = segment.p_vaddr;
   printf("vaddr %d %d %d\n",segcontent_off,memsize,vaddr);
   memset(vaddr,0,memsize);
   memcpy(vaddr,&ramdisk_start+segcontent_off+segmentoffset,memsize);
