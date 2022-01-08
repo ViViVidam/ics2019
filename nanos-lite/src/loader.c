@@ -1,6 +1,7 @@
 #include "proc.h"
 #include <elf.h>
 
+extern uint8_t ramdisk_start;
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
@@ -10,9 +11,20 @@
 #endif
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  int offset = 0;
-  ramdisk_read(&offset, 0, 4);
-  printf("offset %d\n",offset);
+  Elf_Ehdr header;
+  Elf_Phdr segment;
+  Elf32_Addr vaddr;
+  Elf32_Word memsize;
+  Elf32_Off segmentoffset = 0;
+  Elf32_Off segcontent_off = 0;
+  ramdisk_read(&header, 0, sizeof(Elf32_Ehdr));
+  segcontent_off = header.e_phoff;
+  ramdisk_read(&segment, segmentoffset, sizeof(Elf32_Ehdr));
+  segcontent_off = segment.p_offset;
+  memsize = segment.p_memsz;
+  vaddr = segment.p_vaddr;
+  memset(vaddr,0,memsize);
+  memcpy(vaddr,&ramdisk_start+segcontent_off+segmentoffset,memsize);
   return 0;
 }
 
