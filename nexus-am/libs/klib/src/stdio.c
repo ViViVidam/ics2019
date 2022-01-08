@@ -38,6 +38,24 @@ int printf(const char *fmt, ...) {
         _putc(stack[stacktop]);
       }
       break;
+    case 'x':
+      _putc('0');
+      _putc('x');
+      num = va_arg(args,int);
+      tmp = num;
+      while(tmp){
+        mod = tmp%16;
+        tmp = tmp/16;
+        if(mod>9)
+          stack[stacktop++]='A'+mod-10;
+        else
+          stack[stacktop++]='0'+mod;
+      }
+      while(stacktop){
+        stacktop--;
+        _putc(stack[stacktop]);
+      }
+      break;
     case 'c':
       c = (char) va_arg(args,int);
       _putc(c);
