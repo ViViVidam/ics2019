@@ -11,7 +11,10 @@ typedef struct {
   } gpr[32];
 
   vaddr_t pc;
-
+  rtlreg_t sepc;
+  rtlreg_t sstatus;
+  rtlreg_t scause;
+  rtlreg_t stvec;
 } CPU_state;
 
 static inline int check_reg_index(int index) {
