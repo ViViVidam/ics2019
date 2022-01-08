@@ -50,7 +50,7 @@ void send_key(uint8_t scancode, bool is_keydown) {
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
-  
+  printf("call back\n");
   if (key_f != key_r) {
     i8042_data_port_base[0] = key_queue[key_f];
     printf("%d \n",i8042_data_port_base[0]);
