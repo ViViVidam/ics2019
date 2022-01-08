@@ -25,7 +25,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   vaddr = segment.p_vaddr;
   memset(vaddr,0,memsize);
   memcpy(vaddr,&ramdisk_start+segcontent_off+segmentoffset,memsize);
-  return 0;
+  return header.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
