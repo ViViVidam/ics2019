@@ -7,6 +7,7 @@ int printf(const char *fmt, ...) {
   va_list args;
   int num = 0;
   int tmp = 0;
+  unsigned int tmp2 = 0;
   int i = 0;
   char mod = 0;
   char stack[100];
@@ -42,10 +43,10 @@ int printf(const char *fmt, ...) {
       _putc('0');
       _putc('x');
       num = va_arg(args,int);
-      tmp = num;
-      while(tmp){
-        mod = (char) tmp%16;
-        tmp = tmp/16;
+      tmp2 = num;
+      while(tmp2){
+        mod = (char) tmp2%16;
+        tmp2 = tmp2/16;
         if(mod>9)
           stack[stacktop++]='A'+mod-10;
         else
