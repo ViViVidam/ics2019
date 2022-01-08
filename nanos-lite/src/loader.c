@@ -10,7 +10,9 @@
 #endif
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  TODO();
+  int offset = 0;
+  ramdisk_read(&offset, 0, 4);
+  printf("offset %d\n",offset);
   return 0;
 }
 
