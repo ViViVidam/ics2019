@@ -2,8 +2,7 @@
 #define __ARCH_H__
 
 struct _Context {
-  uintptr_t gpr[31];
-  uintptr_t status,cause,epc;
+  uintptr_t gpr[32],cause,status,epc;
   struct _AddressSpace *as;
 };
 
