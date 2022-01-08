@@ -34,6 +34,9 @@ void naive_uload(PCB *pcb, const char *filename) {
   printf("naive load\n");
   uintptr_t entry = loader(pcb, filename);
   Log("Jump to entry = %d", entry);
+  if(entry%4!=0){
+    printf("invalid addr\n");
+  }
   ((void(*)())entry) ();
 }
 
