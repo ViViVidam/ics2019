@@ -24,14 +24,16 @@ static uint32_t *screensize_port_base = NULL;
 static inline void update_screen() {
   SDL_UpdateTexture(texture, NULL, vmem, SCREEN_W * sizeof(vmem[0][0]));//更新像素
   SDL_RenderClear(renderer);//清空窗口
-  SDL_RenderCopy(renderer, texture, NULL, NULL);//将文理交给renderer
-  SDL_RenderPresent(renderer);//渲染
+  SDL_RenderCopy(renderer, texture, NULL, NULL);//将文理交给render
+  SDL_RenderPresent(renderer);
 }
 
 static void vga_io_handler(uint32_t offset, int len, bool is_write) {
   // TODO: call `update_screen()` when writing to the sync register
   //TODO();
-  update_screen();
+  if(is_write){
+    update_screen();
+  }
 }
 //int x, y; uint32_t *pixels; int w, h, sync
 void init_vga() {
@@ -46,10 +48,9 @@ void init_vga() {
 
   screensize_port_base = (void *)new_space(8);
   screensize_port_base[0] = ((SCREEN_W) << 16) | (SCREEN_H);
-  add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 8, NULL);
-  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 8, NULL);
-  add_pio_map("sync", SYNC_PORT, (void *)screensize_port_base, 8, vga_io_handler);
-  add_mmio_map("sync", SYNC_MMIO, (void *)screensize_port_base, 8, vga_io_handler);
+  add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 8, vga_io_handler);
+  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 8, vga_io_handler);
+
   vmem = (void *)new_space(0x80000);
   //add_pio_map("vmem", VMEM, (void *)vmem,0x80000,NULL);
   add_mmio_map("vmem", VMEM, (void *)vmem, 0x80000, NULL);
