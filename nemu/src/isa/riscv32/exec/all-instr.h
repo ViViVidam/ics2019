@@ -46,3 +46,4 @@ make_EHelper(bgeu);
 make_EHelper(rem);
 make_EHelper(remu);
 make_EHelper(mulh);
+make_EHelper(sys);

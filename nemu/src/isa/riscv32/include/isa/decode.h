@@ -63,4 +63,5 @@ make_DHelper(lui);
 make_DHelper(op);
 make_DHelper(branch);
 make_DHelper(shift);
+make_DHelper(I);
 #endif
