@@ -13,6 +13,7 @@ make_EHelper(sys){
     case 0:{ //ecall&&sret
       if(decinfo.isa.instr.simm11_0==0){ //ecall
         raise_intr(reg_l(17),cpu.pc);
+        printf("jumping dest %x\n",cpu.pc);
       }
       else if(decinfo.isa.instr.simm11_0==0b000100000010){ //sret
         rtl_j(cpu.sepc+4);
