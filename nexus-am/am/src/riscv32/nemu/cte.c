@@ -5,6 +5,7 @@ static _Context* (*user_handler)(_Event, _Context*) = NULL;
 
 _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
+  printf("NO:%d epc:%x\n",c->cause,c->epc);
   if (user_handler) {
     _Event ev = {0};
     switch (c->cause) {
@@ -22,7 +23,7 @@ _Context* __am_irq_handle(_Context *c) {
   return next;
 }
 
-extern void __am_asm_trap(void);
+extern void __am_asm_trap(void);//trap.S
 
 int _cte_init(_Context*(*handler)(_Event, _Context*)) {
   // initialize exception entry
