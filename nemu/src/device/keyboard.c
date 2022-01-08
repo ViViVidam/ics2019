@@ -53,7 +53,7 @@ static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   //printf("call back\n");
   if (key_f != key_r) {
     i8042_data_port_base[0] = key_queue[key_f];
-    printf("%d \n",i8042_data_port_base[0]);
+    //printf("%d \n",i8042_data_port_base[0]);
     key_f = (key_f + 1) % KEY_QUEUE_LEN;
   }
   else {
