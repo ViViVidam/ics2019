@@ -31,7 +31,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       if (ctl->sync) {
         outl(SYNC_ADDR, 0);
       }
-      printf("(%d,%d) (%d,%d)\n",ctl->x,ctl->y,ctl->w,ctl->h);
+      //printf("(%d,%d) (%d,%d)\n",ctl->x,ctl->y,ctl->w,ctl->h);
       return size;
     }
   }
