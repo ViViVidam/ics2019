@@ -17,7 +17,7 @@ make_EHelper(sys){
         printf("jumping dest %x\n",cpu.pc);
       }
       else if(decinfo.isa.instr.simm11_0==0b000100000010){ //sret
-        printf("re jumping dest %x\n",cpu.pc);
+        printf("re jumping dest %x\n",cpu.sepc);
         rtl_j(cpu.sepc+4);
       }
       break;
