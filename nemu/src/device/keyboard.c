@@ -39,7 +39,6 @@ static int key_f = 0, key_r = 0;
 void send_key(uint8_t scancode, bool is_keydown) {
   if (nemu_state.state == NEMU_RUNNING &&
       keymap[scancode] != _KEY_NONE) {
-    printf("111\n");
     uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);
     key_queue[key_r] = am_scancode;
     key_r = (key_r + 1) % KEY_QUEUE_LEN;
@@ -50,10 +49,10 @@ void send_key(uint8_t scancode, bool is_keydown) {
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
-  printf("111\n");
+  
   if (key_f != key_r) {
-    printf("111\n");
     i8042_data_port_base[0] = key_queue[key_f];
+    printf("%d \n",i8042_data_port_base[0]);
     key_f = (key_f + 1) % KEY_QUEUE_LEN;
   }
   else {
@@ -62,7 +61,6 @@ static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
 }
 
 void init_i8042() {
-  printf("111\n");
   i8042_data_port_base = (void *)new_space(4);
   i8042_data_port_base[0] = _KEY_NONE;
   add_pio_map("keyboard", I8042_DATA_PORT, (void *)i8042_data_port_base, 4, i8042_data_io_handler);
