@@ -1,12 +1,18 @@
 #include "common.h"
 #include "syscall.h"
 
+
+
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
 
   switch (a[0]) {
-    case 1:
+    case SYS_exit:
+      printf("%d\n",c->GPR2);
+      _halt(c->GPR2);
+    break;
+    case SYS_yield:
       _yield();
       return 0;
     break;

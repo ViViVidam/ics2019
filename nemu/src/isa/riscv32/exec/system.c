@@ -12,12 +12,11 @@ make_EHelper(sys){
   switch(decinfo.isa.instr.funct3){
     case 0:{ //ecall&&sret
       if(decinfo.isa.instr.simm11_0==0){ //ecall
-        printf("jump before: %x\n",cpu.pc);
+        //printf("jump before: %x\n",cpu.pc);
         raise_intr(reg_l(17),cpu.pc);
-        printf("jumping dest %x\n",cpu.pc);
       }
       else if(decinfo.isa.instr.simm11_0==0b000100000010){ //sret
-        printf("re jumping dest %x\n",cpu.sepc);
+        //printf("re jumping dest %x\n",cpu.sepc);
         rtl_j(cpu.sepc+4);
       }
       break;
