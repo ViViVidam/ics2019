@@ -27,7 +27,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       printf("pt load\n");
     }
     ramdisk_write(segment.p_vaddr,header.e_ehsize+header.e_phnum*header.e_phentsize+segment.p_offset,segment.p_filesz);
-    printf("%d %d",segment.p_offset,segment.p_memsz);
+    printf("%d %d %d\n",segment.p_offset,segment.p_filesz,segment.p_memsz);
     memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
   }
   return header.e_entry;
