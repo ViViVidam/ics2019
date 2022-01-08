@@ -22,7 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("num %d\n",header.e_phnum);
   segmentoffset = header.e_phoff;
   for(int i=0;i<header.e_phnum;i++){
-    ramdisk_read(&segment,header.e_phoff+i*header.e_phentsize,sizeof(segment));
+    ramdisk_read(&segment,header.e_phoff+i*header.e_phentsize,header.e_phentsize);
     if(segment.p_type==PT_LOAD){
       printf("pt load\n");
     }
