@@ -20,6 +20,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Off segcontent_off = 0;
   ramdisk_read(&header, 0, sizeof(Elf32_Ehdr));
   printf("num %d\n",header.e_phnum);
+  printf("header %d %d\n",header.e_phoff,header.e_ehsize);
   segmentoffset = header.e_phoff;
   for(int i=0;i<header.e_phnum;i++){
     ramdisk_read(&segment,header.e_phoff+i*header.e_phentsize,header.e_phentsize);
