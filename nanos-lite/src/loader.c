@@ -27,7 +27,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   memset(vaddr,0,memsize);
   ramdisk_write(vaddr,segcontent_off,memsize);
   printf("%x %x\n",vaddr,header.e_entry);
-  return header.e_entry;
+  return vaddr;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
