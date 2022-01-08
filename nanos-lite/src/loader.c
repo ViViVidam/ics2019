@@ -28,7 +28,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   printf("segoff %d  seg content off%d\n",segmentoffset,segcontent_off);
   printf("filesize %d  memsize %d\n",filesize,memsize);
   memset(vaddr+filesize,0,memsize);
-  ramdisk_write(vaddr,segcontent_off,filesize);
+  ramdisk_write(vaddr,segmentoffset+segcontent_off,filesize);
   printf("%x %x\n",vaddr,header.e_entry);
   return header.e_entry;
 }
