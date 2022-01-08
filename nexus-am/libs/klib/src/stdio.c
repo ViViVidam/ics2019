@@ -44,7 +44,7 @@ int printf(const char *fmt, ...) {
       num = va_arg(args,int);
       tmp = num;
       while(tmp){
-        mod = tmp%16;
+        mod = (char) tmp%16;
         tmp = tmp/16;
         if(mod>9)
           stack[stacktop++]='A'+mod-10;
