@@ -11,9 +11,15 @@ _Context* __am_irq_handle(_Context *c) {
     switch (c->cause) {
       case -1: ev.event = _EVENT_YIELD; break;
       case 0:
-      case  13: ev.event=_EVENT_SYSCALL; break;
+      case 1:
+      case 2:
+      case 3:
+      case 4:
+      case 7:
+      case 8:
+      case 9:
+      case 13: ev.event=_EVENT_SYSCALL; break;
       default:
-      printf("unrecognized event cause id: %d\n",c->cause);
       ev.event = _EVENT_ERROR; break;
     }
 
