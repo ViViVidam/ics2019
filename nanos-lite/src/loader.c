@@ -23,7 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   ramdisk_read(&segment, segmentoffset, sizeof(Elf32_Ehdr));
   segcontent_off = segment.p_offset;
   memsize = segment.p_memsz;
-  vaddr = segment.p_vaddr;
+  vaddr = segment.p_paddr;
   printf("vaddr %d %d %d\n",segcontent_off,memsize,vaddr);
   memset(vaddr,0,memsize);
   memcpy(vaddr,&ramdisk_start+segcontent_off+segmentoffset,memsize);
