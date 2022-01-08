@@ -1,6 +1,6 @@
 #include "proc.h"
 #include <elf.h>
-
+#include <fs.h>
 extern uint8_t ramdisk_start;
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
@@ -19,6 +19,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf32_Off segmentoffset = 0;
   Elf32_Off segcontent_off = 0;
   ramdisk_read(&header, 0, sizeof(Elf32_Ehdr));
+  printf("num %d\n",header.e_phnum);
   segmentoffset = header.e_phoff;
   ramdisk_read(&segment, segmentoffset, sizeof(Elf32_Ehdr));
   segcontent_off = segment.p_offset;
@@ -42,6 +43,25 @@ void naive_uload(PCB *pcb, const char *filename) {
   }
   ((void(*)())entry) ();
 }
+//finished loader
+/*
+static uintptr_t loader(PCB *pcb, const char *filename) {
+  Elf_Ehdr head;
+  int fd=fs_open(filename,0,0);
+  fs_lseek(fd,0,SEEK_SET);
+  fs_read(fd,&head,sizeof(head));
+  for(int i=0;i<head.e_phnum;i++){
+    Elf_Phdr temp;
+    fs_lseek(fd,head.e_phoff+i*head.e_phentsize,SEEK_SET);
+    fs_read(fd,&temp,sizeof(temp));
+    if(temp.p_type==PT_LOAD){
+      fs_lseek(fd,temp.p_offset,SEEK_SET);
+      fs_read(fd,(void*)temp.p_vaddr,temp.p_filesz);
+      memset((void*)(temp.p_vaddr+temp.p_filesz),0,temp.p_memsz-temp.p_filesz);
+    }
+  }
+  return head.e_entry;
+}*/
 
 void context_kload(PCB *pcb, void *entry) {
   _Area stack;
