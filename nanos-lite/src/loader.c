@@ -34,6 +34,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       //memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
     }
   }
+  printf("%x\n",header.e_entry);
   return header.e_entry;
 }
 
