@@ -29,7 +29,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   memset(vaddr+filesize,0,memsize);
   ramdisk_write(vaddr,segcontent_off,memsize);
   printf("%x %x\n",vaddr,header.e_entry);
-  return vaddr;
+  return header.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
