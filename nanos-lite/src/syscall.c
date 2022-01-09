@@ -31,10 +31,10 @@ _Context* do_syscall(_Context *c) {
       return -1;
     break;
     case SYS_brk:
-      _putc('c');
-      _putc('a');
-      _putc('l');
-      _putc('l');
+      _putc('b');
+      _putc('r');
+      _putc('k');
+      //_putc('l');
       _putc('\n');
       // /program_break = a[1];
     break;
