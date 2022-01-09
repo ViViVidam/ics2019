@@ -40,7 +40,7 @@
 
 extern end;
 uintptr_t program_break;
-
+char buffer[64];
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
@@ -62,6 +62,7 @@ int _open(const char *path, int flags, mode_t mode) {
 }
 
 int _write(int fd, void *buf, size_t count) {
+  _syscall_(SYS_write,1,buffer,32);
   return _syscall_(SYS_write,fd,buf,count);
 }
 
@@ -70,6 +71,7 @@ void *_sbrk(intptr_t increment) {
   void* old = program_break;
   program_break+=increment;
   _syscall_(SYS_brk,0,0,0);
+  sprintf(buffer,"old:%x\n",old);
   return -1;
 }
 
