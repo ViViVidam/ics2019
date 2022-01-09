@@ -2,6 +2,8 @@
 #include <stdarg.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
+char stack[100];
+int stacktop=0;
 
 int printf(const char *fmt, ...) {
   va_list args;
@@ -10,8 +12,6 @@ int printf(const char *fmt, ...) {
   unsigned int tmp2 = 0;
   int i = 0;
   char mod = 0;
-  char stack[100];
-  int stacktop=0;
   char* string;
   char c;
   va_start(args,fmt);
