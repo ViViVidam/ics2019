@@ -72,7 +72,7 @@ void *_sbrk(intptr_t increment) {
   program_break+=increment;
   _syscall_(SYS_brk,0,0,0);
   sprintf(buffer,"old:%x\n",old);
-  return -1;
+  return old;
 }
 
 int _read(int fd, void *buf, size_t count) {
