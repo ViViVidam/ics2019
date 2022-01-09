@@ -16,6 +16,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_yield:
       _yield();
       return 0;
+    break;
     case SYS_write:
       _putc('c');
       _putc('a');
