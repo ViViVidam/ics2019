@@ -32,10 +32,9 @@ _Context* do_syscall(_Context *c) {
     break;
     case SYS_brk:
       // /program_break = a[1];
-      return 0;
     break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
-  return NULL;
+  return 0;
 }

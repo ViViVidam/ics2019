@@ -38,9 +38,9 @@
 #error syscall is not supported
 #endif 
 
-extern end;
-static int initial__ = 0;
-char buffer[64];
+
+extern char _end;
+
 static intptr_t* program_break;
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
@@ -65,23 +65,18 @@ int _open(const char *path, int flags, mode_t mode) {
 int _write(int fd, void *buf, size_t count) {
   static int i=0;
   //sprintf(buffer,"%d\n",i);
-  _syscall_(SYS_write,1,buffer,32);
+  //_syscall_(SYS_write,1,buffer,32);
   return _syscall_(SYS_write,fd,buf,count);
 }
 
 void *_sbrk(intptr_t increment) {
-  if(initial__==0&&increment==0){
-    program_break = (uintptr_t)&end;
-    return program_break;
-  }
-  else if(initial__!=0){
-    intptr_t* old_break = program_break;
+  static void* program_break=(uintptr_t)&_end;
+  void* old=program_break;
+  if(_syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0)==0){
     program_break+=increment;
-    _syscall_(SYS_brk,0,0,0);
-    //sprintf(buffer,"old:%x end:%x\n",old_break,&end);
-    return old_break;
+    return(void*)old;
   }
-  return -1;
+  return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
