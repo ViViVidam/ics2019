@@ -62,7 +62,7 @@ int _open(const char *path, int flags, mode_t mode) {
 
 int _write(int fd, void *buf, size_t count) {
   static int i=0;
-  sprintf(buffer,"%d\n",i);
+  sprintf(buffer,"%d\n",i++);
   _syscall_(SYS_write,1,buffer,32);
   return _syscall_(SYS_write,fd,buf,count);
 }
