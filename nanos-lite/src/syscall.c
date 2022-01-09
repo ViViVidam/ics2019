@@ -1,6 +1,6 @@
 #include "common.h"
 #include "syscall.h"
-
+#include "fs.h"
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
@@ -17,17 +17,10 @@ _Context* do_syscall(_Context *c) {
       _yield();
       return 0;
     case SYS_write:
-      if(a[1]==1||2){
-        int i = (int) a[3];
-        char* buffer = (char *)a[2];
-        while(i--){
-          _putc(*buffer);
-          buffer++;
-        }
-        return buffer-((char*)a[2]);
-      }
-      else
-        return -1;
+    if(a[1]!=1||a[1]!=2)
+      return -1;
+      return fs_wrtie(a[1],(void*)a[2],a[3]);
+      break;
     break;
     case SYS_brk:
       // /program_break = a[1];
