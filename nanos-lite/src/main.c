@@ -13,7 +13,7 @@ int main() {
   printf("%s", logo);
   Log("'Hello World!' from Nanos-lite");
   Log("Build time: %s, %s", __TIME__, __DATE__);
-  printf("222\n");
+  printf("222 uiweohrhewuiqjbrhjkbasjkdfsa\n");
   Log("222");
 #ifdef HAS_VME
   init_mm();
@@ -30,7 +30,7 @@ int main() {
   init_fs();
 
   init_proc();
-  
+
   Log("Finish initialization");
 #ifdef HAS_CTE
   _yield();
