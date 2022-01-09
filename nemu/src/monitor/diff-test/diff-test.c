@@ -1,8 +1,8 @@
 #include <dlfcn.h>
-
+//#include "cpu/exec.h"
 #include "nemu.h"
 #include "monitor/monitor.h"
-#include "cpu/exec.h"
+
 void (*ref_difftest_memcpy_from_dut)(paddr_t dest, void *src, size_t n) = NULL;
 void (*ref_difftest_getregs)(void *c) = NULL;
 void (*ref_difftest_setregs)(const void *c) = NULL;
@@ -14,7 +14,7 @@ static bool is_detach = false;
 
 // this is used to let ref skip instructions which
 // can not produce consistent behavior with NEMU
-void difftest_skip_ref() {
+void difftest_skip_ref(){
   is_skip_ref = true;
   // If such an instruction is one of the instruction packing in QEMU
   // (see below), we end the process of catching up with QEMU's pc to
@@ -85,7 +85,7 @@ static void checkregs(CPU_state *ref, vaddr_t pc) {
   if (!isa_difftest_checkregs(ref, pc)) {
     extern void isa_reg_display(void);
     isa_reg_display();
-    printf("pc:%x pc_seq:%x code:%x\n",pc,decinfo.seq_pc,decinfo.isa.instr.val);
+    //printf("pc:%x pc_seq:%x code:%x\n",pc,decinfo.seq_pc,decinfo.isa.instr.val);
     nemu_state.state = NEMU_ABORT;
     nemu_state.halt_pc = pc;
   }
