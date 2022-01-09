@@ -36,6 +36,7 @@ _Context* do_syscall(_Context *c) {
       _putc('k');
       //_putc('l');
       _putc('\n');
+      return 0;
       // /program_break = a[1];
     break;
     default: panic("Unhandled syscall ID = %d", a[0]);
