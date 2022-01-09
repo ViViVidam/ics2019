@@ -36,7 +36,10 @@
 # define ARGS_ARRAY ("call *0x100000", "rax", "rdi", "rsi", "rdx", "rax")
 #else
 #error syscall is not supported
-#endif
+#endif 
+
+char initialized  = 0;
+uintptr_t program_break = 0;
 
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
@@ -63,7 +66,23 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  return (void *)-1;
+  if(initialized==0){
+    if(increment==0){
+      program_break = _syscall_(SYS_brk,0,0,0);
+      initialized = 1;
+      return (void*) program_break;
+    }
+    else
+      return (void*) -1;
+  }
+  else{
+    if(_syscall_(SYS_brk,program_break,increment,0)!=0){
+      program_break = program_break + increment;
+      return (void*) program_break;
+    }
+    else
+      return (void*) -1;
+  }
 }
 
 int _read(int fd, void *buf, size_t count) {

@@ -24,10 +24,11 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     ramdisk_read(&segment,header.e_phoff+i*header.e_phentsize,header.e_phentsize);
     if(segment.p_type==PT_LOAD){
       memcpy(segment.p_vaddr,&ramdisk_start+segment.p_offset,segment.p_filesz);
-      //memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
+      memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
     }
   }
-  printf("%x\n",header.e_entry);
+  _end = segment.p_vaddr+segment.p_memsz;
+  printf("%x\n",_end);
   return header.e_entry;
   //retrun NULL;
 }

@@ -1,7 +1,7 @@
 #include "common.h"
 #include "syscall.h"
 
-
+extern uintptr_t _end;
 
 _Context* do_syscall(_Context *c) {
   uintptr_t a[4];
@@ -29,6 +29,10 @@ _Context* do_syscall(_Context *c) {
       }
       else
         return -1;
+    break;
+    case SYS_brk:
+      _end;
+      return 0;
     break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }

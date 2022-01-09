@@ -12,5 +12,6 @@
 typedef char bool;
 #define true 1
 #define false 0
+static uintptr_t _end = 0;
 
 #endif
