@@ -18,7 +18,6 @@ _Context* do_syscall(_Context *c) {
       _yield();
       return 0;
     case SYS_write:
-      printf("111\n");
       if(a[1]==1||2){
         int i = (int) a[3];
         char* buffer = (char *)a[2];
