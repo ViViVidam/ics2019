@@ -39,6 +39,7 @@
 #endif 
 
 extern end;
+uintptr_t program_break;
 char buffer[64];
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
