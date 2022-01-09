@@ -29,7 +29,7 @@ int main() {
   init_fs();
 
   init_proc();
-
+  Log("222");
   Log("Finish initialization");
 #ifdef HAS_CTE
   _yield();
