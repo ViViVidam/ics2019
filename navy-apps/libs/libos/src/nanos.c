@@ -40,7 +40,7 @@
 
 
 extern char _end;
-
+char buffer[64]="1\n";
 static intptr_t* program_break;
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
@@ -76,6 +76,7 @@ void *_sbrk(intptr_t increment) {
     program_break+=increment;
     return(void*)old;
   }
+  _syscall_(SYS_write,1,buffer,32);
   return (void *)-1;
 }
 
