@@ -63,18 +63,18 @@ int _open(const char *path, int flags, mode_t mode) {
 int _write(int fd, void *buf, size_t count) {
   static int i=0;
   sprintf(buffer,"%d\n",i);
-  i= i +1;
   _syscall_(SYS_write,1,buffer,32);
   return _syscall_(SYS_write,fd,buf,count);
 }
 
 void *_sbrk(intptr_t increment) {
-  static intptr_t* program_break = (uintptr_t)&end;
-  intptr_t* old_break = program_break;
-  program_break-=increment;
-  _syscall_(SYS_brk,0,0,0);
-  //sprintf(buffer,"old:%x end:%x\n",old_break,&end);
-  return old_break;
+  static void* program_break=(uintptr_t)&end;
+  void* old=program_break;
+  if(_syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0)==0){
+    program_break+=increment;
+    return(void*)old;
+  }
+  return (void *)-1;
 }
 
 int _read(int fd, void *buf, size_t count) {
