@@ -77,8 +77,11 @@ void *_sbrk(intptr_t increment) {
   tmp = _syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0);
   if(tmp){
     program_break+=increment;
+    sprintf(buffer,"increment %x\n",(void*)&_end - old);
+    _write(1,buffer,32);
     return(void*)old;
   }
+
   //sprintf(buffer,"123123123123123123%d\n",tmp);
   //_syscall_(SYS_write,1,buffer,32);
   //_syscall_(SYS_write,1,buffer,32);
