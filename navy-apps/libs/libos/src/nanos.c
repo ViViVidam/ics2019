@@ -39,6 +39,7 @@
 #endif 
 
 extern end;
+static int initial__ = 0;
 char buffer[64];
 static intptr_t* program_break;
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
@@ -69,12 +70,18 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  program_break = (uintptr_t)&end;
-  intptr_t* old_break = program_break;
-  program_break+=increment;
-  _syscall_(SYS_brk,0,0,0);
-  //sprintf(buffer,"old:%x end:%x\n",old_break,&end);
-  return old_break;
+  if(initial__==0&&increment==0){
+    program_break = (uintptr_t)&end;
+    return program_break;
+  }
+  else if(initial__!=0){
+    intptr_t* old_break = program_break;
+    program_break+=increment;
+    _syscall_(SYS_brk,0,0,0);
+    //sprintf(buffer,"old:%x end:%x\n",old_break,&end);
+    return old_break;
+  }
+  return -1;
 }
 
 int _read(int fd, void *buf, size_t count) {
