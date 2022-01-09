@@ -9,6 +9,7 @@ extern uint8_t ramdisk_start;
 # define Elf_Ehdr Elf32_Ehdr
 # define Elf_Phdr Elf32_Phdr
 #endif
+extern end;
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr header;
@@ -27,8 +28,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       memset(segment.p_vaddr+segment.p_filesz,0,segment.p_memsz-segment.p_filesz);
     }
   }
-  _end = segment.p_vaddr+segment.p_memsz;
-  printf("%x\n",_end);
+  printf("%x\n",end);
   return header.e_entry;
   //retrun NULL;
 }
