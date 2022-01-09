@@ -64,19 +64,22 @@ int _open(const char *path, int flags, mode_t mode) {
 
 int _write(int fd, void *buf, size_t count) {
   static int i=0;
-  //sprintf(buffer,"%d\n",i);
-  //_syscall_(SYS_write,1,buffer,32);
+  
   return _syscall_(SYS_write,fd,buf,count);
 }
 
 void *_sbrk(intptr_t increment) {
   static void* program_break=(uintptr_t)&_end;
   void* old=program_break;
-  if(_syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0)==0){
+  int tmp = 0;
+  tmp = _syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0);
+  if(tmp){
     program_break+=increment;
     return(void*)old;
   }
+  sprintf(buffer,"%d\n",tmp);
   _syscall_(SYS_write,1,buffer,32);
+  //_syscall_(SYS_write,1,buffer,32);
   return (void *)-1;
 }
 
