@@ -7,6 +7,12 @@ const char *regsl[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+void isa_reg_display_with_opcode(){
+  for(int i=0;i<32;i++){
+    printf("%s: 0x%.8X \n",reg_name(i,32),reg_l(i));
+  }
+}
+
 void isa_reg_display() {
   for(int i=0;i<32;i++){
     printf("%s: 0x%.8X \n",reg_name(i,32),reg_l(i));

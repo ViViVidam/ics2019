@@ -84,6 +84,7 @@ void init_difftest(char *ref_so_file, long img_size) {
 static void checkregs(CPU_state *ref, vaddr_t pc) {
   if (!isa_difftest_checkregs(ref, pc)) {
     extern void isa_reg_display(void);
+    extern uint32_t instr_fetch(uint32_t,int);
     printf("pc:%x code:%x\n",pc,instr_fetch(pc, 4));
     isa_reg_display();
     nemu_state.state = NEMU_ABORT;
