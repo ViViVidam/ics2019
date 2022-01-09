@@ -7,6 +7,8 @@ int stacktop=0;
 
 int printf(const char *fmt, ...) {
   va_list args;
+  _putc("1");
+  _putc("\n");
   int num = 0;
   int tmp = 0;
   unsigned int tmp2 = 0;
