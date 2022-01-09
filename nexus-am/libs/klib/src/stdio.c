@@ -83,7 +83,8 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  va_list args;
+  _putc("111\n");
+  /*va_list args;
   int num = 0;
   int tmp = 0;
   int i = 0;
@@ -136,7 +137,8 @@ int sprintf(char *out, const char *fmt, ...) {
   }
   va_end(args);
   out[i]=0;
-  return i;
+  return i;*/
+  return 1;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
