@@ -2,15 +2,13 @@
 #include <stdarg.h>
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
-char stack[100];
-int stacktop=0;
 
 int printf(const char *fmt, ...) {
   va_list args;
-  _putc("1");
-  _putc("\n");
   int num = 0;
   int tmp = 0;
+  char stack[100];
+  int stacktop=0;
   unsigned int tmp2 = 0;
   int i = 0;
   char mod = 0;
