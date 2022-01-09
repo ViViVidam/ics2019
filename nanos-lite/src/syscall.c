@@ -17,11 +17,6 @@ _Context* do_syscall(_Context *c) {
       _yield();
       return 0;
     case SYS_write:
-      _putc('c');
-      _putc('a');
-      _putc('l');
-      _putc('l');
-      _putc('\n');
     if(a[1]==1||a[1]==2){
         for(int i=0;i<a[3];i++){
           _putc(((char *)a[2])[i]);
