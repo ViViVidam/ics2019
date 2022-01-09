@@ -70,7 +70,7 @@ void *_sbrk(intptr_t increment) {
   void* old = program_break;
   program_break+=increment;
   _syscall_(SYS_brk,0,0,0);
-  return program_break;
+  return old;
 }
 
 int _read(int fd, void *buf, size_t count) {
