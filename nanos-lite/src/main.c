@@ -29,6 +29,7 @@ int main() {
   init_fs();
 
   init_proc();
+  printf("222\n");
   Log("222");
   Log("Finish initialization");
 #ifdef HAS_CTE
