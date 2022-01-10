@@ -8,6 +8,7 @@ _Context* do_syscall(_Context *c) {
   a[1] = c->GPR2;
   a[2] = c->GPR3;
   a[3] = c->GPR4;
+  int res=0;
   switch (a[0]) {
     case SYS_exit:
       _halt(a[1]);
@@ -18,11 +19,21 @@ _Context* do_syscall(_Context *c) {
       return 0;
     break;
     case SYS_write:
-      /*_putc('c');
-      _putc('a');
-      _putc('l');
-      _putc('l');
-      _putc('\n');*/
+      res=fs_write(a[1],(void*)a[2],a[3]);
+      break;
+    case SYS_read:
+      res=fs_read(a[1],(void*)a[2],a[3]);
+      break;
+    case SYS_open:
+      res=fs_open((char*)a[1],a[2],a[3]);
+      break;
+    case SYS_close:
+      res=fs_close(a[1]);
+      break;
+    case SYS_lseek:
+      res=fs_lseek(a[1],a[2],a[3]);
+      break;
+      /*
     if(a[1]==1||a[1]==2){
         for(int i=0;i<a[3];i++){
           _putc(((char *)a[2])[i]);
@@ -30,18 +41,12 @@ _Context* do_syscall(_Context *c) {
         return a[3];
       }
       return -1;
-    break;
+    break;*/
     case SYS_brk:
-      /*_putc('b');
-      _putc('r');
-      _putc('k');
-      //_putc('l');
-      _putc('\n');*/
-      return 0;
       // /program_break = a[1];
     break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
-
+  c->GPRx=res;
   return 0;
 }
