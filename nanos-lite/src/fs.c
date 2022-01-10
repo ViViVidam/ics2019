@@ -48,7 +48,6 @@ static Finfo file_table[] __attribute__((used)) = {
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
 int fs_open(const char *pathname, int flags, int mode){
-  printf("%s\n",pathname);
   for(int i=3;i<NR_FILES;i++){
     if(strcmp(pathname,file_table[i].name)==0){
       //printf("filename %d\n");
@@ -76,6 +75,7 @@ int fs_close(int fd){
   return 0;
 }
 size_t fs_write(int fd, const void *buf, size_t len){
+  printf("%d\n",fd);
   size_t length=0;
   if(fd==1||fd==2){
     file_table[1].write(buf,0,len);
