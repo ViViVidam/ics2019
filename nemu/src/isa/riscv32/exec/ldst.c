@@ -3,7 +3,7 @@
 make_EHelper(ld) {
   rtl_lm(&s0, &id_src->addr, decinfo.width);
   rtl_sr(id_dest->reg, &s0, 4);
-  //printf("ld %d %x\n",id_dest->reg,s0);
+
   switch (decinfo.width) {
     case 4: print_asm_template2(lw); break;
     case 2: print_asm_template2(lhu); break;
@@ -12,31 +12,9 @@ make_EHelper(ld) {
   }
 }
 
-make_EHelper(lh) {
-  int32_t val = 0;
-  rtl_lm(&s0,&id_src->addr, decinfo.width);
-  val = s0;
-  //printf("lh %x\n",val);
-  val = val<<16;
-  val = val>>16;
-  rtl_sr(id_dest->reg,&val,4);
-  //printf("lh %x\n",val);
-}
-
-make_EHelper(lb) {
-  int32_t val = 0;
-  rtl_lm(&s0,&id_src->addr, decinfo.width);
-  val = s0;
-  //printf("lb %x\n",val);
-  val = val<<24;
-  val = val>>24;
-  rtl_sr(id_dest->reg,&val,4);
-  //printf("lb %x\n",val);
-}
-
 make_EHelper(st) {
   rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
-  //printf("st %x\n",id_dest->val);
+
   switch (decinfo.width) {
     case 4: print_asm_template2(sw); break;
     case 2: print_asm_template2(sh); break;
@@ -45,12 +23,16 @@ make_EHelper(st) {
   }
 }
 
-make_EHelper(sh) {
-  rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
-  //printf("sm %x\n",id_dest->val);
+make_EHelper(lh){
+  rtl_lm(&s0,&id_src->addr,2);
+  rtl_sext(&s1,&s0,2);
+  rtl_sr(id_dest->reg,&s1,4);
+  print_asm_template2(lh);
 }
 
-make_EHelper(sb) {
-  rtl_sm(&id_src->addr, &id_dest->val, decinfo.width);
-  //printf("sb %x\n",id_dest->val);
+make_EHelper(lb){
+  rtl_lm(&s0,&id_src->addr,1);
+  rtl_sext(&s1,&s0,1);
+  rtl_sr(id_dest->reg,&s1,4);
+  print_asm_template2(lh);
 }

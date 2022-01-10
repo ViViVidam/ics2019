@@ -6,16 +6,12 @@
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
-  char expr[32];
-  int val_pre;
-  bool valid;
+
   /* TODO: Add more members if necessary */
 
+  char str[32]; //表达式
+  int value; //表达式的值
 
 } WP;
-
-WP* gethead();
-WP* new_wp();
-int free_wp(int);
 
 #endif

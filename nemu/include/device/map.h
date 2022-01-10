@@ -13,7 +13,6 @@ typedef struct {
   paddr_t low;
   paddr_t high;
   uint8_t *space;
-  //use to change the state of device or something else
   io_callback_t callback;
 } IOMap;
 

@@ -51,17 +51,12 @@ typedef union {
 struct ISADecodeInfo {
   Instr instr;
 };
-
 make_DHelper(U);
+make_DHelper(I);
+make_DHelper(J);
+make_DHelper(B);
+make_DHelper(R);
 make_DHelper(ld);
 make_DHelper(st);
-make_DHelper(immediate);
-make_DHelper(auipc);
-make_DHelper(jal);
-make_DHelper(jalr);
-make_DHelper(lui);
-make_DHelper(op);
-make_DHelper(branch);
-make_DHelper(shift);
-make_DHelper(I);
+
 #endif
