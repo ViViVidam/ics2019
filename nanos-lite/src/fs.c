@@ -49,7 +49,6 @@ static Finfo file_table[] __attribute__((used)) = {
 int fs_open(const char *pathname, int flags, int mode){
   printf("%s\n",pathname);
   for(int i=3;i<NR_FILES;i++){
-     printf("%s\n",file_table[i].name);
     if(strcmp(pathname,file_table[i].name)==0){
       //printf("filename %d\n");
       return i;
@@ -76,30 +75,20 @@ int fs_close(int fd){
   return 0;
 }
 size_t fs_write(int fd, const void *buf, size_t len){
-  WriteFn fp = invalid_write;
-  printf("%x %p\n",fp,fp);
   size_t length=0;
-  printf("%x %x\n",file_table[1].write,serial_write);
-  printf("%x %x\n",file_table[0].write,invalid_write);
-  printf("%x %x\n",file_table[0].read,file_table[1].read);
   if(fd==1||fd==2){
-    serial_write("before\n",0,34);
+    serial_write(buf,0,len);
+    length=len;
   }
   if(file_table[fd].open_offset+len>=file_table[fd].size)
     len=file_table[fd].size-file_table[fd].open_offset;
-  if(fd==1||fd==2){
-    serial_write("after\n",0,34);
-  }
-  if(file_table[fd].write==NULL||file_table[fd].write!=invalid_write)
-    length=ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
-  else{
-    if(fd==1)
-      serial_write("111111\n",0,32);
-    else if(fd==2)
-      serial_write("22222\n",0,32);
-    length=file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
-  }
+  if(fd>2){
+    if(file_table[fd].write==NULL)
+      length=ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+    else
+      length=file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
     file_table[fd].open_offset+=length;
+  }
   return length;
 }
 
