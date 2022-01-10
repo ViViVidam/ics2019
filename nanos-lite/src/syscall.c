@@ -19,16 +19,13 @@ _Context* do_syscall(_Context *c) {
       return 0;
     break;
     case SYS_write:
-      //_putc('1');
       res=fs_write(a[1],(void*)a[2],a[3]);
       break;
     case SYS_read:
       res=fs_read(a[1],(void*)a[2],a[3]);
       break;
     case SYS_open:
-     _putc('2');
       res=fs_open((char*)a[1],a[2],a[3]);
-       panic("Unhandled syscall ID = %d", a[0]);
       break;
     case SYS_close:
       res=fs_close(a[1]);
