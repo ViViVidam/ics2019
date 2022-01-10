@@ -77,9 +77,7 @@ int fs_close(int fd){
 }
 size_t fs_write(int fd, const void *buf, size_t len){
   size_t length=0;
-  if(file_table[0].write==&invalid_write){
-    serial_write("yes\n",0,34);
-  }
+  printf("%x %x\n",file_table[0].write,invalid_write);
   if(fd==1||fd==2){
     serial_write("before\n",0,34);
   }
