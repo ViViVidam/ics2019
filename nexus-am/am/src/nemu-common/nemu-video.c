@@ -28,11 +28,11 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
           fb[(ctl->y+j)*W+ctl->x+i]=*(ctl->pixels+j*(ctl->w)+i);
         }
       }
+      inl(SYNC_ADDR);
       if (ctl->sync) {
-        outl(SYNC_ADDR, 0);
+        //outl(SYNC_ADDR, 0);
         printf("%x\n",SYNC_ADDR);
       }
-      //printf("(%d,%d) (%d,%d)\n",ctl->x,ctl->y,ctl->w,ctl->h);
       return size;
     }
   }
