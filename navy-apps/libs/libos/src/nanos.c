@@ -69,8 +69,8 @@ int _write(int fd, void *buf, size_t count) {
   return res;
 }
 void *_sbrk(intptr_t increment) {
-  //sprintf(buffer,"increment %x\n",increment);
-  //_write(1,buffer,32);
+  sprintf(buffer,"sbrk\n");
+  _syscall_(SYS_write,1,buffer,32);
   static void* program_break=(uintptr_t)&_end;
   void* old=program_break;
   int tmp = 0;
@@ -82,9 +82,6 @@ void *_sbrk(intptr_t increment) {
     return(void*)old;
   }
 
-  //sprintf(buffer,"123123123123123123%d\n",tmp);
-  //_syscall_(SYS_write,1,buffer,32);
-  //_syscall_(SYS_write,1,buffer,32);
   return (void *)-1;
 }
 
