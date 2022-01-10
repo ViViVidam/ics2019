@@ -32,7 +32,6 @@ make_EHelper(andi);
 make_EHelper(and);
 make_EHelper(mul);
 make_EHelper(div);
-make_EHelper(divu);
 
 make_EHelper(auipc);
 

@@ -31,8 +31,7 @@ static make_EHelper(immediate){
 /* for add sub and mul */
 static OpcodeEntry extended1 [13]={
   EXW(add,4),EXW(mul,4),EXW(sub,4),EXW(xor,4),EXW(div,4),EXW(or,4),EXW(rem,4),
-  EXW(sll,4),EXW(mulh,4),EXW(srl,4),EXW(sra,4),EXW(and,4),EXW(remu,4),EXW(slt,4),EXW(mulh,4),
-  EXW(divu,4)
+  EXW(sll,4),EXW(mulh,4),EXW(srl,4),EXW(sra,4),EXW(and,4),EXW(remu,4)
 };
 
 static make_EHelper(add_sub_mul){
@@ -56,7 +55,7 @@ static make_EHelper(xor_div){
     decinfo.width = extended1[3].width;
     idex(pc,&extended1[3]);
   }
-  else if(decinfo.isa.instr.funct7==1){
+  else{
     decinfo.width = extended1[4].width;
     idex(pc,&extended1[4]);
   }
@@ -84,7 +83,7 @@ static make_EHelper(sll_mulh){
   }
 }
 
-static make_EHelper(srl_sra_divu){
+static make_EHelper(srl_sra){
   if(decinfo.isa.instr.funct7==0){
     decinfo.width = extended1[9].width;
     idex(pc,&extended1[9]);
@@ -92,10 +91,6 @@ static make_EHelper(srl_sra_divu){
   else if(decinfo.isa.instr.funct7==32){
     decinfo.width = extended1[10].width;
     idex(pc,&extended1[10]);
-  }
-  else if(decinfo.isa.instr.funct7==1){
-    decinfo.width = extended1[13].width;
-    idex(pc,&extended1[13]);
   }
 }
 
@@ -111,7 +106,7 @@ static make_EHelper(and_remu){
 }
 
 static OpcodeEntry op_table [8]={
-  EXW(add_sub_mul,4),EXW(sll_mulh,4),EXW(slt,4),EXW(sltu,4),EXW(xor_div,4),EXW(srl_sra_divu,4),EXW(or_rem,4),EXW(and_remu,4)
+  EXW(add_sub_mul,4),EXW(sll_mulh,4),EXW(slt,4),EXW(sltu,4),EXW(xor_div,4),EXW(srl_sra,4),EXW(or_rem,4),EXW(and_remu,4)
 };
 static make_EHelper(operation){
   decinfo.width = op_table[decinfo.isa.instr.funct3].width;
@@ -139,6 +134,6 @@ static OpcodeEntry opcode_table [32] = {
 void  isa_exec(vaddr_t *pc) {
   decinfo.isa.instr.val = instr_fetch(pc, 4);//val就是得到的地址值
   assert(decinfo.isa.instr.opcode1_0 == 0x3);
-  //printf("%x %x\n",cpu.pc,decinfo.isa.instr.val);
+  //printf("\n%x\n",cpu.pc,decinfo.isa.instr.opcode6_2);
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
