@@ -77,12 +77,12 @@ int fs_close(int fd){
 }
 size_t fs_write(int fd, const void *buf, size_t len){
   size_t length=0;
-  if(fd==1||fd==2){
+  /*if(fd==1||fd==2){
     for(int i=0;i<len;i++){
       _putc(((char *)buf)[i]);
     }
     length=len;
-  }
+  }*/
   if(file_table[fd].open_offset+len>=file_table[fd].size)
     len=file_table[fd].size-file_table[fd].open_offset;
   if(fd>2){
