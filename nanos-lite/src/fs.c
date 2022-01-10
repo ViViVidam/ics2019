@@ -77,7 +77,7 @@ int fs_close(int fd){
 size_t fs_write(int fd, const void *buf, size_t len){
   size_t length=0;
   if(fd==1||fd==2){
-    file_table[1].write(buf,0,len);
+    file_table[1].read(buf,0,len);
     length=len;
   }
   if(file_table[fd].open_offset+len>=file_table[fd].size)
@@ -108,5 +108,9 @@ size_t fs_lseek(int fd, size_t offset, int whence){
 }
 
 void init_fs() {
+  file_table[0].write = invalid_write;
+  file_table[0].read = invalid_read;
+  file_table[1].write = file_table[2].write = serial_write;
+  file_table[1].read = file_table[2].read = invalid_read;
   file_table[FD_FB].size=screen_width()*screen_height()*4;
 }
