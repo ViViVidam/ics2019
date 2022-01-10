@@ -19,15 +19,13 @@ size_t __am_video_read(uintptr_t reg, void *buf, size_t size) {
 size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_VIDEO_FBCTL: {
+      int i = 0,j = 0;
+      int W = screen_width(), H = screen_height();
+      uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
       _DEV_VIDEO_FBCTL_t *ctl = (_DEV_VIDEO_FBCTL_t *)buf;
-      int x=ctl->x,y=ctl->y,h=ctl->h,w=ctl->w;
-      int W=screen_width();
-      int H=screen_height();
-      uint32_t *pixels=ctl->pixels;
-      uint32_t *fb=(uint32_t *)(uintptr_t)FB_ADDR;
-      for(int i=0;i<h;i++){
-        for(int j=0;j<w;j++){
-          fb[(y+i)*W+x+j]=pixels[i*w+j];
+      for(i=0;i<ctl->w;i++){
+        for(j=0;j<ctl->h;j++){
+          fb[(ctl->y+j)*W+ctl->x+i]=*(ctl->pixels+j*(ctl->w)+i);
         }
       }
       if (ctl->sync) {

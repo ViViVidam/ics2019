@@ -15,7 +15,6 @@ typedef struct {
   rtlreg_t sstatus;
   rtlreg_t scause;
   rtlreg_t stvec;
-  //加入寄存器
 } CPU_state;
 
 static inline int check_reg_index(int index) {
