@@ -4,6 +4,7 @@
 int main() {
   printf("phase 0\n");
   FILE *fp = fopen("/share/texts/num", "r+");
+  printf("%d\n",fp);
   assert(fp);
   printf("phase 1\n");
   fseek(fp, 0, SEEK_END);
