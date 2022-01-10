@@ -60,14 +60,10 @@ void _exit(int status) {
 
 int _open(const char *path, int flags, mode_t mode) {
   int res=_syscall_(SYS_open,(uintptr_t)path,flags,mode);
-  sprintf(buffer,"open\n");
-  _syscall_(SYS_write,1,buffer,32);
   return res;
 }
 
 int _write(int fd, void *buf, size_t count) {
-  //sprintf(buffer,"write\n");
-  //_syscall_(SYS_write,1,buffer,32);
   int res=_syscall_(SYS_write,fd,(intptr_t)buf,count);
   return res;
 }
@@ -77,8 +73,6 @@ void *_sbrk(intptr_t increment) {
   void* old=program_break;
   int tmp = 0;
   tmp = _syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0);
-  //sprintf(buffer,"sbrk %x %x %x\n",old,program_break,increment);
-  //_syscall_(SYS_write,1,buffer,32);
   if(tmp==0){
     program_break+=increment;
     //sprintf(buffer,"increment ending %x\n", program_break - old);
@@ -91,21 +85,15 @@ void *_sbrk(intptr_t increment) {
 
 int _read(int fd, void *buf, size_t count) {
   int res=_syscall_(SYS_read,fd,(uintptr_t)buf,count);
-  sprintf(buffer,"read\n");
-  _syscall_(SYS_write,1,buffer,32);
   return res;
 }
 
 int _close(int fd) {
   int res=_syscall_(SYS_close,fd,0,0);
-  sprintf(buffer,"close\n");
-  _syscall_(SYS_write,1,buffer,32);
   return res;
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
-  sprintf(buffer,"lseek\n");
-  _syscall_(SYS_write,1,buffer,32);
   off_t res=_syscall_(SYS_lseek,fd,offset,whence);
   return res;
 }
