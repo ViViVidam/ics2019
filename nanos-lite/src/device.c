@@ -50,7 +50,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
     if(len==0)
       break;
   }
-  printf("%d %d\n",len,i);
+  printf("asd%d %d\n",len,i);
   return i;
 }
 

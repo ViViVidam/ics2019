@@ -75,7 +75,7 @@ int fs_close(int fd){
   return 0;
 }
 size_t fs_write(int fd, const void *buf, size_t len){
-  printf("%d\n",fd);
+  //printf("%d\n",fd);
   size_t length=0;
   if(fd==1||fd==2){
     file_table[1].write(buf,0,len);
