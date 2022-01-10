@@ -19,6 +19,7 @@ size_t __am_video_read(uintptr_t reg, void *buf, size_t size) {
 size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_VIDEO_FBCTL: {
+      printf("writing %d",size);
       int i = 0,j = 0;
       int W = screen_width(), H = screen_height();
       uint32_t *fb = (uint32_t *)(uintptr_t)FB_ADDR;
@@ -31,7 +32,7 @@ size_t __am_video_write(uintptr_t reg, void *buf, size_t size) {
       if (ctl->sync) {
         outl(SYNC_ADDR, 0);
       }
-      //printf("(%d,%d) (%d,%d)\n",ctl->x,ctl->y,ctl->w,ctl->h);
+      printf("done\n");
       return size;
     }
   }
