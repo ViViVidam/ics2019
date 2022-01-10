@@ -76,19 +76,17 @@ int fs_close(int fd){
 }
 size_t fs_write(int fd, const void *buf, size_t len){
   size_t length=0;
-  if(fd==1||fd==2){
+  /*if(fd==1||fd==2){
     file_table[1].write(buf,0,len);
     length=len;
-  }
+  }*/
   if(file_table[fd].open_offset+len>=file_table[fd].size)
     len=file_table[fd].size-file_table[fd].open_offset;
-  if(fd>2){
-    if(file_table[fd].write==NULL)
-      length=ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
-    else
-      length=file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  if(file_table[fd].write==NULL)
+    length=ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
+  else if(file_table[fd].write!=invalid_write)
+    length=file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
     file_table[fd].open_offset+=length;
-  }
   return length;
 }
 
