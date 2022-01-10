@@ -42,6 +42,7 @@
 extern char _end;
 char buffer[64]="1hjkbhjkbvhjkbhjkbh\n";
 static intptr_t* program_break;
+
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
@@ -71,7 +72,8 @@ int _write(int fd, void *buf, size_t count) {
   return res;
 }
 void *_sbrk(intptr_t increment) {
-  static void* program_break=(uintptr_t)&_end;
+  if(!program_break)
+    program_break=(uintptr_t)&_end;
   void* old=program_break;
   int tmp = 0;
   tmp = _syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0);
