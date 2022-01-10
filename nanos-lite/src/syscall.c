@@ -26,8 +26,8 @@ _Context* do_syscall(_Context *c) {
       res=fs_read(a[1],(void*)a[2],a[3]);
       break;
     case SYS_open:
+     _putc('2');
       res=fs_open((char*)a[1],a[2],a[3]);
-      //_putc('2');
       break;
     case SYS_close:
       res=fs_close(a[1]);
