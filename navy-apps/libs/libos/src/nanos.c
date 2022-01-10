@@ -90,6 +90,8 @@ void *_sbrk(intptr_t increment) {
 
 int _read(int fd, void *buf, size_t count) {
   int res=_syscall_(SYS_read,fd,(uintptr_t)buf,count);
+  sprintf(buffer,"234234234234%x\n",res);
+  _syscall_(SYS_write,1,buffer,32);
   return res;
 }
 
