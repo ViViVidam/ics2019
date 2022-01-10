@@ -76,6 +76,8 @@ int fs_close(int fd){
   return 0;
 }
 size_t fs_write(int fd, const void *buf, size_t len){
+  WriteFn fp = invalid_write;
+  printf("%x %p\n",fp,fp);
   size_t length=0;
   printf("%x %x\n",file_table[1].write,serial_write);
   printf("%x %x\n",file_table[0].write,invalid_write);
