@@ -52,7 +52,7 @@ void init_vga() {
   sync_port_base = (void *)new_space(8);
   sync_port_base[0] = 0x111;
   add_pio_map("screen", SCREEN_PORT, (void *)screensize_port_base, 8, vga_io_handler);
-  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 8, vga_io_handler);
+  add_mmio_map("screen", SCREEN_MMIO, (void *)screensize_port_base, 8, NULL);
   add_pio_map("sync", SYNC_PORT, (void *)sync_port_base, 8, vga_io_handler);
   add_mmio_map("sync", SYNC_MMIO, (void *)sync_port_base, 8, vga_io_handler);
 
