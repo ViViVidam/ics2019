@@ -18,31 +18,63 @@ make_EHelper(jalr){
 }
 
 make_EHelper(beq){
-  rtl_jrelop(RELOP_EQ,&id_src->val,&id_src2->val,decinfo.jmp_pc);
-  print_asm_template2(beq);
+  if(id_src->val == id_src2->val){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    //printf("beq %d %d pc:%x\n",id_src->val,id_src2->val,cpu.pc);
+  }
+    //printf("beq no jump"); 
 }
 
 make_EHelper(bne){
-  rtl_jrelop(RELOP_NE,&id_src->val,&id_src2->val,decinfo.jmp_pc);
-  print_asm_template2(bne);
+  if(id_src->val != id_src2->val){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    //printf("bne pc:%x\n",cpu.pc);
+  }
+    //printf("bne no jump"); 
 }
 
 make_EHelper(blt){
-  rtl_jrelop(RELOP_LT,&id_src->val,&id_src2->val,decinfo.jmp_pc);
-  print_asm_template2(blt);
+  int32_t val1 = id_src->val;
+  int32_t val2 = id_src2->val;
+  if(val1 < val2){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    //printf("blt pc:%x\n",cpu.pc);
+  }
+    //printf("blt no jump"); 
 }
 
 make_EHelper(bge){
-  rtl_jrelop(RELOP_GE,&id_src->val,&id_src2->val,decinfo.jmp_pc);
-  print_asm_template2(bge);
+  int32_t val1 = id_src->val;
+  int32_t val2 = id_src2->val;
+  if(val1 > val2 || val1 == val2){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    //printf("bge pc:%x\n",cpu.pc);
+  }
+    //printf("bge no jump"); 
 }
 
 make_EHelper(bltu){
-  rtl_jrelop(RELOP_LTU,&id_src->val,&id_src2->val,decinfo.jmp_pc);
-  print_asm_template2(bltu);
+  uint32_t val1 = id_src->val;
+  uint32_t val2 = id_src2->val;
+  if(val1 < val2){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    //printf("blt pc:%x\n",cpu.pc);
+  }
+    //printf("blt no jump"); 
 }
 
 make_EHelper(bgeu){
-  rtl_jrelop(RELOP_GEU,&id_src->val,&id_src2->val,decinfo.jmp_pc);
-  print_asm_template2(bgeu);
+  uint32_t val1 = id_src->val;
+  uint32_t val2 = id_src2->val;
+  if(val1 > val2 || val1 == val2){
+    cpu.pc += id_dest->val;
+    decinfo.is_jmp = true;
+    //printf("bge pc:%x\n",cpu.pc);
+  }
+    //printf("bge no jump"); 
 }

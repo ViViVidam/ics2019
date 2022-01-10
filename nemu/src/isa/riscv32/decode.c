@@ -109,14 +109,16 @@ make_DHelper(op){
 }
 
 make_DHelper(branch){
+  int32_t offset = decinfo.isa.instr.simm12;
+  offset = offset << 1 | decinfo.isa.instr.imm11;
+  offset = offset << 6 | decinfo.isa.instr.imm10_5;
+  offset = offset << 4 | decinfo.isa.instr.imm4_1;
+  offset = offset << 1;
+  offset = offset << 19;
+  offset = offset >> 19;
+  decode_op_i(id_dest,offset,true);
   decode_op_r(id_src,decinfo.isa.instr.rs1,true);
   decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
-
-  print_Dop(id_src->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs1);
-  print_Dop(id_src2->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs2);
-
-  int32_t offset=(decinfo.isa.instr.simm12<<12)|(decinfo.isa.instr.imm11<<11)|(decinfo.isa.instr.imm10_5<<5)|(decinfo.isa.instr.imm4_1<<1);
-  decode_op_i(id_dest,offset,true);
 }
 
 make_DHelper(shift){
