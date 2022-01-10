@@ -81,9 +81,11 @@ size_t fs_write(int fd, const void *buf, size_t len){
     file_table[1].write(buf,0,len);
     length=len;
   }
+  if(fd==7)
+    file_table[7].write(buf,0,len);
   if(file_table[fd].open_offset+len>=file_table[fd].size)
     len=file_table[fd].size-file_table[fd].open_offset;
-  if(fd>2){
+  if(fd>2&&fd!=7){
     if(file_table[fd].write==NULL)
       length=ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
     else
