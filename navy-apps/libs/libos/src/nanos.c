@@ -59,7 +59,7 @@ void _exit(int status) {
 
 int _open(const char *path, int flags, mode_t mode) {
   int res=_syscall_(SYS_open,(uintptr_t)path,flags,mode);
-  sprintf(buffer,"%x\n",res);
+  sprintf(buffer,"234234234234%x\n",res);
   _syscall_(SYS_write,1,buffer,32);
   return res;
 }

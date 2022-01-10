@@ -28,6 +28,7 @@ _Context* do_syscall(_Context *c) {
     case SYS_open:
      _putc('2');
       res=fs_open((char*)a[1],a[2],a[3]);
+       panic("Unhandled syscall ID = %d", a[0]);
       break;
     case SYS_close:
       res=fs_close(a[1]);
