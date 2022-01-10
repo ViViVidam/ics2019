@@ -60,9 +60,20 @@ _sbrk_r (struct _reent *ptr,
   		_putc('c');
   		_putc('c');
   		_putc('c');
-  		_putc('c');
+  		_putc('a');
   		ptr->_errno = errno;
 	}
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
+	_putc('a');
   return ret;
 }
 
