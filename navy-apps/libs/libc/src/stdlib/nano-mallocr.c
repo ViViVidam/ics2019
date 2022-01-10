@@ -209,7 +209,7 @@ static void* sbrk_aligned(RARG malloc_size_t s)
     if (sbrk_start == NULL) sbrk_start = _SBRK_R(RCALL 0);
 
     p = _SBRK_R(RCALL s);
-    Log("111111")\n
+
     /* sbrk returns -1 if fail to allocate */
     if (p == (void *)-1)
         return p;
