@@ -58,6 +58,15 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
+  _putc('1');
+  _putc('1');
+  _putc('1');
+  _putc('1');
+  _putc('1');
+  _putc('1');
+  _putc('1');
+  _putc('1');
+  _putc('\n');
   int res=_syscall_(SYS_open,(uintptr_t)path,flags,mode);
   return res;
 }
