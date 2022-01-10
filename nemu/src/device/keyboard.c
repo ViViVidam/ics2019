@@ -42,6 +42,7 @@ void send_key(uint8_t scancode, bool is_keydown) {
     uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);
     key_queue[key_r] = am_scancode;
     key_r = (key_r + 1) % KEY_QUEUE_LEN;
+    //printf("key send%d\n",am_scancode);
     Assert(key_r != key_f, "key queue overflow!");
   }
 }
@@ -49,11 +50,14 @@ void send_key(uint8_t scancode, bool is_keydown) {
 static void i8042_data_io_handler(uint32_t offset, int len, bool is_write) {
   assert(!is_write);
   assert(offset == 0);
+  //printf("call back\n");
   if (key_f != key_r) {
     i8042_data_port_base[0] = key_queue[key_f];
+    //printf("%d \n",i8042_data_port_base[0]);
     key_f = (key_f + 1) % KEY_QUEUE_LEN;
   }
   else {
+    //printf("key none\n");
     i8042_data_port_base[0] = _KEY_NONE;
   }
 }

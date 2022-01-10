@@ -1,7 +1,7 @@
 #include "nemu.h"
 #include "monitor/monitor.h"
 #include "monitor/watchpoint.h"
-
+#include "monitor/expr.h"
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
  * This is useful when you use the `si' command.
@@ -11,9 +11,6 @@
 
 /* restrict the size of log file */
 #define LOG_MAX (1024 * 1024)
-
-uint32_t expr(char *e, bool *success);
-WP* get_head();
 
 NEMUState nemu_state = {.state = NEMU_STOP};
 
@@ -34,6 +31,8 @@ void monitor_statistic(void) {
 
 /* Simulate how the CPU works. */
 void cpu_exec(uint64_t n) {
+  WP* head = gethead();
+
   switch (nemu_state.state) {
     case NEMU_END: case NEMU_ABORT:
       printf("Program execution has ended. To restart the program, exit NEMU and run again.\n");
@@ -48,45 +47,54 @@ void cpu_exec(uint64_t n) {
      * instruction decode, and the actual execution. */
     __attribute__((unused)) vaddr_t seq_pc = exec_once();
 
-#if defined(DIFF_TEST)
-  difftest_step(ori_pc, cpu.pc);
-#endif
+    #if defined(DIFF_TEST)
+      difftest_step(ori_pc, cpu.pc);
+    #endif
 
-#ifdef DEBUG
-  if (g_nr_guest_instr < LOG_MAX) {
-    asm_print(ori_pc, seq_pc - ori_pc, n < MAX_INSTR_TO_PRINT);
-  }
-  else if (g_nr_guest_instr == LOG_MAX) {
-    log_write("\n[Warning] To restrict the size of log file, "
-              "we do not record more instruction trace beyond this point.\n"
-              "To capture more trace, you can modify the LOG_MAX macro in %s\n\n", __FILE__);
-  }
-  log_clearbuf();
+    #ifdef DEBUG
+      if (g_nr_guest_instr < LOG_MAX) {
+        asm_print(ori_pc, seq_pc - ori_pc, n < MAX_INSTR_TO_PRINT);
+      }
+      else if (g_nr_guest_instr == LOG_MAX) {
+        log_write("\n[Warning] To restrict the size of log file, "
+                  "we do not record more instruction trace beyond this point.\n"
+                  "To capture more trace, you can modify the LOG_MAX macro in %s\n\n", __FILE__);
+      }
+      log_clearbuf();
 
-    /* TODO: check watchpoints here. */
 
-  bool flag = false, success = true;
-  WP *temp=get_head();
-  for(;temp!=NULL;temp=temp->next){
-    uint32_t res=expr(temp->str, &success);
-    if(res!=temp->value){
-      flag=true;
-      temp->value=res;
-    }
-  }
-  if(flag){
-    printf("watchpoint:Status Changed\n");
-    nemu_state.state=NEMU_STOP;
-  }
+        /* TODO: check watchpoints here. */
+      if(head){
+        WP* tmp = head;
+        bool success = false;
+        int res = 0;
+        while(tmp){
+          res = expr(tmp->expr,&success);
+          if(success){
+            if(tmp->valid && res!=tmp->val_pre){
+              nemu_state.state = NEMU_STOP;
+              printf("value changed %s\n previous val:%d\npresent val:%d\n",tmp->expr,tmp->val_pre,res);
+              tmp->val_pre = res;
+            }
+            else if(!tmp->valid){
+              tmp->valid = true;
+              tmp->val_pre = res;
+            }
+          }
+          else{
+            printf("having trouble with watchpoint expression: %s\n skip the watchpoint automatically\n",tmp->expr);
+          }
+          tmp = tmp->next;
+        }
+      }
+    #endif
 
-#endif
+      g_nr_guest_instr ++;
 
-  g_nr_guest_instr ++;
-
-#ifdef HAS_IOE
-    extern void device_update();
-    device_update();
-#endif
+    #ifdef HAS_IOE
+        extern void device_update();
+        device_update();
+    #endif
 
     if (nemu_state.state != NEMU_RUNNING) break;
   }
