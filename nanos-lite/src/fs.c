@@ -78,7 +78,7 @@ int fs_close(int fd){
 size_t fs_write(int fd, const void *buf, size_t len){
   size_t length=0;
   if(fd==1||fd==2){
-    serial_write(buf,0,len);
+    serial_write("123123123\n",0,len);
   }
   if(file_table[fd].open_offset+len>=file_table[fd].size)
     len=file_table[fd].size-file_table[fd].open_offset;
@@ -86,7 +86,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
     length=ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   else{
     if(fd==1)
-    serial_write("111111\n",0,32);
+      serial_write("111111\n",0,32);
     else if(fd==2)
       serial_write("22222\n",0,32);
     length=file_table[fd].write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
