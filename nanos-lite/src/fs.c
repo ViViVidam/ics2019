@@ -77,7 +77,7 @@ int fs_close(int fd){
 size_t fs_write(int fd, const void *buf, size_t len){
   size_t length=0;
   if(fd==1||fd==2){
-    serial_write(buf,0,len);
+    file_table[1].write(buf,0,len);
     length=len;
   }
   if(file_table[fd].open_offset+len>=file_table[fd].size)
