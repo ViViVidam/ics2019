@@ -85,7 +85,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   if(fd==1||fd==2){
     serial_write("after\n",0,34);
   }
-  if(file_table[fd].write==NULL)
+  if(file_table[fd].write==NULL||file_table[fd].write!=&invalid_write)
     length=ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, len);
   else{
     if(fd==1)
