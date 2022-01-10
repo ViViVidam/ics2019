@@ -41,7 +41,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
 static char dispinfo[128] __attribute__((used)) = {};
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
-  //len=sprintf(buf,dispinfo+offset);
+  len=sprintf(buf,dispinfo+offset);
   char* buffer = (char*) buf;
   int i =0;
   for(i=0;i<len;i++){
@@ -50,6 +50,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
     if(len==0)
       break;
   }
+  printf("%d %d\n",len,i);
   return i;
 }
 
