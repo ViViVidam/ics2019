@@ -42,8 +42,8 @@ static char dispinfo[128] __attribute__((used)) = {};
 
 size_t dispinfo_read(void *buf, size_t offset, size_t len) {
   char* buffer = (char*) buf;
-  int i = 0;
-  while(len--&&dispinfo[i]!='\0'){
+  int i = offset;
+  while(dispinfo[i]!='\0'&&len--){
     buffer[i]=dispinfo[i];
     i++;
   }
