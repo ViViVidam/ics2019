@@ -59,12 +59,14 @@ void _exit(int status) {
 
 int _open(const char *path, int flags, mode_t mode) {
   int res=_syscall_(SYS_open,(uintptr_t)path,flags,mode);
-  sprintf(buffer,"234234234234%x\n",res);
+  sprintf(buffer,"open\n");
   _syscall_(SYS_write,1,buffer,32);
   return res;
 }
 
 int _write(int fd, void *buf, size_t count) {
+  sprintf(buffer,"write\n");
+  _syscall_(SYS_write,1,buffer,32);
   int res=_syscall_(SYS_write,fd,(intptr_t)buf,count);
   return res;
 }
@@ -87,17 +89,21 @@ void *_sbrk(intptr_t increment) {
 
 int _read(int fd, void *buf, size_t count) {
   int res=_syscall_(SYS_read,fd,(uintptr_t)buf,count);
-  sprintf(buffer,"234234234234%x\n",res);
+  sprintf(buffer,"read\n");
   _syscall_(SYS_write,1,buffer,32);
   return res;
 }
 
 int _close(int fd) {
   int res=_syscall_(SYS_close,fd,0,0);
+  sprintf(buffer,"close\n");
+  _syscall_(SYS_write,1,buffer,32);
   return res;
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
+  sprintf(buffer,"lseek\n");
+  _syscall_(SYS_write,1,buffer,32);
   off_t res=_syscall_(SYS_lseek,fd,offset,whence);
   return res;
 }
