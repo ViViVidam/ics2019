@@ -9,6 +9,7 @@ _Context* do_syscall(_Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
   int res=0;
+  panic("Unhandled syscall ID = %d", a[0]);
   switch (a[0]) {
     case SYS_exit:
       _halt(a[1]);
