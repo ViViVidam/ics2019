@@ -4,18 +4,14 @@
 // decode operand helper
 #define make_DopHelper(name) void concat(decode_op_, name) (Operand *op, uint32_t val, bool load_val)
 
-//是否要读取地址的值
 static inline make_DopHelper(i) {
   op->type = OP_TYPE_IMM;
   op->imm = val;
-  if(load_val){
-    rtl_li(&op->val, op->imm);
-  }
+  rtl_li(&op->val, op->imm);
 
   print_Dop(op->str, OP_STR_SIZE, "%d", op->imm);
 }
 
-//是否要从寄存器中读取值
 static inline make_DopHelper(r) {
   op->type = OP_TYPE_REG;
   op->reg = val;
@@ -33,7 +29,46 @@ make_DHelper(U) {
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.imm31_12);
 }
 
-//每个decode helper的任务就是填满src,src2以及dest
+make_DHelper(I){
+  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
+  decode_op_i(id_src2,decinfo.isa.instr.simm11_0,true);
+
+  print_Dop(id_src->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs1);
+  print_Dop(id_src2->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.simm11_0);
+
+  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
+}
+
+make_DHelper(J){
+  int32_t offset=(decinfo.isa.instr.simm20<<20)|(decinfo.isa.instr.imm19_12<<12)|(decinfo.isa.instr.imm11_<<11)|(decinfo.isa.instr.imm10_1<<1);
+  decode_op_i(id_src,offset,true);
+
+  print_Dop(id_src->str,OP_STR_SIZE,"0x%x",offset);
+
+  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
+}
+
+make_DHelper(B){
+  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
+  decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
+
+  print_Dop(id_src->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs1);
+  print_Dop(id_src2->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs2);
+
+  int32_t offset=(decinfo.isa.instr.simm12<<12)|(decinfo.isa.instr.imm11<<11)|(decinfo.isa.instr.imm10_5<<5)|(decinfo.isa.instr.imm4_1<<1);
+  decode_op_i(id_dest,offset,true);
+}
+
+make_DHelper(R){
+  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
+  decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
+
+  print_Dop(id_src->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs1);
+  print_Dop(id_src2->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs2);
+
+  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
+}
+
 make_DHelper(ld) {
   decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   decode_op_i(id_src2, decinfo.isa.instr.simm11_0, true);
@@ -46,9 +81,7 @@ make_DHelper(ld) {
 }
 
 make_DHelper(st) {
-  //rs1+simm = address
-  //*address -> rd
-  decode_op_r(id_src, decinfo.isa.instr.rs1, true);//rs1
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
   int32_t simm = (decinfo.isa.instr.simm11_5 << 5) | decinfo.isa.instr.imm4_0;
   decode_op_i(id_src2, simm, true);
 
@@ -57,82 +90,4 @@ make_DHelper(st) {
   rtl_add(&id_src->addr, &id_src->val, &id_src2->val);
 
   decode_op_r(id_dest, decinfo.isa.instr.rs2, true);
-}
-
-make_DHelper(jal){
-  int32_t offset = decinfo.isa.instr.simm20;
-  offset = (offset << 8) | decinfo.isa.instr.imm19_12;
-  offset = (offset << 1) | decinfo.isa.instr.imm11_;
-  offset = (offset << 10)| decinfo.isa.instr.imm10_1;
-  offset = offset << 1;
-  offset = offset << 11;
-  offset = offset >> 11;
-  //printf("%x\n",offset);
-  decinfo.is_jmp  =true;
-  decode_op_i(id_src,offset,true);
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-}
-
-make_DHelper(auipc){
-  uint32_t offset = decinfo.isa.instr.imm31_12;
-  offset = offset << 12;
-  decode_op_i(id_src,offset,true);
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-}
-
-make_DHelper(lui){
-  uint32_t offset = decinfo.isa.instr.imm31_12;
-  offset = offset << 12;
-  decode_op_i(id_src,offset,true);
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-}
-
-make_DHelper(immediate){
-  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
-  decode_op_i(id_src2,decinfo.isa.instr.simm11_0,true);
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-  //print_Dop(id_src->str,OP_STR_SIZE,"0x%x",defin)
-}
-
-make_DHelper(jalr){
-  decinfo.is_jmp = true;
-  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
-  decode_op_i(id_src2,decinfo.isa.instr.simm11_0,true);
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-}
-
-make_DHelper(op){
-  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
-  decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-  //printf("decode ok\n");
-}
-
-make_DHelper(branch){
-  int32_t offset = decinfo.isa.instr.simm12;
-  offset = offset << 1 | decinfo.isa.instr.imm11;
-  offset = offset << 6 | decinfo.isa.instr.imm10_5;
-  offset = offset << 4 | decinfo.isa.instr.imm4_1;
-  offset = offset << 1;
-  offset = offset << 19;
-  offset = offset >> 19;
-  decode_op_i(id_dest,offset,true);
-  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
-  decode_op_r(id_src2,decinfo.isa.instr.rs2,true);
-}
-
-make_DHelper(shift){
-  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
-  decode_op_r(id_src2,decinfo.isa.instr.rs2,false);
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
-}
-
-make_DHelper(I){
-  decode_op_r(id_src,decinfo.isa.instr.rs1,true);
-  decode_op_i(id_src2,decinfo.isa.instr.simm11_0,true);
-
-  print_Dop(id_src->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.rs1);
-  print_Dop(id_src2->str,OP_STR_SIZE,"0x%x",decinfo.isa.instr.simm11_0);
-
-  decode_op_r(id_dest,decinfo.isa.instr.rd,false);
 }
