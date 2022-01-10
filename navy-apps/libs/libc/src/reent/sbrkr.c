@@ -50,30 +50,8 @@ _sbrk_r (struct _reent *ptr,
   errno = 0;
   if ((ret = (char *)(_sbrk (incr))) == (void *) -1 && errno != 0)
   	{  
-  		_putc('1');
-  		_putc('c');
-  		_putc('c');
-  		_putc('c');
-  		_putc('c');
-  		_putc('c');
-  		_putc('c');
-  		_putc('c');
-  		_putc('c');
-  		_putc('c');
-  		_putc('a');
   		ptr->_errno = errno;
 	}
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
-	_putc('a');
   return ret;
 }
 
