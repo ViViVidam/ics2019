@@ -79,7 +79,7 @@ size_t fs_write(int fd, const void *buf, size_t len){
   size_t length=0;
   printf("%x %x\n",&(file_table[1].write),serial_write);
   printf("%x %x\n",&(file_table[0].write),&(invalid_write));
-  printf("%x %x\n",&(file_table[0].read),&(file_table[1].read));
+  printf("%x %x\n",file_table[0].read,file_table[1].read);
   if(fd==1||fd==2){
     serial_write("before\n",0,34);
   }
