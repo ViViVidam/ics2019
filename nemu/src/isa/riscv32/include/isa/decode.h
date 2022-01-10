@@ -64,4 +64,7 @@ make_DHelper(op);
 make_DHelper(branch);
 make_DHelper(shift);
 make_DHelper(I);
+make_DHelper(B);
+make_DHelper(J);
+make_DHelper(R);
 #endif

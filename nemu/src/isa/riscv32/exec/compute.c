@@ -6,190 +6,158 @@ make_EHelper(lui) {
   print_asm_template2(lui);
 }
 
-make_EHelper(auipc) {
-  int tmp = cpu.pc + id_src->val;
-  //printf("auipc %x %x %x\n",id_dest->val,cpu.pc,tmp);
-  rtl_sr(id_dest->reg,&tmp,4);
-}
-
-make_EHelper(addi){
-  uint32_t tmp = 0;
-  rtl_add(&id_dest->val,&id_src->val,&id_src2->val);
+make_EHelper(auipc){
+  rtl_add(&id_dest->val,&cpu.pc,&id_src->val);
   rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("addi %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
+
+  print_asm_template2(auipc);
 }
 
-make_EHelper(sltiu){
-  uint32_t val1 = id_src->val;
-  uint32_t val2 = id_src2->val;
-  if(val1<val2){
-    id_dest->val = 1;
+make_EHelper(imm){
+  switch(decinfo.isa.instr.funct3){
+    case 0: //addi
+      rtl_add(&id_dest->val,&id_src->val,&id_src2->val);
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template2(addi);
+      break;
+    case 1: //slli
+      rtl_shl(&id_dest->val,&id_src->val,&id_src2->reg);
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template2(slli);
+      break;
+    case 2: //slti
+      id_dest->val=(signed)id_src->val<(signed)id_src2->val;
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template2(slti);
+      break;
+    case 3: //sltiu
+      id_dest->val=(unsigned)id_src->val<(unsigned)id_src2->val;
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template2(sltiu);
+      break;
+    case 4: //xori
+      rtl_xor(&id_dest->val,&id_src->val,&id_src2->val);
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template2(xori);
+      break;
+    case 5: //srli&&srai
+      if(decinfo.isa.instr.funct7==0b0000000){ //srli
+        rtl_shr(&id_dest->val,&id_src->val,&id_src2->reg);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template2(srli);
+      }
+      else if(decinfo.isa.instr.funct7==0b0100000){ //srai
+        rtl_sar(&id_dest->val,&id_src->val,&id_src2->reg);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template2(srai);
+      }
+      break;
+    case 6: //ori
+      rtl_or(&id_dest->val,&id_src->val,&id_src2->val);
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template2(ori);
+      break;
+    case 7: //andi
+      rtl_and(&id_dest->val,&id_src->val,&id_src2->val);
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template2(andi);
+      break;
   }
-  else{
-    id_dest->val = 0;
+}
+
+make_EHelper(reg){
+  switch(decinfo.isa.instr.funct3){
+    case 0: //add&&sub&&mul
+      if(decinfo.isa.instr.funct7==0b0000000){ //add
+        rtl_add(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(add);
+      }
+      else if(decinfo.isa.instr.funct7==0b0100000){ //sub
+        rtl_sub(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(sub);
+      }
+      else if(decinfo.isa.instr.funct7==0b0000001){ //mul
+        rtl_imul_lo(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(mul);
+      }
+      break;
+    case 1: //sll&&mulh
+      if(decinfo.isa.instr.funct7==0b0000000){ //sll
+        rtl_shl(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(sll); 
+      }
+      else if(decinfo.isa.instr.funct7==0b0000001){ //mulh
+        rtl_imul_hi(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(mulh);
+      }
+      break;
+    case 2: //slt
+      id_dest->val=(signed)id_src->val<(signed)id_src2->val;
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template3(slt);
+      break;
+    case 3: //sltu
+      id_dest->val=(unsigned)id_src->val<(unsigned)id_src2->val;
+      rtl_sr(id_dest->reg,&id_dest->val,4);
+      print_asm_template3(sltu);
+      break;
+    case 4: //xor&&div
+      if(decinfo.isa.instr.funct7==0b0000000){ //xor
+        rtl_xor(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(xor);
+      }
+      else if(decinfo.isa.instr.funct7==0b0000001){ //div
+        rtl_idiv_q(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(div);
+      }
+      break;
+    case 5: //srl&&sra&&divu
+      if(decinfo.isa.instr.funct7==0b0000000){ //srl
+        rtl_shr(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template2(srl);
+      }
+      else if(decinfo.isa.instr.funct7==0b0100000){ //sra
+        rtl_sar(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template2(sra);
+      }
+      else if(decinfo.isa.instr.funct7==0b0000001){ //divu
+        rtl_div_q(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(divu);
+      }
+      break;
+    case 6: //or&&rem
+      if(decinfo.isa.instr.funct7==0b0000000){ //or
+        rtl_or(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(or);
+      }
+      else if(decinfo.isa.instr.funct7==0b0000001){ //rem
+        rtl_idiv_r(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(rem);
+      }
+      break;
+    case 7: //and&&remu 
+      if(decinfo.isa.instr.funct7==0b0000000){ //and
+        rtl_and(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(and);
+      }
+      else if(decinfo.isa.instr.funct7==0b0000001){ //remu
+        rtl_div_r(&id_dest->val,&id_src->val,&id_src2->val);
+        rtl_sr(id_dest->reg,&id_dest->val,4);
+        print_asm_template3(remu);
+      }
+      break;
   }
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("sltiu %d %x %x\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(slt){
-  int32_t rs1 = id_src->val;
-  int32_t rs2 = id_src2->val;
-  if(rs1<rs2){
-    id_dest->val = 1;
-  }
-  else{
-    id_dest->val = 0;
-  }
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("slt %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(sltu){
-  uint32_t rs1 = id_src->val;
-  uint32_t rs2 = id_src2->val;
-  if(rs1<rs2){
-    id_dest->val = 1;
-  }
-  else{
-    id_dest->val = 0;
-  }
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("sltu %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(xor){
-  rtl_xor(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("xor %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(xori){
-  rtl_xor(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("xori %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(ori){
-  rtl_or(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("ori %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(or){
-  rtl_or(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("or %x %x %x\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(add){
-  rtl_add(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("add %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(sub){
-  rtl_sub(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("sub %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(sri){
-  if(decinfo.isa.instr.funct7>>5){
-    int32_t tmp = id_src->val;
-    tmp = tmp >> id_src2->reg;
-    rtl_sr(id_dest->reg,&tmp,4);
-  }
-  else{
-    uint32_t tmp = id_src->val;
-    tmp = tmp >> id_src2->reg;
-    rtl_sr(id_dest->reg,&tmp,4);
-  }
-  //printf("sri %x %x %d\n",id_dest->val,id_src->val,id_src2->reg);
-}
-
-make_EHelper(slli){
-  uint32_t tmp = id_src->val;
-  tmp = tmp << id_src2->reg;
-  rtl_sr(id_dest->reg,&tmp,4);
-  //printf("slli %x %x %d\n",id_dest->val,id_src->val,id_src2->reg);
-}
-
-make_EHelper(sll) {
-  int32_t tmp = id_src->val;
-  tmp = tmp << id_src2->val;
-  rtl_sr(id_dest->reg,&tmp,4);
-  //printf("sll %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(andi){
-  rtl_and(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("andi %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(and){
-  rtl_and(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("and %x %x %d\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(mul){
-  rtl_mul_lo(&id_dest->val,&id_src->val,&id_src2->val);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("mult %x %d %d\n",id_dest->val,id_src->val,id_src2->val);
-}
-
-make_EHelper(div){
-  int32_t val1 = id_src->val;
-  int32_t val2 = id_src2->val;
-  //printf("%d\n",val1/val2);
-  rtl_div_q(&id_dest->val,&val1,&val2);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("div %d %d %d\n",id_dest->val,val1,val2);
-}
-
-
-make_EHelper(rem){
-  int32_t val1 = id_src->val;
-  int32_t val2 = id_src2->val;
-  rtl_div_r(&id_dest->val,&val1,&val2);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("rem %d %d %d\n",id_dest->val,val1,val2);
-}
-
-make_EHelper(remu){
-  uint32_t val1 = id_src->val;
-  uint32_t val2 = id_src2->val;
-  rtl_div_r(&id_dest->val,&val1,&val2);
-  rtl_sr(id_dest->reg,&id_dest->val,4);
-  //printf("rem %d %d %d\n",id_dest->val,val1,val2);
-}
-
-make_EHelper(mulh){
-  int64_t val1 = id_src->val;
-  int64_t val2 = id_src2->val;
-  //printf("%lx %lx\n",val1,val2);
-  val1 = val1 << 32;
-  val1 = val1 >> 32;
-  val2 = val2 << 32;
-  val2 = val2 >> 32;
-  int64_t results = val1*val2;
-  rtl_mul_hi(&id_dest->val,&id_src->val,&id_src2->val);
-  //printf("%lx %lx\n",val1,val2);
-  results = results>>32;
-  rtl_sr(id_dest->reg,&results,4);
-  //printf("mult_hi %x %ld %ld\n",results,val1,val2);
-}
-
-make_EHelper(sra){
-  int32_t val1 = id_src->val;
-  val1 = val1 >> id_src2->val;
-  rtl_sr(id_dest->reg,&val1,4);
-}
-
-make_EHelper(srl){
-  uint32_t val1 = id_src->val;
-  val1 = val1 >> id_src2->val;
-  rtl_sr(id_dest->reg,&val1,4);
 }

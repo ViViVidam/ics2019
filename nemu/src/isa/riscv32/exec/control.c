@@ -1,80 +1,51 @@
 #include "cpu/exec.h"
+
 make_EHelper(jal){
-  uint32_t nextpc = cpu.pc + 4;
-  rtl_sr(id_dest->reg,&(nextpc),4);
-	cpu.pc += id_src->val;
-	decinfo.jmp_pc = cpu.pc;
-  //printf("jal pc:%x\n",cpu.pc);
+  uint32_t addr=cpu.pc+4;
+  rtl_sr(id_dest->reg,&addr,4);
+  rtl_add(&decinfo.jmp_pc,&cpu.pc,&id_src->val);
+  rtl_j(decinfo.jmp_pc);
+
+  print_asm_template2(jal);
 }
 
 make_EHelper(jalr){
-  uint32_t nextpc = cpu.pc + 4;
-  int32_t tmp = id_src->val + id_src2->val;
-  tmp = tmp >> 1;
-  tmp = tmp << 1;
-  rtl_sr(id_dest->reg,&(nextpc),4);
-  cpu.pc = tmp;
-  //printf("jalr pc:%x %x %x\n",cpu.pc,id_src->val,id_src2->val);
+  uint32_t addr=cpu.pc+4;
+  rtl_sr(id_dest->reg,&addr,4);
+  decinfo.jmp_pc=(id_src->val+id_src2->val)&~1;
+  rtl_j(decinfo.jmp_pc);
+
+  difftest_skip_dut(1, 2); //difftest
+
+  print_asm_template2(jalr);
 }
 
-make_EHelper(beq){
-  if(id_src->val == id_src2->val){
-    cpu.pc += id_dest->val;
-    decinfo.is_jmp = true;
-    //printf("beq %d %d pc:%x\n",id_src->val,id_src2->val,cpu.pc);
+make_EHelper(branch){
+  decinfo.jmp_pc=cpu.pc+id_dest->val;
+  switch(decinfo.isa.instr.funct3){
+    case 0: //beq
+      rtl_jrelop(RELOP_EQ,&id_src->val,&id_src2->val,decinfo.jmp_pc);
+      print_asm_template2(beq);
+      break;
+    case 1: //bne
+      rtl_jrelop(RELOP_NE,&id_src->val,&id_src2->val,decinfo.jmp_pc);
+      print_asm_template2(bne);
+      break;
+    case 4: //blt
+      rtl_jrelop(RELOP_LT,&id_src->val,&id_src2->val,decinfo.jmp_pc);
+      print_asm_template2(blt);
+      break;
+    case 5: //bge
+      rtl_jrelop(RELOP_GE,&id_src->val,&id_src2->val,decinfo.jmp_pc);
+      print_asm_template2(bge);
+      break;
+    case 6: //bltu
+      rtl_jrelop(RELOP_LTU,&id_src->val,&id_src2->val,decinfo.jmp_pc);
+      print_asm_template2(bltu);
+      break;
+    case 7: //bgeu
+      rtl_jrelop(RELOP_GEU,&id_src->val,&id_src2->val,decinfo.jmp_pc);
+      print_asm_template2(bgeu);
+      break;
   }
-    //printf("beq no jump"); 
-}
-
-make_EHelper(bne){
-  if(id_src->val != id_src2->val){
-    cpu.pc += id_dest->val;
-    decinfo.is_jmp = true;
-    //printf("bne pc:%x\n",cpu.pc);
-  }
-    //printf("bne no jump"); 
-}
-
-make_EHelper(blt){
-  int32_t val1 = id_src->val;
-  int32_t val2 = id_src2->val;
-  if(val1 < val2){
-    cpu.pc += id_dest->val;
-    decinfo.is_jmp = true;
-    //printf("blt pc:%x\n",cpu.pc);
-  }
-    //printf("blt no jump"); 
-}
-
-make_EHelper(bge){
-  int32_t val1 = id_src->val;
-  int32_t val2 = id_src2->val;
-  if(val1 > val2 || val1 == val2){
-    cpu.pc += id_dest->val;
-    decinfo.is_jmp = true;
-    //printf("bge pc:%x\n",cpu.pc);
-  }
-    //printf("bge no jump"); 
-}
-
-make_EHelper(bltu){
-  uint32_t val1 = id_src->val;
-  uint32_t val2 = id_src2->val;
-  if(val1 < val2){
-    cpu.pc += id_dest->val;
-    decinfo.is_jmp = true;
-    //printf("blt pc:%x\n",cpu.pc);
-  }
-    //printf("blt no jump"); 
-}
-
-make_EHelper(bgeu){
-  uint32_t val1 = id_src->val;
-  uint32_t val2 = id_src2->val;
-  if(val1 > val2 || val1 == val2){
-    cpu.pc += id_dest->val;
-    decinfo.is_jmp = true;
-    //printf("bge pc:%x\n",cpu.pc);
-  }
-    //printf("bge no jump"); 
 }

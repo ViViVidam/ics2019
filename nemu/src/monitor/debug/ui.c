@@ -8,6 +8,10 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+void isa_reg_display();
+void print_wp();
+void free_wp(int NO);
+WP* new_wp();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -38,110 +42,74 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-static int cmd_si(char *args){
-  char *arg = strtok(NULL, " ");
-  if(arg==NULL){
-    exec_once();
-    return 0;
-  }
-  else{
-    int count = atoi(arg);
-    if(count==0){
-      printf("must be an integer greater than zero\n");
-      return 0;
-    }
-    else{
-    //printf("%s %d",arg,count);
-      cpu_exec(count);
-    }
-  }
-};
+static int cmd_si(char*args){
+  int num=1;
+  if(!(args==NULL))
+    num=atoi(args);
+  cpu_exec(num);
+  return 0;
+}
 
 static int cmd_info(char *args){
-  char *arg=strtok(NULL," ");
-  if(arg==NULL){
-    printf("expect subparam r or w \n");
-  }
-  else if(strcmp(arg,"r")==0){
+  if(args!=NULL && args[0] == 'r')
     isa_reg_display();
-  }
-  else if(strcmp(arg,"w")==0){
-
-  }
-  else{
-    printf("invalid subparam %s",arg);
-  }
-
+  else if(args!=NULL && args[0] == 'w')
+    print_wp();
+  return 0;
 }
 
-static int cmd_p(char* args){
-  char *arg = strtok(NULL,"");
-  bool success=false;
-  int result = 0;
-  if(arg==NULL){
-    printf("subparams are expected\n");
+static int cmd_x(char *args){
+  int num;
+  vaddr_t addr;
+  char* temp;
+  if(args==NULL){
+    return -1;
   }
-  printf("%s",arg);
-  result = expr(arg,&success);
-  if(success){
-    printf("expression answer: %d\n",result);
+  char *token=strtok(args," ");
+  num=atoi(token);
+  token=strtok(NULL, " ");
+  if(token==NULL){
+    return -1;
   }
-  else{
-    printf("invalid expression\n");
+  addr=strtol(token,&temp,16);
+  for(int i=0;i<num;i++){
+    printf("0x%08x 0x%08x\n", addr+i*4,vaddr_read(addr+i*4,4));
   }
+  return 0;
 }
 
-static int cmd_x(char* args){
-  char *arg = strtok(NULL," ");
-  bool success = false;
-  int size = atoi(arg);
-  arg = strtok(NULL,"");
-  int addr = expr(arg,&success);
-  if(success){
-    for(int i=0;i<size;i++){
-      vaddr_read(addr,4);
-      addr+=1;
-    }
+static int cmd_p(char *args){
+  bool success=true;
+  uint32_t res = expr(args, &success);
+  if(!success){
+    printf("Expression Wrong!\n");
+    return -1;
   }
-  else
-    printf("invalid addr expression\n");
+  printf("%d\n", res);
+  return 0;
 }
 
-static int cmd_d(char* args){
-  char *arg = strtok(NULL,"");
-  int num = atoi(arg);
-  if(num==0 && arg[0]!='0' && strlen(arg)!=1){
-    printf("invalid number %s\n",arg);
+static int cmd_w(char *args){
+  bool success=true;
+  uint32_t res=expr(args, &success);
+  if(!success){
+    printf("Expression Wrong\n");
+    return -1;
   }
-  else{
-    switch(free_wp(num)){
-      case 1:
-        printf("watchpoint freed %d\n",num);
-        break;
-      case -1:
-        printf("watchpoint %d not found\n",num);
-        break;
-      case 0:
-        printf("no watchpoint is set\n");
-        break;
-      default:
-        ;
-    }
-    
-  }
+  WP *new=new_wp();
+  new->value=res;
+  strcpy(new->str,args);
+  printf("Set Watchpoint Succeed\n");
+  return 0;
 }
 
-static int cmd_w(char* args){
-  char *arg = strtok(NULL,"");
-  printf("arg: %s\n",arg);
-  WP* wp =  new_wp();
-  if(wp){
-  strcpy(wp->expr,arg);
-  printf("watchpoint created at %d\nexpression: %s\n",wp->NO,wp->expr);
-  }
-  else{
-    printf("please free some watchpoint\n");
-  }
+static int cmd_d(char *args){
+  if(args==NULL)
+    return -1;
+  int num=atoi(args);
+  free_wp(num);
+  printf("Delete No.%d Watchpoint~\n", num);
+  return 0;
 }
 
 static struct {
@@ -152,12 +120,12 @@ static struct {
   { "help", "Display informations about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-  { "si", "execute next N", cmd_si},
-  { "info", "", cmd_info},
-  { "p", "get expression val", cmd_p},
-  { "x", "scan memory size with N", cmd_x},
-  { "w", "set watchpoint N", cmd_w},
-  { "d", "delete watchpoint N", cmd_d},
+  { "si", "Single Step Execute", cmd_si},
+  { "info", "Print details of register || watchpoint", cmd_info},
+  { "x", "Scan memory", cmd_x},
+  { "p", "Expression Evaluation", cmd_p},
+  { "w", "Set a New Watchpoint", cmd_w},
+  { "d", "Delete Watchpoint", cmd_d}
   /* TODO: Add more commands */
 
 };
