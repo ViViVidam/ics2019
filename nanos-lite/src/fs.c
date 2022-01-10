@@ -113,5 +113,6 @@ void init_fs() {
   file_table[0].read = invalid_read;
   file_table[1].write = file_table[2].write = serial_write;
   file_table[1].read = file_table[2].read = invalid_read;
+  file_table[7].write = serial_write;
   file_table[FD_FB].size=screen_width()*screen_height()*4;
 }
