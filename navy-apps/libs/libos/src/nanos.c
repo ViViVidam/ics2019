@@ -71,7 +71,7 @@ int _write(int fd, void *buf, size_t count) {
   return res;
 }
 void *_sbrk(intptr_t increment) {
-  sprintf(buffer,"sbrk %d\n",increment);
+  sprintf(buffer,"sbrk %x\n",increment);
   _syscall_(SYS_write,1,buffer,32);
   static void* program_break=(uintptr_t)&_end;
   void* old=program_break;
