@@ -2,19 +2,14 @@
 #include <amdev.h>
 #include <nemu.h>
 
-
-void draw_sync();
-int screen_width();
-int screen_height();
-
 size_t __am_video_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_VIDEO_INFO: {
       uint32_t inf = 0;
       _DEV_VIDEO_INFO_t *info = (_DEV_VIDEO_INFO_t *)buf;
-      //inf = inl(SCREEN_ADDR);
-      info->width = screen_width();
-      info->height = screen_height();
+      inf = inl(SCREEN_ADDR);
+      info->width = inf>>16;
+      info->height = inf&65535;
       return sizeof(_DEV_VIDEO_INFO_t);
     }
   }
