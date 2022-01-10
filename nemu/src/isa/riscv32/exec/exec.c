@@ -134,6 +134,6 @@ static OpcodeEntry opcode_table [32] = {
 void  isa_exec(vaddr_t *pc) {
   decinfo.isa.instr.val = instr_fetch(pc, 4);//val就是得到的地址值
   assert(decinfo.isa.instr.opcode1_0 == 0x3);
-  printf("%x\n",cpu.pc);
+  //printf("%x\n",cpu.pc);
   idex(pc, &opcode_table[decinfo.isa.instr.opcode6_2]);
 }
