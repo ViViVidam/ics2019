@@ -33,15 +33,6 @@ _Context* do_syscall(_Context *c) {
     case SYS_lseek:
       res=fs_lseek(a[1],a[2],a[3]);
       break;
-      /*
-    if(a[1]==1||a[1]==2){
-        for(int i=0;i<a[3];i++){
-          _putc(((char *)a[2])[i]);
-        }
-        return a[3];
-      }
-      return -1;
-    break;*/
     case SYS_brk:
       // /program_break = a[1];
     break;
