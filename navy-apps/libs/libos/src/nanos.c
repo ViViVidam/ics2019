@@ -69,16 +69,16 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  sprintf(buffer,"increment %x\n",increment);
-  _write(1,buffer,32);
+  //sprintf(buffer,"increment %x\n",increment);
+  //_write(1,buffer,32);
   static void* program_break=(uintptr_t)&_end;
   void* old=program_break;
   int tmp = 0;
   tmp = _syscall_(SYS_brk,(uintptr_t)program_break+increment,0,0);
   if(tmp){
     program_break+=increment;
-    sprintf(buffer,"increment ending %x\n", program_break - old);
-    _write(1,buffer,32);
+    //sprintf(buffer,"increment ending %x\n", program_break - old);
+    //_write(1,buffer,32);
     return(void*)old;
   }
 

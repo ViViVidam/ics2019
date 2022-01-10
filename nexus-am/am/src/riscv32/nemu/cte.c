@@ -37,7 +37,7 @@ extern void __am_asm_trap(void);//trap.S
 int _cte_init(_Context*(*handler)(_Event, _Context*)) {
   // initialize exception entry
   asm volatile("csrw stvec, %0" : : "r"(__am_asm_trap));
-  printf("_Context:%d\n",sizeof(_Context));
+  //printf("_Context:%d\n",sizeof(_Context));
   // register event handler
   user_handler = handler;
 

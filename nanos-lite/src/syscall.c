@@ -32,11 +32,11 @@ _Context* do_syscall(_Context *c) {
       return -1;
     break;
     case SYS_brk:
-      _putc('b');
+      /*_putc('b');
       _putc('r');
       _putc('k');
       //_putc('l');
-      _putc('\n');
+      _putc('\n');*/
       return 0;
       // /program_break = a[1];
     break;
