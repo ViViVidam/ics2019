@@ -49,8 +49,9 @@ static Finfo file_table[] __attribute__((used)) = {
 int fs_open(const char *pathname, int flags, int mode){
   printf("%s\n",pathname);
   for(int i=3;i<NR_FILES;i++){
+     printf("%s\n",file_table[i].name);
     if(strcmp(pathname,file_table[i].name)==0){
-      printf("filename %d\n");
+      //printf("filename %d\n");
       return i;
     }
   }
