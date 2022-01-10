@@ -49,7 +49,6 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
     if(dispinfo[i+offset]=='\0')
       break;
   }
-  printf("asd%d %d\n",len,i);
   return i;
 }
 
